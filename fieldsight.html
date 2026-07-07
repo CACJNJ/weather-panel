@@ -283,6 +283,19 @@ const DROUGHT_THRESHOLD = 1.0;
 const FORECAST_DAYS = 7;
 const PAST_DAYS = 92;
 const BATCH_SIZE = 12;
+// 降雨缓解阈值：近7天实际 或 未来7天预报 的较大者，用于给"旱"标签降级
+const DROUGHT_RELIEF_CLEAR = 25;  // ≥此值(mm) → 直接解除旱标（近期/预报已明显补墒）
+const DROUGHT_RELIEF_EASE  = 10;  // ≥此值(mm) → 旱情降一级
+// 降雨级别（参照国标 GB/T 28592 的24h降水分级，用"单日峰值"判定；实况与预报取较大者）
+const RAIN_GRADES = [
+  { min:250, label:'特大暴雨', cls:'severe' },
+  { min:100, label:'大暴雨',   cls:'severe' },
+  { min:50,  label:'暴雨',     cls:'high'   },  // ← 特殊天气阈值
+  { min:25,  label:'大雨',     cls:'mid'    },
+];
+const SPECIAL_WEATHER_MM = 50;    // 单日降水≥此值(暴雨级)即判定为"特殊天气"
+// 高温辅助加剧干旱：仅在已存在降水亏缺时生效（气温驱动蒸散，热则墒情消耗更快）
+const HEAT_AGGRAVATE_DAYS = 8;    // 37天窗口内高温日(>35°C)达此数 → 旱情上调一级
 
 // ---------- 展平产区 ----------
 const FLAT = [];
@@ -389,13 +402,14 @@ function calcMetrics(daily, gddStart, hasForecast = true) {
   const wStart = Math.max(0, todayIdx - LOOKBACK_DAYS);
   const means = [], precips = [];
   let sumPrecip = 0, highTempDays = 0, maxTempAll = -Infinity, minTempAll = Infinity;
-  let maxDroughtStreak = 0, cur = 0;
+  let maxDroughtStreak = 0, cur = 0, maxDayPrecip = 0;
   for (let i = wStart; i < todayIdx; i++) {
     const tmax = tmaxA[i], tmin = tminA[i];
     if (tmax == null || tmin == null) continue;
     const p = prA[i] == null ? 0 : prA[i];
     const tm = (tmax + tmin) / 2;
     means.push(tm); precips.push(p); sumPrecip += p;
+    if (p > maxDayPrecip) maxDayPrecip = p;
     if (tmax > maxTempAll) maxTempAll = tmax;
     if (tmin < minTempAll) minTempAll = tmin;
     if (tmax > HIGH_TEMP_THRESHOLD) highTempDays++;
@@ -423,23 +437,24 @@ function calcMetrics(daily, gddStart, hasForecast = true) {
   const gddFrom = t[gddFromIdx] ? t[gddFromIdx].slice(5).replace('-', '/') : '';
   const gddClamped = !!(gddStart && t[gddFromIdx] && t[gddFromIdx] > gddStart);
 
-  let fcPrecip = null, fcMaxTemp = null;
+  let fcPrecip = null, fcMaxTemp = null, fcMaxDayPrecip = null;
   if (hasForecast) {
-    let p = 0, mt = -Infinity;
+    let p = 0, mt = -Infinity, mdp = 0;
     for (let i = todayIdx; i < n; i++) {
-      if (prA[i] != null) p += prA[i];
+      if (prA[i] != null) { p += prA[i]; if (prA[i] > mdp) mdp = prA[i]; }
       if (tmaxA[i] != null && tmaxA[i] > mt) mt = tmaxA[i];
     }
     fcPrecip = p.toFixed(1);
     fcMaxTemp = (mt === -Infinity ? 0 : mt).toFixed(1);
+    fcMaxDayPrecip = mdp.toFixed(1);
   }
   return {
     avgTemp:avgTemp.toFixed(1), maxTemp:maxTempAll.toFixed(1), minTemp:minTempAll.toFixed(1),
     sumPrecip:sumPrecip.toFixed(1), activeGDD:activeGDD.toFixed(0), effectiveGDD:effectiveGDD.toFixed(0),
     gddFrom, gddClamped, gddRolling:!gddStart,
-    highTempDays, droughtStreak:maxDroughtStreak,
+    highTempDays, droughtStreak:maxDroughtStreak, maxDayPrecip:maxDayPrecip.toFixed(1),
     recent7Avg:recent7Avg.toFixed(1), recent7Precip:recent7Precip.toFixed(1),
-    fcPrecip, fcMaxTemp,
+    fcPrecip, fcMaxTemp, fcMaxDayPrecip,
   };
 }
 
@@ -448,9 +463,32 @@ function assessRisks(m) {
   if (m.highTempDays >= 20) risks.push({ label:'极端高温', cls:'severe' });
   else if (m.highTempDays >= 10) risks.push({ label:'高温热害', cls:'high' });
   else if (m.highTempDays >= 5) risks.push({ label:'高温', cls:'mid' });
-  if (m.droughtStreak >= 20) risks.push({ label:'严重干旱', cls:'severe' });
-  else if (m.droughtStreak >= 12) risks.push({ label:'干旱', cls:'high' });
-  else if (m.droughtStreak >= 7) risks.push({ label:'偏旱', cls:'mid' });
+  // 干旱基线：以降水为主 — 过去37天窗口内最长连续无有效降水段
+  let dLevel = 0;
+  if (m.droughtStreak >= 20) dLevel = 3;
+  else if (m.droughtStreak >= 12) dLevel = 2;
+  else if (m.droughtStreak >= 7) dLevel = 1;
+  let heatAgg = false;
+  if (dLevel > 0) {
+    // 气温辅助：已存在降水亏缺时，高温加速蒸散→旱情上调一级（绝不凭高温单独制造旱标）
+    if (m.highTempDays >= HEAT_AGGRAVATE_DAYS && dLevel < 3) { dLevel += 1; heatAgg = true; }
+    // 降雨缓解：近7天已下 或 未来7天预报 中较大者达阈值 → 降级/解除，避免旱标滞后于当前天气
+    const recentRain = parseFloat(m.recent7Precip) || 0;
+    const fcRain = m.fcPrecip == null ? 0 : (parseFloat(m.fcPrecip) || 0);
+    const relief = Math.max(recentRain, fcRain);
+    const beforeRelief = dLevel;
+    if (relief >= DROUGHT_RELIEF_CLEAR) dLevel = 0;
+    else if (relief >= DROUGHT_RELIEF_EASE) dLevel = Math.max(0, dLevel - 1);
+    if (beforeRelief > dLevel) risks.push({ label:'旱情缓解', cls:'low' });
+    heatAgg = heatAgg && dLevel > 0;  // 若已被降雨解除，则高温加剧不再成立
+  }
+  if (heatAgg) risks.push({ label:'高温加剧', cls:'mid' });
+  if (dLevel === 3) risks.push({ label:'严重干旱', cls:'severe' });
+  else if (dLevel === 2) risks.push({ label:'干旱', cls:'high' });
+  else if (dLevel === 1) risks.push({ label:'偏旱', cls:'mid' });
+  // 降雨级别：按单日峰值(实况与预报较大者)分级，暴雨(≥50mm)及以上为特殊天气
+  const peakDay = Math.max(parseFloat(m.maxDayPrecip) || 0, m.fcMaxDayPrecip == null ? 0 : (parseFloat(m.fcMaxDayPrecip) || 0));
+  for (const g of RAIN_GRADES) { if (peakDay >= g.min) { risks.push({ label:g.label, cls:g.cls }); break; } }
   if (parseFloat(m.sumPrecip) > 400) risks.push({ label:'洪涝', cls:'high' });
   else if (parseFloat(m.sumPrecip) > 250) risks.push({ label:'多雨', cls:'mid' });
   if (parseFloat(m.minTemp) < 0) risks.push({ label:'低温霜冻', cls:'high' });
@@ -618,6 +656,7 @@ function renderRegionCard(f, m, status) {
     { v:`${m.droughtStreak}天`, l:'最长连续干旱', c:m.droughtStreak>=15?'hot':'' },
     { v:`${m.recent7Avg}°C / ${m.recent7Precip}mm`, l:'近7天均温/降水' },
     { v: m.fcPrecip == null ? '—' : `${m.fcPrecip}mm`, l:'未来7天预报降水', c:m.fcPrecip != null && parseFloat(m.fcPrecip)>80?'wet':'' },
+    { v: (m.maxDayPrecip == null ? '—' : m.maxDayPrecip) + (m.fcMaxDayPrecip == null ? '' : ' / ' + m.fcMaxDayPrecip) + 'mm', l:'单日最大降水(实况/预报)', c: Math.max(parseFloat(m.maxDayPrecip)||0, m.fcMaxDayPrecip==null?0:parseFloat(m.fcMaxDayPrecip)||0) >= SPECIAL_WEATHER_MM ? 'wet' : '' },
     { v: m.fcMaxTemp == null ? '—' : `${m.fcMaxTemp}°C`, l:'未来7天预报最高温', c:m.fcMaxTemp != null && parseFloat(m.fcMaxTemp)>=HIGH_TEMP_THRESHOLD?'hot':'' },
   ] : [];
   const risks = m ? assessRisks(m) : [];

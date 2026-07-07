@@ -1,8 +1,8 @@
 // ============================================================
 // 静态数据层 — 由定时任务/人工定期刷新
-// 最后更新: 2026-07-06 (数据来源见各板块)
+// 最后更新: 2026-07-07 (数据来源见各板块)
 // ============================================================
-const STATIC_UPDATED = '2026-07-06';
+const STATIC_UPDATED = '2026-07-07';
 
 // ---------- ENSO 总览 ----------
 const ensoOverview = [
@@ -15,10 +15,10 @@ const ensoOverview = [
 // ---------- 异常提醒 ----------
 const alerts = [
   { level:'danger', title:'🔥 厄尔尼诺已确立并持续增强', detail:'NINO3.4周值已升至+1.7°C（6月17日当周），SOI 30天值-21.9，大气-海洋耦合确认。150°W-80°W次表层50-150m暖异常最高达+6°C，为持续增强提供能量。JJA-SON厄尔尼诺概率100%，预计至少持续至2026年10月，强度中等至强。', hint:'关注东南亚/澳洲干旱、印度季风减弱、南美异常降水对棕榈油、小麦、咖啡的供给冲击；峰值预计2026年秋冬' },
-  { level:'warn', title:'🌡️ 美玉米带热浪缓和，北部迎大范围降雨', detail:'7月4日假期周末起热浪明显缓和，明尼苏达、威斯康星及爱荷华北部普遍获得0.75-3英寸降雨，利于墒情恢复。市场进入"天气市"，交易核心转向7月中下旬授粉期的雨热格局；玉米优良率68%，机构预期单产平均或偏上。', hint:'授粉期（7月中下旬）天气仍是美玉米单产定价核心变量，关注周度优良率与CBOT天气升水消长' },
+  { level:'warn', title:'🌽 美玉米进入吐丝授粉期，强降雨补墒但上部产区旱情扩大', detail:'USDA 7月6日作物进度：玉米优良率67%持平，16%已进入吐丝期、3%进入乳熟期；大豆优良率64%（降1个百分点），34%开花、9%结荚。未来数日爱荷华、南明尼苏达、西南威斯康星及北伊利诺伊有1.25-3英寸强降雨，利授粉期墒情；但中西部上部(upper Corn Belt)旱区扩大、南部新增异常干燥。气温虽有波动，NWS预计中西部大部气温偏高但少数地区才触及95°F胁迫阈值，多数产区墒情适宜至局部偏多。', hint:'授粉期（7月中下旬）雨热格局仍是美玉米单产定价核心；关注上部产区旱情扩张与周度优良率变化' },
   { level:'warn', title:'🌊 PDO 持续负相位', detail:'JMA月度PDO指数2026年5月为-0.83，自2020年以来负相位主导；2025年7月曾探底-3.23。负相位叠加厄尔尼诺，冬季环流形势复杂。', hint:'负PDO增强西伯利亚高压，冬季冷空气南下频率可能增加' },
   { level:'warn', title:'⚠️ IOD 中性但冬春转正风险', detail:'IOD指数-0.02（6月27日），当前中性。BOM等模型预测南半球冬春季（7-11月）可能发展为正IOD事件，与厄尔尼诺叠加。', hint:'正IOD+厄尔尼诺→东南亚/澳洲干旱加剧，棕榈油、澳麦风险放大' },
-  { level:'danger', title:'🌀 超强台风"巴威"或影响华东，江浙沪警惕', detail:'第9号台风"巴威"已加强至超强台风级（7月5日位于关岛塞班东南约445公里洋面），预计8日前对我国海域无影响，之后趋向台湾以东洋面，华东沿海登陆概率较大，江浙沪需警惕17级级别风雨考验。第10号台风"美莎克"已于3日登陆海南、4日在越南北部二次登陆，广东中西部5-7日暴雨到大暴雨。', hint:'EN年台风偏强：华东关注棉花/水稻/物流风险；美莎克残余降水利于广西蔗区伸长期需水' },
+  { level:'danger', title:'🌀 超强台风"巴威"登陆关岛/罗塔后西行，本周中后段趋向台湾以东与东海', detail:'第9号超强台风"巴威"7月6日在关岛附近的罗塔岛登陆（成为该岛有记录以来最强登陆台风，近中心风速一度达110kt/约204km/h、中心气压910hPa），造成重大破坏。预计7月7日晚至8日进入菲律宾责任区(PAR)，随后趋向吕宋海峡走廊，并可能威胁台湾以东洋面与东海，华东沿海需从本周中后段起密切关注其路径与强度变化。第10号"美莎克"已于7月3日登陆海南、4日在越南北部广宁省二次登陆后减弱消散，华南强降水过程趋于结束。', hint:'EN年台风偏强：华东关注棉花/水稻/物流风险，路径尚有不确定性需逐日跟踪；美莎克残余降水已利于广西蔗区伸长期需水' },
 ];
 
 // ---------- 海洋指数 ----------
@@ -139,7 +139,7 @@ const cropCalendar = [
   { crop:'🧵 棉花', region:'中国新疆', season:'花铃期', sensitive:'高温干旱', risk:'花铃期高温影响授粉与铃重', enso:'北半球夏季偏暖' },
   { crop:'🌽 玉米', region:'中国东北', season:'拔节期', sensitive:'7月下旬抽雄授粉', risk:'当前光热适宜，关注后期高温', enso:'东北积温正常有利' },
   { crop:'🌽 玉米', region:'黄淮海', season:'苗期(三叶-七叶)', sensitive:'高温影响幼苗', risk:'35°C+高温不利壮苗', enso:'黄淮盛夏偏热风险' },
-  { crop:'🌽 玉米', region:'美国玉米带', season:'拔节-抽雄前', sensitive:'7月中下旬授粉', risk:'热浪正在经过，优良率68%持平', enso:'7月4日后热浪缓和，中旬多雨降温' },
+  { crop:'🌽 玉米', region:'美国玉米带', season:'抽雄-吐丝期(16%已吐丝)', sensitive:'7月中下旬授粉', risk:'优良率67%持平；上部产区旱情扩大，强降雨将补墒', enso:'气温偏高但少数才达95°F胁迫；近日1.25-3英寸降雨' },
   { crop:'🫘 大豆', region:'中国东北', season:'分枝-初花期', sensitive:'开花结荚期水分', risk:'当前墒情适宜', enso:'关注8月干旱风险' },
   { crop:'🫘 大豆', region:'美国中西部', season:'开花初期', sensitive:'高温干旱', risk:'热浪影响开花', enso:'当前整体有利，后期关注' },
   { crop:'🌾 小麦', region:'中国黄淮海', season:'已收获', sensitive:'—', risk:'收获完毕，腾茬夏播', enso:'新麦上市，关注质量' },
@@ -364,49 +364,42 @@ const cropRegions = [
 ];
 
 // ============================================================
-// 农业新闻 — 仅保留 24-48 小时内消息（定期刷新, 更新于 2026-07-06）
+// 农业新闻 — 仅保留 24-48 小时内消息（定期刷新, 更新于 2026-07-07）
 // ============================================================
 const AG_NEWS = [
   {
-    title: '超强台风"巴威"或登陆华东：江浙沪警惕17级级别考验，8日后趋向台湾以东洋面',
-    link: 'https://finance.sina.com.cn/wm/2026-07-05/doc-inifuper9136723.shtml',
-    date: '7月5日',
-    source: '新浪财经',
+    title: '超强台风"巴威"登陆关岛/罗塔岛成该岛史上最强登陆台风，7-8日进入菲责任区后趋向台湾以东与东海',
+    link: 'https://www.aljazeera.com/news/2026/7/6/super-typhoon-bavi-makes-landfall-on-us-pacific-islands',
+    date: '7月6日',
+    source: 'Al Jazeera',
     sourceClass: 'fao',
   },
   {
-    title: '"美莎克"在越南北部二次登陆，"巴威"升级超强台风——双台风格局确立',
-    link: 'https://m.21jingji.com/article/20260705/herald/ae1845dd62b938eacfef64af3262426d.html',
-    date: '7月5日',
-    source: '21财经',
-    sourceClass: 'fao',
-  },
-  {
-    title: '广东中西部5-7日暴雨到大暴雨，台风预警密集生效；美莎克残余降水润泽华南',
-    link: 'https://typhoon.nmc.cn/web.html',
-    date: '7月5日',
-    source: '中央气象台',
+    title: 'USDA作物进度：美玉米优良率67%持平、16%进入吐丝期；大豆64%优良、34%开花',
+    link: 'https://www.brownfieldagnews.com/news/67-of-u-s-corn-64-of-soybeans-good-to-excellent/',
+    date: '7月6日',
+    source: 'Brownfield/USDA',
     sourceClass: 'usda',
   },
   {
-    title: '美国上中西部假期周末迎0.75-3英寸降雨，明尼苏达/威斯康星/爱荷华北部受益，热浪缓和',
-    link: 'https://www.farmprogress.com/markets-and-quotes/afternoon-market-recap',
-    date: '7月4日',
+    title: 'CBOT天气市延续：大豆升至约$11.6/蒲创四周新高，玉米跟涨；6月1日玉米库存52.95亿蒲低于预期支撑盘面',
+    link: 'https://www.farmprogress.com/markets-and-quotes/morning-market-review',
+    date: '7月6日',
     source: 'Farm Progress',
     sourceClass: 'agweb',
   },
   {
-    title: 'CBOT进入"天气市"：玉米盘中涨1.5%，交易员紧盯7月中下旬授粉窗口',
-    link: 'https://www.farmprogress.com/markets-and-quotes/morning-market-review',
-    date: '7月4日',
+    title: '美玉米带假期后再迎强降雨：爱荷华/南明尼苏达/西南威州/北伊利诺伊下周初可达1.25-3英寸，利授粉期墒情',
+    link: 'https://www.farmprogress.com/marketing/july-heat-dry-periods-threaten-corn-pollination',
+    date: '7月6日',
     source: 'Farm Progress',
     sourceClass: 'agweb',
   },
   {
-    title: 'AccuWeather：厄尔尼诺增强背景下，美玉米/大豆单产预期"平均或偏上"',
-    link: 'https://www.farmprogress.com/markets-and-quotes/morning-market-review',
-    date: '7月4日',
-    source: 'AccuWeather',
+    title: '美国干旱监测：中西部上部产区旱情扩大、南部新增异常干燥；全美约47.8%地区处于干旱',
+    link: 'https://droughtmonitor.unl.edu/',
+    date: '7月6日',
+    source: 'US Drought Monitor',
     sourceClass: 'usda',
   },
 ];
