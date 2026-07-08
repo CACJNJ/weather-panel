@@ -1,8 +1,8 @@
 // ============================================================
 // 静态数据层 — 由定时任务/人工定期刷新
-// 最后更新: 2026-07-07 (数据来源见各板块)
+// 最后更新: 2026-07-08 (数据来源见各板块)
 // ============================================================
-const STATIC_UPDATED = '2026-07-07';
+const STATIC_UPDATED = '2026-07-08';
 
 // ---------- ENSO 总览 ----------
 const ensoOverview = [
@@ -16,9 +16,10 @@ const ensoOverview = [
 const alerts = [
   { level:'danger', title:'🔥 厄尔尼诺已确立并持续增强', detail:'NINO3.4周值已升至+1.7°C（6月17日当周），SOI 30天值-21.9，大气-海洋耦合确认。150°W-80°W次表层50-150m暖异常最高达+6°C，为持续增强提供能量。JJA-SON厄尔尼诺概率100%，预计至少持续至2026年10月，强度中等至强。', hint:'关注东南亚/澳洲干旱、印度季风减弱、南美异常降水对棕榈油、小麦、咖啡的供给冲击；峰值预计2026年秋冬' },
   { level:'warn', title:'🌽 美玉米进入吐丝授粉期，强降雨补墒但上部产区旱情扩大', detail:'USDA 7月6日作物进度：玉米优良率67%持平，16%已进入吐丝期、3%进入乳熟期；大豆优良率64%（降1个百分点），34%开花、9%结荚。未来数日爱荷华、南明尼苏达、西南威斯康星及北伊利诺伊有1.25-3英寸强降雨，利授粉期墒情；但中西部上部(upper Corn Belt)旱区扩大、南部新增异常干燥。气温虽有波动，NWS预计中西部大部气温偏高但少数地区才触及95°F胁迫阈值，多数产区墒情适宜至局部偏多。', hint:'授粉期（7月中下旬）雨热格局仍是美玉米单产定价核心；关注上部产区旱情扩张与周度优良率变化' },
+  { level:'warn', title:'☕ 巴西霜冻担忧升温，阿拉比卡单日跳涨约10%重上$3/磅', detail:'巴西2026/27采收进度偏慢，截至7月初仅约52%采收完成（落后去年及五年均值），近期强降雨扰乱采收并或影响豆质，中旬预计再有降水。叠加7-8月南部霜冻高风险窗口（南米纳斯/塞拉多/圣保罗/巴拉那），投机资金对寒潮高度敏感，阿拉比卡期价单日跳涨近10%、创年初以来新高并重上$3/磅。', hint:'逐日跟踪巴西南部最低气温预报；EN年南部霜冻概率变化叠加缓慢采收是当前咖啡定价主线' },
   { level:'warn', title:'🌊 PDO 持续负相位', detail:'JMA月度PDO指数2026年5月为-0.83，自2020年以来负相位主导；2025年7月曾探底-3.23。负相位叠加厄尔尼诺，冬季环流形势复杂。', hint:'负PDO增强西伯利亚高压，冬季冷空气南下频率可能增加' },
   { level:'warn', title:'⚠️ IOD 中性但冬春转正风险', detail:'IOD指数-0.02（6月27日），当前中性。BOM等模型预测南半球冬春季（7-11月）可能发展为正IOD事件，与厄尔尼诺叠加。', hint:'正IOD+厄尔尼诺→东南亚/澳洲干旱加剧，棕榈油、澳麦风险放大' },
-  { level:'danger', title:'🌀 超强台风"巴威"登陆关岛/罗塔后西行，本周中后段趋向台湾以东与东海', detail:'第9号超强台风"巴威"7月6日在关岛附近的罗塔岛登陆（成为该岛有记录以来最强登陆台风，近中心风速一度达110kt/约204km/h、中心气压910hPa），造成重大破坏。预计7月7日晚至8日进入菲律宾责任区(PAR)，随后趋向吕宋海峡走廊，并可能威胁台湾以东洋面与东海，华东沿海需从本周中后段起密切关注其路径与强度变化。第10号"美莎克"已于7月3日登陆海南、4日在越南北部广宁省二次登陆后减弱消散，华南强降水过程趋于结束。', hint:'EN年台风偏强：华东关注棉花/水稻/物流风险，路径尚有不确定性需逐日跟踪；美莎克残余降水已利于广西蔗区伸长期需水' },
+  { level:'danger', title:'🌀 超强台风"巴威"逼近吕宋海峡，本周五六(7/10-11)最接近台湾、周六夜趋向华东近上海登陆', detail:'第9号超强台风"巴威"（2026年第3个五级台风）7月6日在关岛附近罗塔岛登陆后西北行，7日已进入菲律宾责任区。7日联合台风警报中心显示其近中心风速仍达约240km/h(130kt)，未来12小时维持后因东北向切变逐步减弱，但风圈庞大(暴风圈直径约900km)。最新路径：10-11日经吕宋海峡走廊，周五(7/10)夜先掠过日本西南先岛群岛，周五至周六最接近台湾东北部（台湾中央气象署预计发布海上警报），周六(7/11)夜可能以热带风暴至弱台风强度在华东近上海一带登陆。华东沿海须自本周中后段起逐日跟踪。第10号"美莎克"已于7月3-4日登陆海南、越南后消散。', hint:'EN年台风偏强：华东关注棉花/水稻/物流与港口风险，登陆点与强度仍有变数需逐日核对；台湾东部、琉球、吕宋北部10-11日面临强降雨大风与风暴潮' },
 ];
 
 // ---------- 海洋指数 ----------
@@ -145,7 +146,7 @@ const cropCalendar = [
   { crop:'🌾 小麦', region:'中国黄淮海', season:'已收获', sensitive:'—', risk:'收获完毕，腾茬夏播', enso:'新麦上市，关注质量' },
   { crop:'🌾 小麦', region:'澳大利亚', season:'播种-分蘖期', sensitive:'冬春降水', risk:'厄尔尼诺→澳洲干旱是最大风险', enso:'EN年澳麦减产概率大' },
   { crop:'🌾 小麦', region:'黑海(俄/乌)', season:'灌浆-收获期', sensitive:'收获期降水/高温', risk:'收获窗口天气', enso:'间接影响较弱' },
-  { crop:'☕ 咖啡', region:'巴西米纳斯', season:'采收期(5-9月)', sensitive:'霜冻', risk:'7-8月为巴西霜冻高风险窗口', enso:'EN年巴西南部霜冻概率变化需跟踪' },
+  { crop:'☕ 咖啡', region:'巴西米纳斯', season:'采收期(5-9月，进度约52%偏慢)', sensitive:'霜冻', risk:'霜冻担忧升温，阿拉比卡单日跳涨约10%重上$3/磅；中旬再有降水扰动采收', enso:'EN年巴西南部霜冻概率变化需跟踪' },
   { crop:'🍬 白糖', region:'中国广西', season:'甘蔗伸长期', sensitive:'7-9月需水关键期', risk:'伸长期干旱直接损失蔗茎产量', enso:'EN年华南秋冬偏干需警惕' },
   { crop:'🍬 白糖', region:'印度/泰国', season:'季风生长期', sensitive:'季风降水', risk:'EN年季风偏弱→印泰糖产量下调', enso:'EN历史上利多国际糖价' },
 ];
@@ -222,8 +223,8 @@ const cropRegions = [
         { name:'阜阳', lat:32.90, lon:115.81, gddStart:'2026-06-10', phase:'<b>发育期</b>：夏玉米出苗-三叶期。' },
       ]},
       { province:'美国', regions:[
-        { name:'爱荷华(得梅因)', lat:41.59, lon:-93.62, gddStart:'2026-05-01', phase:'<b>发育期</b>：拔节-抽雄前期，7月中下旬进入授粉关键期。<b>风险</b>：本周创纪录热浪。' },
-        { name:'伊利诺伊(斯普林菲尔德)', lat:39.78, lon:-89.65, gddStart:'2026-05-01', phase:'<b>发育期</b>：拔节-抽雄前期。优良率68%持平。' },
+        { name:'爱荷华(得梅因)', lat:41.59, lon:-93.62, gddStart:'2026-05-01', phase:'<b>发育期</b>：8%已吐丝，7月中下旬进入授粉关键期。<b>墒情</b>：近日强降雨补墒，优良率约78%。' },
+        { name:'伊利诺伊(斯普林菲尔德)', lat:39.78, lon:-89.65, gddStart:'2026-05-01', phase:'<b>发育期</b>：17%已吐丝。优良率约58%(好+优)。' },
         { name:'内布拉斯加(奥马哈)', lat:41.26, lon:-96.01, gddStart:'2026-05-01', phase:'<b>发育期</b>：拔节-抽雄前期。' },
       ]},
       { province:'乌克兰', regions:[
@@ -255,8 +256,8 @@ const cropRegions = [
         { name:'周口', lat:33.63, lon:114.70, gddStart:'2026-06-15', phase:'<b>发育期</b>：夏大豆出苗-真叶期。' },
       ]},
       { province:'美国', regions:[
-        { name:'伊利诺伊', lat:39.78, lon:-89.65, gddStart:'2026-05-10', phase:'<b>发育期</b>：开花初期(R1)。<b>风险</b>：本周热浪。' },
-        { name:'爱荷华', lat:41.59, lon:-93.62, gddStart:'2026-05-10', phase:'<b>发育期</b>：开花初期(R1)。' },
+        { name:'伊利诺伊', lat:39.78, lon:-89.65, gddStart:'2026-05-10', phase:'<b>发育期</b>：开花期(R1)，33%开花8%结荚。近日降雨改善墒情。' },
+        { name:'爱荷华', lat:41.59, lon:-93.62, gddStart:'2026-05-10', phase:'<b>发育期</b>：开花期(R1)，约37%开花。' },
         { name:'印第安纳', lat:39.77, lon:-86.16, gddStart:'2026-05-10', phase:'' },
         { name:'俄亥俄', lat:39.96, lon:-83.00, gddStart:'2026-05-10', phase:'' },
         { name:'明尼苏达', lat:44.98, lon:-93.27, gddStart:'2026-05-10', phase:'' },
@@ -364,42 +365,42 @@ const cropRegions = [
 ];
 
 // ============================================================
-// 农业新闻 — 仅保留 24-48 小时内消息（定期刷新, 更新于 2026-07-07）
+// 农业新闻 — 仅保留 24-48 小时内消息（定期刷新, 更新于 2026-07-08）
 // ============================================================
 const AG_NEWS = [
   {
-    title: '超强台风"巴威"登陆关岛/罗塔岛成该岛史上最强登陆台风，7-8日进入菲责任区后趋向台湾以东与东海',
-    link: 'https://www.aljazeera.com/news/2026/7/6/super-typhoon-bavi-makes-landfall-on-us-pacific-islands',
-    date: '7月6日',
-    source: 'Al Jazeera',
+    title: '超强台风"巴威"锁定台湾与华东：周五六(7/10-11)最接近台湾，周六夜或近上海登陆，沿途减弱但风圈庞大',
+    link: 'https://weather.com/2026/07/07/storms/hurricane/super-typhoon-bavi-northern-marianas-guam-taiwan-china-forecast',
+    date: '7月7日',
+    source: 'The Weather Channel',
     sourceClass: 'fao',
   },
   {
-    title: 'USDA作物进度：美玉米优良率67%持平、16%进入吐丝期；大豆64%优良、34%开花',
+    title: '巴西霜冻担忧升温：阿拉比卡单日跳涨约10%重上$3/磅，采收仅约52%落后进度、中旬再有降水',
+    link: 'https://www.riotimesonline.com/coffee-prices-2026-brazil-weather-spike/',
+    date: '7月7日',
+    source: 'Rio Times',
+    sourceClass: 'agweb',
+  },
+  {
+    title: 'CBOT大豆升破$11.8/蒲创五周新高：中储粮/中粮补订美豆船货、美中西部天气分歧提供支撑',
+    link: 'https://tradingeconomics.com/commodity/soybeans',
+    date: '7月7日',
+    source: 'Trading Economics',
+    sourceClass: 'agweb',
+  },
+  {
+    title: '马棕油期货跌破4,500林吉特：印尼B50生物柴油7月1日生效、7月1-5日出口环比增10.6-11.1%提供支撑',
+    link: 'https://www.brecorder.com/news/amp/40425700',
+    date: '7月6日',
+    source: 'Business Recorder',
+    sourceClass: 'fao',
+  },
+  {
+    title: 'USDA作物进度(截至7/5)：美玉米优良率67%持平、16%吐丝3%乳熟；大豆64%优良、34%开花',
     link: 'https://www.brownfieldagnews.com/news/67-of-u-s-corn-64-of-soybeans-good-to-excellent/',
     date: '7月6日',
     source: 'Brownfield/USDA',
-    sourceClass: 'usda',
-  },
-  {
-    title: 'CBOT天气市延续：大豆升至约$11.6/蒲创四周新高，玉米跟涨；6月1日玉米库存52.95亿蒲低于预期支撑盘面',
-    link: 'https://www.farmprogress.com/markets-and-quotes/morning-market-review',
-    date: '7月6日',
-    source: 'Farm Progress',
-    sourceClass: 'agweb',
-  },
-  {
-    title: '美玉米带假期后再迎强降雨：爱荷华/南明尼苏达/西南威州/北伊利诺伊下周初可达1.25-3英寸，利授粉期墒情',
-    link: 'https://www.farmprogress.com/marketing/july-heat-dry-periods-threaten-corn-pollination',
-    date: '7月6日',
-    source: 'Farm Progress',
-    sourceClass: 'agweb',
-  },
-  {
-    title: '美国干旱监测：中西部上部产区旱情扩大、南部新增异常干燥；全美约47.8%地区处于干旱',
-    link: 'https://droughtmonitor.unl.edu/',
-    date: '7月6日',
-    source: 'US Drought Monitor',
     sourceClass: 'usda',
   },
 ];
