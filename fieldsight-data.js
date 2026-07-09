@@ -1,8 +1,8 @@
 // ============================================================
 // 静态数据层 — 由定时任务/人工定期刷新
-// 最后更新: 2026-07-08 (数据来源见各板块)
+// 最后更新: 2026-07-09 (数据来源见各板块)
 // ============================================================
-const STATIC_UPDATED = '2026-07-08';
+const STATIC_UPDATED = '2026-07-09';
 
 // ---------- ENSO 总览 ----------
 const ensoOverview = [
@@ -15,11 +15,11 @@ const ensoOverview = [
 // ---------- 异常提醒 ----------
 const alerts = [
   { level:'danger', title:'🔥 厄尔尼诺已确立并持续增强', detail:'NINO3.4周值已升至+1.7°C（6月17日当周），SOI 30天值-21.9，大气-海洋耦合确认。150°W-80°W次表层50-150m暖异常最高达+6°C，为持续增强提供能量。JJA-SON厄尔尼诺概率100%，预计至少持续至2026年10月，强度中等至强。', hint:'关注东南亚/澳洲干旱、印度季风减弱、南美异常降水对棕榈油、小麦、咖啡的供给冲击；峰值预计2026年秋冬' },
-  { level:'warn', title:'🌽 美玉米进入吐丝授粉期，强降雨补墒但上部产区旱情扩大', detail:'USDA 7月6日作物进度：玉米优良率67%持平，16%已进入吐丝期、3%进入乳熟期；大豆优良率64%（降1个百分点），34%开花、9%结荚。未来数日爱荷华、南明尼苏达、西南威斯康星及北伊利诺伊有1.25-3英寸强降雨，利授粉期墒情；但中西部上部(upper Corn Belt)旱区扩大、南部新增异常干燥。气温虽有波动，NWS预计中西部大部气温偏高但少数地区才触及95°F胁迫阈值，多数产区墒情适宜至局部偏多。', hint:'授粉期（7月中下旬）雨热格局仍是美玉米单产定价核心；关注上部产区旱情扩张与周度优良率变化' },
+  { level:'warn', title:'🌽 美玉米带东湿西热干：8-14天展望暖势主导，授粉主体窗口7/15-30临近', detail:'NOAA最新8-14天展望(7月8日)：7月9-15日东玉米带偏湿、中西部与平原大部气温偏高；延伸期预报显示西部中西部及平原至7月19日前后炎热偏干，而北伊利诺伊、东中爱荷华、南明尼苏达局地雨水过多。全美玉米授粉主体集中在7月15-30日（I-80以北多在7月20-30日），雨热分歧成为定价焦点。7月8日盘面：12月玉米涨至约$4.44/蒲，玉米大豆延续USDA报告后升势。上一期USDA作物进度(截至7/5)：玉米优良率67%、16%吐丝；大豆64%、34%开花。', hint:'未来两周西热东湿格局与7/13(周一)新一期作物进度是美玉米单产定价核心' },
   { level:'warn', title:'☕ 巴西霜冻担忧升温，阿拉比卡单日跳涨约10%重上$3/磅', detail:'巴西2026/27采收进度偏慢，截至7月初仅约52%采收完成（落后去年及五年均值），近期强降雨扰乱采收并或影响豆质，中旬预计再有降水。叠加7-8月南部霜冻高风险窗口（南米纳斯/塞拉多/圣保罗/巴拉那），投机资金对寒潮高度敏感，阿拉比卡期价单日跳涨近10%、创年初以来新高并重上$3/磅。', hint:'逐日跟踪巴西南部最低气温预报；EN年南部霜冻概率变化叠加缓慢采收是当前咖啡定价主线' },
   { level:'warn', title:'🌊 PDO 持续负相位', detail:'JMA月度PDO指数2026年5月为-0.83，自2020年以来负相位主导；2025年7月曾探底-3.23。负相位叠加厄尔尼诺，冬季环流形势复杂。', hint:'负PDO增强西伯利亚高压，冬季冷空气南下频率可能增加' },
-  { level:'warn', title:'⚠️ IOD 中性但冬春转正风险', detail:'IOD指数-0.02（6月27日），当前中性。BOM等模型预测南半球冬春季（7-11月）可能发展为正IOD事件，与厄尔尼诺叠加。', hint:'正IOD+厄尔尼诺→东南亚/澳洲干旱加剧，棕榈油、澳麦风险放大' },
-  { level:'danger', title:'🌀 超强台风"巴威"逼近吕宋海峡，本周五六(7/10-11)最接近台湾、周六夜趋向华东近上海登陆', detail:'第9号超强台风"巴威"（2026年第3个五级台风）7月6日在关岛附近罗塔岛登陆后西北行，7日已进入菲律宾责任区。7日联合台风警报中心显示其近中心风速仍达约240km/h(130kt)，未来12小时维持后因东北向切变逐步减弱，但风圈庞大(暴风圈直径约900km)。最新路径：10-11日经吕宋海峡走廊，周五(7/10)夜先掠过日本西南先岛群岛，周五至周六最接近台湾东北部（台湾中央气象署预计发布海上警报），周六(7/11)夜可能以热带风暴至弱台风强度在华东近上海一带登陆。华东沿海须自本周中后段起逐日跟踪。第10号"美莎克"已于7月3-4日登陆海南、越南后消散。', hint:'EN年台风偏强：华东关注棉花/水稻/物流与港口风险，登陆点与强度仍有变数需逐日核对；台湾东部、琉球、吕宋北部10-11日面临强降雨大风与风暴潮' },
+  { level:'warn', title:'⚠️ IOD 中性，模型预测7-8月起或发展正IOD', detail:'IOD指数-0.02（6月27日），当前中性。BOM最新展望：模型预测正IOD可能于2026年7-8月开始发展，南半球冬春季正IOD事件概率较高，但各模式对时间与强度分歧仍大。', hint:'正IOD+厄尔尼诺→东南亚/澳洲干旱加剧，棕榈油、澳麦风险放大' },
+  { level:'danger', title:'🌀 超强台风"巴威"：周五六(7/10-11)影响台湾最烈、约7/12在浙江温州一带登陆', detail:'7月8日"巴威"仍在菲律宾海维持四级强度（近中心持续风速约250km/h），预计逐步减弱后于7月11日前后掠过台湾北侧与日本先岛群岛（八重山），路径大概率从台湾北部近海通过而非登陆；台湾中央气象署7月8日表示最快周四(7/9)发布海上/陆上警报，台湾交通已现扰动，风雨影响周五至周六(7/10-11)达峰。最新预测登陆点较此前南调：约7月12日在华东浙江温州附近登陆，登陆后减弱，7月13日前后在上海以西消散。', hint:'华东（浙闽沪）7/11-13重点防强风暴雨：关注水稻/棉花/大棚设施与港口物流；登陆点温州-上海间仍有摆动，须逐日核对台风路径' },
 ];
 
 // ---------- 海洋指数 ----------
@@ -47,9 +47,9 @@ const oceanIndices = [
   },
   {
     name:'🌏 IOD 印度洋偶极子', borderColor:'#10b981',
-    metrics:[{v:'中性',l:'当前相位'},{v:'-0.02',l:'DMI (6/27)'},{v:'冬春季',l:'或转正相位'},{v:'需关注',l:'与EN叠加'}],
+    metrics:[{v:'中性',l:'当前相位'},{v:'-0.02',l:'DMI (6/27)'},{v:'7-8月',l:'或开始转正'},{v:'需关注',l:'与EN叠加'}],
     risks:[{label:'当前低风险',cls:'risk-low'},{label:'潜在风险',cls:'risk-mid'}],
-    detail:'当前中性，但模型预测南半球冬春季可能发展为正IOD，时间与强度分歧较大。正IOD+厄尔尼诺→东南亚/澳洲干旱显著加剧。',
+    detail:'当前中性。BOM最新展望(7月上旬)：模型预测正IOD可能于7-8月开始发展，南半球冬春季正IOD概率较高，但时间与强度模式间分歧大。正IOD+厄尔尼诺→东南亚/澳洲干旱显著加剧。',
     sources:[{l:'BOM IOD',u:'https://www.bom.gov.au/climate/iod/'}]
   },
 ];
@@ -140,7 +140,7 @@ const cropCalendar = [
   { crop:'🧵 棉花', region:'中国新疆', season:'花铃期', sensitive:'高温干旱', risk:'花铃期高温影响授粉与铃重', enso:'北半球夏季偏暖' },
   { crop:'🌽 玉米', region:'中国东北', season:'拔节期', sensitive:'7月下旬抽雄授粉', risk:'当前光热适宜，关注后期高温', enso:'东北积温正常有利' },
   { crop:'🌽 玉米', region:'黄淮海', season:'苗期(三叶-七叶)', sensitive:'高温影响幼苗', risk:'35°C+高温不利壮苗', enso:'黄淮盛夏偏热风险' },
-  { crop:'🌽 玉米', region:'美国玉米带', season:'抽雄-吐丝期(16%已吐丝)', sensitive:'7月中下旬授粉', risk:'优良率67%持平；上部产区旱情扩大，强降雨将补墒', enso:'气温偏高但少数才达95°F胁迫；近日1.25-3英寸降雨' },
+  { crop:'🌽 玉米', region:'美国玉米带', season:'抽雄-吐丝期(16%已吐丝)', sensitive:'授粉主体7/15-30', risk:'优良率67%；8-14天展望东带偏湿、西带偏热干至7/19', enso:'雨热分歧成定价焦点；北伊/东爱/南明局地雨水过多' },
   { crop:'🫘 大豆', region:'中国东北', season:'分枝-初花期', sensitive:'开花结荚期水分', risk:'当前墒情适宜', enso:'关注8月干旱风险' },
   { crop:'🫘 大豆', region:'美国中西部', season:'开花初期', sensitive:'高温干旱', risk:'热浪影响开花', enso:'当前整体有利，后期关注' },
   { crop:'🌾 小麦', region:'中国黄淮海', season:'已收获', sensitive:'—', risk:'收获完毕，腾茬夏播', enso:'新麦上市，关注质量' },
@@ -148,7 +148,7 @@ const cropCalendar = [
   { crop:'🌾 小麦', region:'黑海(俄/乌)', season:'灌浆-收获期', sensitive:'收获期降水/高温', risk:'收获窗口天气', enso:'间接影响较弱' },
   { crop:'☕ 咖啡', region:'巴西米纳斯', season:'采收期(5-9月，进度约52%偏慢)', sensitive:'霜冻', risk:'霜冻担忧升温，阿拉比卡单日跳涨约10%重上$3/磅；中旬再有降水扰动采收', enso:'EN年巴西南部霜冻概率变化需跟踪' },
   { crop:'🍬 白糖', region:'中国广西', season:'甘蔗伸长期', sensitive:'7-9月需水关键期', risk:'伸长期干旱直接损失蔗茎产量', enso:'EN年华南秋冬偏干需警惕' },
-  { crop:'🍬 白糖', region:'印度/泰国', season:'季风生长期', sensitive:'季风降水', risk:'EN年季风偏弱→印泰糖产量下调', enso:'EN历史上利多国际糖价' },
+  { crop:'🍬 白糖', region:'印度/泰国', season:'季风生长期', sensitive:'季风降水', risk:'印度7月初季风转入降水盈余，产量预期改善；泰国仍偏干', enso:'EN年季风后期仍可能转弱，中期风险未除' },
 ];
 
 // ============================================================
@@ -365,43 +365,57 @@ const cropRegions = [
 ];
 
 // ============================================================
-// 农业新闻 — 仅保留 24-48 小时内消息（定期刷新, 更新于 2026-07-08）
+// 农业新闻 — 仅保留 24-48 小时内消息（定期刷新, 更新于 2026-07-09）
 // ============================================================
 const AG_NEWS = [
   {
-    title: '超强台风"巴威"锁定台湾与华东：周五六(7/10-11)最接近台湾，周六夜或近上海登陆，沿途减弱但风圈庞大',
-    link: 'https://weather.com/2026/07/07/storms/hurricane/super-typhoon-bavi-northern-marianas-guam-taiwan-china-forecast',
-    date: '7月7日',
-    source: 'The Weather Channel',
+    title: '超强台风"巴威"略减弱仍维持四级(约250km/h)：7/11掠过台湾北侧与八重山，约7/12在浙江温州一带登陆',
+    link: 'https://watchers.news/2026/07/08/super-typhoon-bavi-weakens-slightly-as-taiwan-yaeyama-islands-and-eastern-china-brace-for-impacts/',
+    date: '7月8日',
+    source: 'The Watchers',
     sourceClass: 'fao',
   },
   {
-    title: '巴西霜冻担忧升温：阿拉比卡单日跳涨约10%重上$3/磅，采收仅约52%落后进度、中旬再有降水',
-    link: 'https://www.riotimesonline.com/coffee-prices-2026-brazil-weather-spike/',
-    date: '7月7日',
-    source: 'Rio Times',
+    title: '台湾中央气象署：最快周四(7/9)发布"巴威"海上/陆上警报，风雨周五六(7/10-11)达峰，交通已现扰动',
+    link: 'https://focustaiwan.tw/society/202607080006',
+    date: '7月8日',
+    source: 'Focus Taiwan',
+    sourceClass: 'fao',
+  },
+  {
+    title: '大豆携玉米小麦走强：中国商务部确认将下调美豆等农产品关税、确认新增采购，11月大豆逼近$12/蒲',
+    link: 'https://www.agweb.com/markets/market-analysis/soybeans-explode-higher-corn-and-wheat-weather-china-dropping-tariffs',
+    date: '7月8日',
+    source: 'AgWeb',
     sourceClass: 'agweb',
   },
   {
-    title: 'CBOT大豆升破$11.8/蒲创五周新高：中储粮/中粮补订美豆船货、美中西部天气分歧提供支撑',
-    link: 'https://tradingeconomics.com/commodity/soybeans',
-    date: '7月7日',
-    source: 'Trading Economics',
-    sourceClass: 'agweb',
+    title: 'NOAA 8-14天展望：7/9-15东玉米带偏湿、中西部与平原偏暖，西部至7/19炎热偏干；12月玉米涨至约$4.44/蒲',
+    link: 'https://www.farmprogress.com/markets-and-quotes/morning-market-review',
+    date: '7月8日',
+    source: 'Farm Progress',
+    sourceClass: 'usda',
   },
   {
-    title: '马棕油期货跌破4,500林吉特：印尼B50生物柴油7月1日生效、7月1-5日出口环比增10.6-11.1%提供支撑',
-    link: 'https://www.brecorder.com/news/amp/40425700',
-    date: '7月6日',
+    title: '马棕油回落整理：MPOB月报(约7/10)公布前谨慎，6月库存或创同期纪录、印度6月进口降至14个月低点；此前7月1-5日出口环比增10.6-11.1%曾推动期价上探4,500林吉特上方',
+    link: 'https://www.brecorder.com/news/40428314/palm-oil-futures-decline',
+    date: '7月8日',
     source: 'Business Recorder',
     sourceClass: 'fao',
   },
   {
-    title: 'USDA作物进度(截至7/5)：美玉米优良率67%持平、16%吐丝3%乳熟；大豆64%优良、34%开花',
-    link: 'https://www.brownfieldagnews.com/news/67-of-u-s-corn-64-of-soybeans-good-to-excellent/',
-    date: '7月6日',
-    source: 'Brownfield/USDA',
-    sourceClass: 'usda',
+    title: '原糖回落至约14.8美分创一周低点：印度季风7月初转入降水盈余、巴西中南部制糖比例下调转向乙醇',
+    link: 'https://tradingeconomics.com/commodity/sugar',
+    date: '7月8日',
+    source: 'Trading Economics',
+    sourceClass: 'agweb',
+  },
+  {
+    title: '巴西霜冻担忧支撑咖啡：阿拉比卡重上$3/磅后高位整理，采收约52%落后进度、南米纳斯/塞拉多7-8月霜冻窗口为尾部风险',
+    link: 'https://www.riotimesonline.com/coffee-prices-2026-brazil-weather-spike/',
+    date: '7月7日',
+    source: 'Rio Times',
+    sourceClass: 'agweb',
   },
 ];
 
