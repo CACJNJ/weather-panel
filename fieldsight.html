@@ -186,6 +186,25 @@ td.risk { color:var(--red); font-weight:600; }
 .event-card .edesc { font-size:0.82rem; color:var(--ink); margin:9px 0 8px; line-height:1.62; }
 .event-card .esrc { font-size:0.72rem; color:var(--ink2); }
 
+/* ---------- 源预览卡（中国强对流 / 台风监测） ---------- */
+.src-card { display:block; text-decoration:none; color:var(--ink); background:#fff; border:1px solid var(--line); border-top:3px solid var(--line2); padding:14px 14px 12px; transition:transform .12s, border-color .12s; }
+.src-card:hover { transform:translateY(-2px); border-top-color:var(--green); }
+.src-card .sc-ic { font-size:1.6rem; line-height:1; margin-bottom:6px; }
+.src-card h5 { font-family:Georgia,'Songti SC','SimSun',serif; font-size:0.98rem; color:var(--green); margin-bottom:3px; }
+.src-card .sc-kind { font-size:0.72rem; color:var(--amber); margin-bottom:5px; }
+.src-card .note { font-size:0.76rem; color:var(--ink2); line-height:1.5; }
+.src-card.primary { border-top-color:var(--red); }
+.src-card.primary h5 { color:var(--red); }
+.conv-note { font-size:0.76rem; color:var(--ink2); margin-top:12px; line-height:1.6; border-left:3px solid var(--line2); padding:7px 11px; background:var(--panel2); }
+/* 台风监测图面板 */
+.typhoon-map { position:relative; background:#fff; border:1px solid var(--line); padding:10px; margin-bottom:14px; text-align:center; }
+.typhoon-map img { max-width:100%; max-height:520px; border:1px solid var(--line); }
+.typhoon-fallback { display:none; align-items:center; gap:14px; justify-content:center; padding:38px 16px; color:var(--ink2); text-align:left; }
+.typhoon-fallback .tf-ic { font-size:2.4rem; }
+.typhoon-fallback span { font-size:0.78rem; }
+.typhoon-cap { font-size:0.78rem; color:var(--ink2); margin-top:8px; line-height:1.55; }
+.typhoon-cap span { font-size:0.72rem; }
+
 /* ---------- 弹窗 ---------- */
 .overlay { position:fixed; inset:0; background:rgba(35,37,28,0.55); display:none; z-index:100; align-items:center; justify-content:center; padding:18px; }
 .overlay.show { display:flex; }
@@ -271,8 +290,13 @@ footer { margin-top:50px; border-top:3px double var(--line2); padding-top:16px; 
 </section>
 
 <section class="sec" data-key="news">
-  <div class="sec-head" onclick="toggleSec(this)"><span class="num">玖</span><h2>要闻辑录</h2><span class="sub" id="newsSub">仅收录48小时内消息</span><span class="tog">[−]</span></div>
+  <div class="sec-head" onclick="toggleSec(this)"><span class="num">玖</span><h2>要闻辑录</h2><span class="sub" id="newsSub">仅收录12小时内消息</span><span class="tog">[−]</span></div>
   <div class="sec-body" id="newsSection"></div>
+</section>
+
+<section class="sec" data-key="typhoon">
+  <div class="sec-head" onclick="toggleSec(this)"><span class="num">拾</span><h2>台风监测</h2><span class="sub">可视化路径/警报面板 · 中央气象台台风网 + JTWC · 官方直达</span><span class="tog">[−]</span></div>
+  <div class="sec-body" id="typhoonSection"></div>
 </section>
 
 <footer>
@@ -561,6 +585,21 @@ function renderCNWeather() {
           </div>`).join('')}
       </div></div>
     </details>
+    <details class="ig" open>
+      <summary>⛈️ 全国强对流天气监测 <span class="src">— 中央气象台 强对流预报/雷达/卫星 · 雷暴大风·冰雹·短时强降水 · 源预览直达</span><span class="mk"></span></summary>
+      <div class="ig-body">
+        <div class="img-grid" style="grid-template-columns:repeat(auto-fill,minmax(280px,1fr));">
+          ${CN_CONVECTION.cards.map(c => `
+            <a class="src-card" href="${c.u}" target="_blank" rel="noopener" aria-label="${c.t} — ${c.kind}（查看来源）">
+              <div class="sc-ic" aria-hidden="true">${c.icon}</div>
+              <h5>${c.t} ↗</h5>
+              <div class="sc-kind">${c.kind}</div>
+              <div class="note">${c.d}</div>
+            </a>`).join('')}
+        </div>
+        <div class="conv-note">${CN_CONVECTION.note}</div>
+      </div>
+    </details>
     <details class="ig">
       <summary>🧭 中央气象台 · 更多官方图导航 <span class="src">— nmc.cn · 国内直连 · 点击卡片直达</span><span class="mk"></span></summary>
       <div class="ig-body">
@@ -833,18 +872,61 @@ function renderSpecialEvents() {
       <div class="esrc">来源: ${e.sources.map(s => `<a href="${s.u}" target="_blank" rel="noopener">${s.l} ↗</a>`).join(' · ')}</div>
     </div>`).join('')}</div>`;
 }
+// 台风监测面板：可视警报图(随报更新, 失败有 fallback) + 官方源预览直达。数据见 fieldsight-data.js 的 TYPHOON_MONITOR。
+function renderTyphoonPanel() {
+  const el = document.getElementById('typhoonSection');
+  if (!el || typeof TYPHOON_MONITOR === 'undefined') return;
+  const t = TYPHOON_MONITOR, emb = t.embed;
+  el.innerHTML = `
+    <div class="typhoon-map">
+      <img src="${emb.url}" alt="${emb.title}" loading="lazy"
+           onerror="this.style.display='none';this.parentElement.querySelector('.typhoon-fallback').style.display='flex';">
+      <div class="typhoon-fallback">
+        <div class="tf-ic" aria-hidden="true">🌀</div>
+        <div>${emb.title}<br><span>图片暂不可用（风暴消散或源限制）· <a href="${emb.srcUrl}" target="_blank" rel="noopener">前往 ${emb.src} 查看 ↗</a></span></div>
+      </div>
+      <div class="typhoon-cap">${emb.title} <span>— 来源 <a href="${emb.srcUrl}" target="_blank" rel="noopener">${emb.src} ↗</a> · ${emb.note}</span></div>
+    </div>
+    <div class="img-grid" style="grid-template-columns:repeat(auto-fill,minmax(280px,1fr));">
+      ${t.cards.map(c => `
+        <a class="src-card${c.primary ? ' primary' : ''}" href="${c.u}" target="_blank" rel="noopener" aria-label="${c.t} — ${c.kind}（查看来源）">
+          <div class="sc-ic" aria-hidden="true">${c.icon}</div>
+          <h5>${c.t} ↗</h5>
+          <div class="sc-kind">${c.kind}</div>
+          <div class="note">${c.d}</div>
+        </a>`).join('')}
+    </div>
+    <div class="conv-note">${t.note}</div>`;
+}
+// 要闻辑录：仅展示 ts 距当前 <= NEWS_WINDOW_HOURS(12) 小时的条目；超窗口自动隐去，全部过期则显示空状态(不编造)。
 function renderNews() {
-  document.getElementById('newsSub').textContent = `仅收录48小时内消息 · 更新于 ${STATIC_UPDATED}`;
+  const winH = (typeof NEWS_WINDOW_HOURS !== 'undefined') ? NEWS_WINDOW_HOURS : 12;
+  document.getElementById('newsSub').textContent = `仅收录${winH}小时内消息 · 更新于 ${STATIC_UPDATED}`;
+  const now = Date.now();
+  const fresh = (typeof AG_NEWS !== 'undefined' ? AG_NEWS : []).filter(n => {
+    if (!n.ts) return false;                       // 无时间戳按过期处理
+    const t = Date.parse(n.ts);
+    return !isNaN(t) && (now - t) <= winH * 3600e3 && (now - t) >= -3600e3;  // 12h内, 容许1h时钟偏差
+  }).sort((a, b) => Date.parse(b.ts) - Date.parse(a.ts));
+  const srcBar = `
+    <div style="font-size:0.72rem;color:var(--ink2);margin-top:8px;text-align:right;">直达新闻源：
+      <a href="https://www.usda.gov/media/news-releases" target="_blank" rel="noopener">USDA</a> ·
+      <a href="https://www.fao.org/newsroom/en/" target="_blank" rel="noopener">FAO</a> ·
+      <a href="https://www.agriculture.com/news" target="_blank" rel="noopener">Agriculture.com</a> ·
+      <a href="https://typhoon.nmc.cn/web.html" target="_blank" rel="noopener">中央气象台台风网</a>
+    </div>`;
+  if (!fresh.length) {
+    document.getElementById('newsSection').innerHTML = `
+      <div style="text-align:center;color:var(--ink2);font-size:0.85rem;border:1px dashed var(--line2);background:var(--panel);padding:26px 14px;">
+        📭 近${winH}小时暂无新收录的要闻。<br>
+        <span style="font-size:0.78rem;">仅展示${winH}小时内消息，更早消息已自动隐去；可点下方官方新闻源查看最新动态。</span>
+      </div>${srcBar}`;
+    return;
+  }
   document.getElementById('newsSection').innerHTML = `
     <ul class="news-list">
-      ${AG_NEWS.map(n => `<li><span class="d">${n.date}</span><span class="t"><a href="${n.link}" target="_blank">${n.title}</a></span><span class="s">${n.source}</span></li>`).join('')}
-    </ul>
-    <div style="font-size:0.72rem;color:var(--ink2);margin-top:8px;text-align:right;">
-      <a href="https://www.usda.gov/media/news-releases" target="_blank">USDA</a> ·
-      <a href="https://www.fao.org/newsroom/en/" target="_blank">FAO</a> ·
-      <a href="https://www.agriculture.com/news" target="_blank">Agriculture.com</a> ·
-      <a href="https://typhoon.nmc.cn/web.html" target="_blank">中央气象台台风网</a>
-    </div>`;
+      ${fresh.map(n => `<li><span class="d">${n.date}</span><span class="t"><a href="${n.link}" target="_blank" rel="noopener">${n.title}</a></span><span class="s">${n.source}</span></li>`).join('')}
+    </ul>${srcBar}`;
 }
 
 // ============================================================
@@ -1047,6 +1129,7 @@ async function init() {
   renderCalendar(null);
   renderStrategy(null);
   renderNews();
+  renderTyphoonPanel();
   renderCropSkeletons();
 
   let completed = 0, ok = 0;
