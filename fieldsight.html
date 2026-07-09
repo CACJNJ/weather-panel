@@ -169,6 +169,23 @@ td.risk { color:var(--red); font-weight:600; }
 .news-list .t a:hover { color:var(--blue); }
 .news-list .s { font-size:0.68rem; color:var(--green); border:1px solid var(--green); padding:0 6px; white-space:nowrap; }
 
+/* ---------- 特殊天气事件 ---------- */
+.event-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(300px,1fr)); gap:14px; }
+.event-card { background:var(--panel); border:1px solid var(--line); border-left:4px solid var(--amber); padding:13px 16px 12px; }
+.event-card.severe { border-left-color:var(--red); }
+.event-card.high { border-left-color:var(--red); }
+.event-card.mid { border-left-color:var(--amber); }
+.event-card.low { border-left-color:var(--green); }
+.event-card .ehead { display:flex; align-items:baseline; gap:8px; flex-wrap:wrap; margin-bottom:8px; }
+.event-card .eic { font-size:1.2rem; line-height:1; }
+.event-card h4 { font-family:Georgia,'Songti SC','SimSun',serif; font-size:1.02rem; font-weight:700; }
+.event-card .ehead .tag { margin-left:auto; margin-top:0; }
+.event-card .emeta { display:flex; gap:8px; font-size:0.8rem; padding:3px 0; border-bottom:1px dotted var(--line); }
+.event-card .emeta .k { color:var(--ink2); min-width:38px; flex:none; }
+.event-card .estatus { display:inline-block; font-size:0.7rem; color:var(--ink2); }
+.event-card .edesc { font-size:0.82rem; color:var(--ink); margin:9px 0 8px; line-height:1.62; }
+.event-card .esrc { font-size:0.72rem; color:var(--ink2); }
+
 /* ---------- 弹窗 ---------- */
 .overlay { position:fixed; inset:0; background:rgba(35,37,28,0.55); display:none; z-index:100; align-items:center; justify-content:center; padding:18px; }
 .overlay.show { display:flex; }
@@ -187,6 +204,7 @@ footer { margin-top:50px; border-top:3px double var(--line2); padding-top:16px; 
   .wrap{padding:0 14px 40px;} .masthead h1{font-size:2rem;}
   .m-grid{grid-template-columns:repeat(2,minmax(0,1fr));}
   .tile-grid{grid-template-columns:1fr;} .img-grid{grid-template-columns:1fr;}
+  .event-grid{grid-template-columns:1fr;}
   .chart-box{height:240px;} .img-cell iframe{height:320px;}
 }
 </style>
@@ -232,23 +250,28 @@ footer { margin-top:50px; border-top:3px double var(--line2); padding-top:16px; 
   </div>
 </section>
 
+<section class="sec" data-key="events">
+  <div class="sec-head" onclick="toggleSec(this)"><span class="num">伍</span><h2>特殊天气事件</h2><span class="sub">台风/高温/强降水/霜冻等重大天气 · Special Events · 静态参考</span><span class="tog">[−]</span></div>
+  <div class="sec-body" id="eventsSection"></div>
+</section>
+
 <section class="sec" data-key="regions">
-  <div class="sec-head" onclick="toggleSec(this)"><span class="num">伍</span><h2>产区监测</h2><span class="sub">七大品种 · <span id="regionCount">0</span> 个产区 · 点击品种图标切换</span><span class="tog">[−]</span></div>
+  <div class="sec-head" onclick="toggleSec(this)"><span class="num">陆</span><h2>产区监测</h2><span class="sub">七大品种 · <span id="regionCount">0</span> 个产区 · 点击品种图标切换</span><span class="tog">[−]</span></div>
   <div class="sec-body" id="cropSections"></div>
 </section>
 
 <section class="sec" data-key="calendar">
-  <div class="sec-head" onclick="toggleSec(this)"><span class="num">陆</span><h2>生长阶段与敏感窗口</h2><span class="sub">静态评估 + 代表站实时数据</span><span class="tog">[−]</span></div>
+  <div class="sec-head" onclick="toggleSec(this)"><span class="num">柒</span><h2>生长阶段与敏感窗口</h2><span class="sub">静态评估 + 代表站实时数据</span><span class="tog">[−]</span></div>
   <div class="sec-body" id="calendarSection"></div>
 </section>
 
 <section class="sec" data-key="strategy">
-  <div class="sec-head" onclick="toggleSec(this)"><span class="num">柒</span><h2>策略观察</h2><span class="sub">基于实时气象聚合评分 · 仅供研究参考</span><span class="tog">[−]</span></div>
+  <div class="sec-head" onclick="toggleSec(this)"><span class="num">捌</span><h2>策略观察</h2><span class="sub">基于实时气象聚合评分 · 仅供研究参考</span><span class="tog">[−]</span></div>
   <div class="sec-body"><ul class="strat" id="strategyBox"></ul></div>
 </section>
 
 <section class="sec" data-key="news">
-  <div class="sec-head" onclick="toggleSec(this)"><span class="num">捌</span><h2>要闻辑录</h2><span class="sub" id="newsSub">仅收录48小时内消息</span><span class="tog">[−]</span></div>
+  <div class="sec-head" onclick="toggleSec(this)"><span class="num">玖</span><h2>要闻辑录</h2><span class="sub" id="newsSub">仅收录48小时内消息</span><span class="tog">[−]</span></div>
   <div class="sec-body" id="newsSection"></div>
 </section>
 
@@ -795,6 +818,21 @@ function renderCalendar(results) {
       <tbody>${cropCalendar.map((c, i) => `<tr><td>${c.crop}</td><td>${c.region}</td><td>${c.season}</td><td>${c.sensitive}</td><td class="risk">${c.risk}</td><td style="font-size:0.8rem;">${c.enso}</td><td>${cell(i)}</td></tr>`).join('')}</tbody>
     </table></div>`;
 }
+function renderSpecialEvents() {
+  const el = document.getElementById('eventsSection');
+  if (!el) return;
+  const evs = (typeof SPECIAL_EVENTS !== 'undefined' ? SPECIAL_EVENTS : []);
+  if (!evs.length) { el.innerHTML = '<div style="color:var(--ink2);font-size:0.85rem;">暂无重大天气事件记录。</div>'; return; }
+  el.innerHTML = `<div class="event-grid">${evs.map(e => `
+    <div class="event-card ${e.cls}">
+      <div class="ehead"><span class="eic">${e.icon}</span><h4>${e.title}</h4><span class="tag ${e.cls}">${e.severity}</span></div>
+      <div class="emeta"><span class="k">区域</span><span>${e.region}</span></div>
+      <div class="emeta"><span class="k">时间</span><span>${e.time}</span></div>
+      <div class="emeta"><span class="k">状态</span><span class="estatus">${e.status}</span></div>
+      <p class="edesc">${e.detail}</p>
+      <div class="esrc">来源: ${e.sources.map(s => `<a href="${s.u}" target="_blank" rel="noopener">${s.l} ↗</a>`).join(' · ')}</div>
+    </div>`).join('')}</div>`;
+}
 function renderNews() {
   document.getElementById('newsSub').textContent = `仅收录48小时内消息 · 更新于 ${STATIC_UPDATED}`;
   document.getElementById('newsSection').innerHTML = `
@@ -1005,6 +1043,7 @@ async function init() {
   renderCNWeather();
   renderUSWeather();
   renderWawSection();
+  renderSpecialEvents();
   renderCalendar(null);
   renderStrategy(null);
   renderNews();

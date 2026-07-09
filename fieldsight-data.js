@@ -58,6 +58,13 @@ const oceanIndices = [
 // 美国天气图集 — 全部 NOAA/官方稳定外链，无运行ID，免维护
 // ============================================================
 const usWeatherImages = [
+  { group:'🛰️ 实时卫星与雷达 (GOES / NWS)', source:'NOAA STAR GOES-East · NWS RIDGE · 近实时（约5-15分钟刷新）',
+    images:[
+      { title:'GOES-East 真彩云图 (CONUS)', url:'https://cdn.star.nesdis.noaa.gov/GOES19/ABI/CONUS/GEOCOLOR/1250x750.jpg', note:'GOES-19 GeoColor 全美近实时真彩合成（约5分钟一帧），白天识别云系最直观' },
+      { title:'GOES-East 红外云图 (CONUS)', url:'https://cdn.star.nesdis.noaa.gov/GOES19/ABI/CONUS/13/1250x750.jpg', note:'Band 13 洁净红外，昼夜可用，云顶越白代表对流越强' },
+      { title:'全美雷达反射率拼图', url:'https://radar.weather.gov/ridge/standard/CONUS-LARGE_0.gif', note:'NWS RIDGE 全国雷达拼图，近实时降水回波（加载失败可点下方原图链接）' },
+    ]
+  },
   { group:'🌧️ 美国降水预报 (WPC QPF)', source:'NOAA Weather Prediction Center · 每日自动更新',
     images:[
       { title:'Day 1 累计降水', url:'https://www.wpc.ncep.noaa.gov/qpf/fill_94qwbg.gif', note:'未来24小时定量降水预报（彩色填充）' },
@@ -416,6 +423,41 @@ const AG_NEWS = [
     date: '7月7日',
     source: 'Rio Times',
     sourceClass: 'agweb',
+  },
+];
+
+// ============================================================
+// 特殊天气事件 — 台风/高温/强降水/霜冻等重大天气（静态参考, 更新于 2026-07-09）
+// severity 用 tag 分级: severe(白字红底)/high(红)/mid(琥珀)/low(墨绿)
+// ============================================================
+const SPECIAL_EVENTS = [
+  {
+    icon:'🌀', title:'超强台风"巴威"(Bavi)', severity:'超强台风·四级', cls:'severe', status:'活跃 · 逼近华东',
+    region:'菲律宾海 → 台湾北侧/先岛群岛(八重山) → 浙江温州一带',
+    time:'7/10-11影响台湾最烈，约7/12在浙江温州附近登陆',
+    detail:'7月8日仍维持四级强度（近中心持续风速约250km/h），预计减弱后于7/11前后掠过台湾北侧与日本先岛群岛，大概率从台湾北部近海通过而非登陆。台湾中央气象署最快周四(7/9)发布海陆警报，风雨7/10-11达峰。最新预测约7/12在浙江温州附近登陆、7/13前后于上海以西消散——登陆点温州—上海间仍有摆动，须逐日核对。华东(浙闽沪)7/11-13重点防强风暴雨：水稻/棉花/大棚设施与港口物流。',
+    sources:[ { l:'中央气象台台风网', u:'https://typhoon.nmc.cn/web.html' }, { l:'Focus Taiwan', u:'https://focustaiwan.tw/society/202607080006' }, { l:'JTWC', u:'https://www.metoc.navy.mil/jtwc/jtwc.html' } ],
+  },
+  {
+    icon:'❄️', title:'巴西南部霜冻风险', severity:'霜冻窗口·尾部风险', cls:'high', status:'高风险窗口临近',
+    region:'南米纳斯 · 塞拉多 · 圣保罗 · 巴拉那',
+    time:'7-8月霜冻高风险期',
+    detail:'巴西2026/27咖啡采收偏慢（截至7月初约52%，落后去年及五年均值），近期强降雨扰乱采收；叠加7-8月南部霜冻高风险窗口，投机资金对寒潮高度敏感，阿拉比卡期价单日一度跳涨近10%、重上$3/磅。需逐日跟踪南部最低气温预报。',
+    sources:[ { l:'Rio Times', u:'https://www.riotimesonline.com/coffee-prices-2026-brazil-weather-spike/' }, { l:'INMET(巴西气象)', u:'https://portal.inmet.gov.br/' } ],
+  },
+  {
+    icon:'🔥', title:'美国玉米带高温(西部偏热偏干)', severity:'高温·偏暖', cls:'high', status:'持续至约7/19',
+    region:'西部中西部 · 大平原',
+    time:'延伸期预报至7/19前后炎热偏干',
+    detail:'NOAA最新8-14天展望(7/8)：中西部与平原大部气温偏高，西部延伸期至7/19前后炎热偏干。全美玉米授粉主体集中7/15-30，正逢偏热窗口，雨热配合成为单产定价焦点（12月玉米已涨至约$4.44/蒲）。',
+    sources:[ { l:'NOAA CPC 6-10/8-14天', u:'https://www.cpc.ncep.noaa.gov/products/predictions/814day/' } ],
+  },
+  {
+    icon:'⛈️', title:'美国东玉米带强降水(局地过湿)', severity:'强降水', cls:'mid', status:'临近',
+    region:'东玉米带 · 北伊利诺伊 · 东中爱荷华 · 南明尼苏达',
+    time:'7/9-15偏湿',
+    detail:'8-14天展望显示7/9-15东玉米带偏湿，北伊利诺伊、东中爱荷华、南明尼苏达局地雨水过多，需关注渍涝与病害风险；与西部偏干形成"东湿西热"分化格局。',
+    sources:[ { l:'WPC 定量降水预报', u:'https://www.wpc.ncep.noaa.gov/qpf/qpf2.shtml' } ],
   },
 ];
 
