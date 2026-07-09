@@ -205,6 +205,39 @@ td.risk { color:var(--red); font-weight:600; }
 .typhoon-cap { font-size:0.78rem; color:var(--ink2); margin-top:8px; line-height:1.55; }
 .typhoon-cap span { font-size:0.72rem; }
 
+/* ---------- 中国强对流：子面板 + 帧动画 ---------- */
+.conv-block { margin-bottom:16px; }
+.conv-h { font-family:Georgia,'Songti SC','SimSun',serif; font-size:0.98rem; font-weight:700; margin-bottom:8px; display:flex; align-items:baseline; gap:10px; flex-wrap:wrap; }
+.conv-srclink { font-size:0.72rem; font-weight:400; color:var(--blue); font-family:-apple-system,'PingFang SC',sans-serif; }
+.anim-panel { background:#fff; border:1px solid var(--line); padding:10px; }
+.anim-stage { text-align:center; position:relative; }
+.anim-stage .anim-img { max-width:100%; max-height:520px; border:1px solid var(--line); cursor:zoom-in; }
+.anim-err { display:none; }
+.anim-bar { display:flex; align-items:center; gap:12px; margin-top:8px; font-size:0.75rem; color:var(--ink2); flex-wrap:wrap; }
+.anim-btn { background:var(--ink); color:var(--paper); border:none; padding:3px 12px; font-size:0.75rem; cursor:pointer; font-family:inherit; }
+.anim-time { font-family:'SF Mono',Menlo,monospace; font-weight:600; color:var(--ink); }
+/* ---------- 台风：工具栏 + 嵌入地图 ---------- */
+.ty-toolbar { display:flex; align-items:center; gap:8px; flex-wrap:wrap; margin-bottom:10px; }
+.ty-tab { background:var(--panel); border:1px solid var(--line2); color:var(--ink2); padding:5px 14px; font-size:0.8rem; cursor:pointer; font-family:inherit; }
+.ty-tab:hover { border-color:var(--green); color:var(--ink); }
+.ty-tab.active { background:var(--ink); color:var(--paper); border-color:var(--ink); }
+.ty-hint { font-size:0.72rem; color:var(--ink3); margin-left:auto; }
+.ty-frame { width:100%; height:620px; border:1px solid var(--line); background:#fff; display:block; }
+.ty-cap { font-size:0.76rem; color:var(--ink2); margin-top:8px; line-height:1.5; }
+.ty-cap span { font-size:0.72rem; color:var(--ink3); }
+/* ---------- World Ag Weather 作物图迷你面板(产区卡内) ---------- */
+.waw-mini { margin:10px 0; border:1px solid var(--line); background:var(--panel); }
+.waw-mini summary { list-style:none; cursor:pointer; padding:7px 10px; font-size:0.78rem; font-weight:600; color:var(--blue); display:flex; align-items:center; gap:8px; user-select:none; }
+.waw-mini summary::-webkit-details-marker { display:none; }
+.waw-mini summary::before { content:'📈'; }
+.waw-sum { font-weight:400; color:var(--ink2); font-size:0.72rem; margin-left:auto; }
+.waw-body { padding:8px 10px 10px; border-top:1px solid var(--line); }
+.waw-fig { margin-bottom:8px; }
+.waw-lab { font-size:0.72rem; color:var(--ink2); margin-bottom:3px; }
+.waw-img { width:100%; border:1px solid var(--line); background:#fff; cursor:zoom-in; }
+.waw-err { display:none; font-size:0.72rem; color:var(--amber); padding:8px; background:var(--amber-bg); border:1px solid var(--amber); }
+.waw-src { display:inline-block; font-size:0.72rem; color:var(--blue); margin-top:2px; }
+
 /* ---------- 弹窗 ---------- */
 .overlay { position:fixed; inset:0; background:rgba(35,37,28,0.55); display:none; z-index:100; align-items:center; justify-content:center; padding:18px; }
 .overlay.show { display:flex; }
@@ -224,6 +257,7 @@ footer { margin-top:50px; border-top:3px double var(--line2); padding-top:16px; 
   .m-grid{grid-template-columns:repeat(2,minmax(0,1fr));}
   .tile-grid{grid-template-columns:1fr;} .img-grid{grid-template-columns:1fr;}
   .event-grid{grid-template-columns:1fr;}
+  .ty-frame{height:420px;} .ty-hint{display:none;} .anim-stage .anim-img{max-height:360px;}
   .chart-box{height:240px;} .img-cell iframe{height:320px;}
 }
 </style>
@@ -586,18 +620,23 @@ function renderCNWeather() {
       </div></div>
     </details>
     <details class="ig" open>
-      <summary>⛈️ 全国强对流天气监测 <span class="src">— 中央气象台 强对流预报/雷达/卫星 · 雷暴大风·冰雹·短时强降水 · 源预览直达</span><span class="mk"></span></summary>
+      <summary>⛈️ 全国强对流天气监测 <span class="src">— 中央气象台 CSPB强对流 / RDCP雷达 / FY-4B卫星 · 图像自动探测最新时次</span><span class="mk"></span></summary>
       <div class="ig-body">
-        <div class="img-grid" style="grid-template-columns:repeat(auto-fill,minmax(280px,1fr));">
-          ${CN_CONVECTION.cards.map(c => `
-            <a class="src-card" href="${c.u}" target="_blank" rel="noopener" aria-label="${c.t} — ${c.kind}（查看来源）">
-              <div class="sc-ic" aria-hidden="true">${c.icon}</div>
-              <h5>${c.t} ↗</h5>
-              <div class="sc-kind">${c.kind}</div>
-              <div class="note">${c.d}</div>
-            </a>`).join('')}
+        <div class="conv-block">
+          <h5 class="conv-h">🌩️ 强对流天气预报 <a class="conv-srclink" href="${CN_CONV_CONFIG.convective.srcPage}" target="_blank" rel="noopener">查看来源 ↗</a></h5>
+          <div class="img-grid" id="cspbGrid" style="grid-template-columns:repeat(auto-fill,minmax(300px,1fr));">
+            <div class="note" style="padding:24px 0;grid-column:1/-1;text-align:center;">⏳ 正在探测强对流预报图…</div>
+          </div>
         </div>
-        <div class="conv-note">${CN_CONVECTION.note}</div>
+        <div class="conv-block">
+          <h5 class="conv-h">📡 全国雷达拼图（近实时·多帧动画） <a class="conv-srclink" href="${CN_CONV_CONFIG.radar.srcPage}" target="_blank" rel="noopener">查看来源 ↗</a></h5>
+          <div id="radarPanel" class="anim-panel"><div class="note" style="padding:24px 0;text-align:center;">⏳ 正在探测雷达帧…</div></div>
+        </div>
+        <div class="conv-block">
+          <h5 class="conv-h">🛰️ FY-4B 可见光云图（近实时·多帧动画） <a class="conv-srclink" href="${CN_CONV_CONFIG.satellite.srcPage}" target="_blank" rel="noopener">查看来源 ↗</a></h5>
+          <div id="fy4bPanel" class="anim-panel"><div class="note" style="padding:24px 0;text-align:center;">⏳ 正在探测卫星帧…</div></div>
+        </div>
+        <div class="conv-note">监测要素：雷暴大风、冰雹、短时强降水。以上为中央气象台官方图，前端自动探测最新可用时次；夜间 FY-4B 可见光可能缺测，缺图时以“查看来源”兜底，不影响布局。</div>
       </div>
     </details>
     <details class="ig">
@@ -613,6 +652,9 @@ function renderCNWeather() {
       </div>
     </details>`;
   resolveNmcImages();
+  resolveNmcConvectionImages();
+  resolveNmcRadarFrames();
+  resolveNmcSatelliteFrames();
 }
 
 function nmcDateParts(offsetDays) {
@@ -655,6 +697,101 @@ async function resolveNmcImages() {
         <a href="http://www.nmc.cn/publish/precipitation/1-day.html" target="_blank">前往官方页面查看</a></div>`;
     }
   }), 3);
+}
+
+// ============================================================
+// 中国强对流 / 雷达 / FY-4B 真实图像探测（UTC时间戳；复用 probeImage）
+// ============================================================
+function nmcUtcParts(date) {
+  return {
+    y:date.getUTCFullYear().toString(), m:String(date.getUTCMonth()+1).padStart(2,'0'),
+    d:String(date.getUTCDate()).padStart(2,'0'), hh:String(date.getUTCHours()).padStart(2,'0'),
+    mm:String(date.getUTCMinutes()).padStart(2,'0'),
+  };
+}
+function nmcConvUrl(p, hhmm, n) {
+  return `https://image.nmc.cn/product/${p.y}/${p.m}/${p.d}/CSPB/SEVP_NMC_CSPB_SFER_EME_ACHN_LNO_P9_${p.y}${p.m}${p.d}${hhmm}00000_base64_${n}.jpg`;
+}
+function nmcRadarUrl(p) {
+  return `https://image.nmc.cn/product/${p.y}/${p.m}/${p.d}/RDCP/medium/SEVP_AOC_RDCP_SLDAS3_ECREF_ACHN_L88_PI_${p.y}${p.m}${p.d}${p.hh}${p.mm}00000.PNG`;
+}
+function nmcFy4bUrl(p) {
+  return `https://image.nmc.cn/product/${p.y}/${p.m}/${p.d}/WXBL/medium/SEVP_NSMC_WXBL_FY4B_ETCC_ACHN_LNO_PY_${p.y}${p.m}${p.d}${p.hh}${p.mm}00000.JPG`;
+}
+// 由UTC时间戳换算北京时(+8)显示串 M/D HH:MM
+function bjtFromUtc(p) {
+  const d = new Date(Date.UTC(+p.y, +p.m - 1, +p.d, +p.hh, +p.mm) + 8 * 3600e3);
+  return `${d.getUTCMonth()+1}/${d.getUTCDate()} ${String(d.getUTCHours()).padStart(2,'0')}:${String(d.getUTCMinutes()).padStart(2,'0')}`;
+}
+
+// A. CSPB 强对流预报(4张)：探测最新起报时次(新→旧)，命中则铺 base64_1..4
+async function resolveNmcConvectionImages() {
+  const cfg = CN_CONV_CONFIG.convective, grid = document.getElementById('cspbGrid');
+  if (!grid) return;
+  const now = new Date(), cands = [];
+  for (let off = 0; off <= 1; off++) {
+    const dd = new Date(now); dd.setUTCDate(dd.getUTCDate() - off);
+    const p = nmcUtcParts(dd);
+    for (const hhmm of cfg.issues) cands.push({ p, hhmm, dt: Date.UTC(+p.y, +p.m - 1, +p.d, +hhmm.slice(0,2), +hhmm.slice(2)) });
+  }
+  cands.sort((a, b) => b.dt - a.dt);
+  let hit = null;
+  for (const c of cands) { if (c.dt <= now.getTime() + 3600e3 && await probeImage(nmcConvUrl(c.p, c.hhmm, 1))) { hit = c; break; } }
+  if (!hit) { grid.innerHTML = `<div class="fallback" style="display:block;grid-column:1/-1;">⚠️ 强对流预报图暂未发布 · <a href="${cfg.srcPage}" target="_blank" rel="noopener">前往来源查看 ↗</a></div>`; return; }
+  const bjt = bjtFromUtc({ y:hit.p.y, m:hit.p.m, d:hit.p.d, hh:hit.hhmm.slice(0,2), mm:hit.hhmm.slice(2) });
+  grid.innerHTML = '';
+  for (let n = 1; n <= cfg.count; n++) {
+    grid.insertAdjacentHTML('beforeend', imgCell(cfg.labels[n-1], nmcConvUrl(hit.p, hit.hhmm, n), `中央气象台 强对流预报 · 起报(北京时) ${bjt} · 点击放大`));
+  }
+}
+
+// B/C. 雷达 / FY-4B：按时间网格探测多帧，构建循环动画面板
+async function collectNmcFrames(builder, stepMin, lookbackMin, maxFrames) {
+  const base = new Date(); base.setUTCSeconds(0, 0);
+  base.setUTCMinutes(Math.floor(base.getUTCMinutes() / stepMin) * stepMin);
+  const steps = Math.ceil(lookbackMin / stepMin), frames = [];
+  for (let k = 0; k <= steps && frames.length < maxFrames; k++) {
+    const p = nmcUtcParts(new Date(base.getTime() - k * stepMin * 60000));
+    if (await probeImage(builder(p))) frames.push({ url: builder(p), bjt: bjtFromUtc(p) });
+  }
+  return frames.reverse(); // 旧→新
+}
+function buildAnimPanel(panelId, frames, meta) {
+  const el = document.getElementById(panelId);
+  if (!el) return;
+  if (!frames.length) {
+    el.innerHTML = `<div class="fallback" style="display:block;">⚠️ ${meta.title} 官方图暂不可用${meta.night ? '（夜间可见光缺测属正常）' : ''} · <a href="${meta.srcPage}" target="_blank" rel="noopener">前往来源查看 ↗</a></div>`;
+    return;
+  }
+  el.innerHTML = `
+    <div class="anim-stage">
+      <img class="anim-img" src="${frames[frames.length-1].url}" alt="${meta.title}" loading="lazy"
+           onerror="this.style.display='none';this.parentElement.querySelector('.anim-err').style.display='block';"
+           onclick="window.open(this.src,'_blank')" title="点击查看大图">
+      <div class="anim-err fallback">⚠️ 图片加载失败 · <a href="${meta.srcPage}" target="_blank" rel="noopener">前往来源 ↗</a></div>
+    </div>
+    <div class="anim-bar">
+      <button class="anim-btn" type="button">⏸ 暂停</button>
+      <span class="anim-time"></span>
+      <span class="anim-count">${frames.length} 帧 · 北京时 · 点图放大</span>
+    </div>`;
+  const img = el.querySelector('.anim-img'), btn = el.querySelector('.anim-btn'), timeEl = el.querySelector('.anim-time');
+  let i = frames.length - 1, playing = false, timer = null;
+  const show = () => { img.src = frames[i].url; timeEl.textContent = frames[i].bjt; };
+  const tick = () => { i = (i + 1) % frames.length; show(); };
+  const start = () => { playing = true; btn.textContent = '⏸ 暂停'; timer = setInterval(tick, 800); };
+  const stop = () => { playing = false; btn.textContent = '▶ 播放'; if (timer) clearInterval(timer); };
+  show();
+  btn.addEventListener('click', () => (playing ? stop() : start()));
+  if (frames.length > 1) start(); else btn.style.display = 'none';
+}
+async function resolveNmcRadarFrames() {
+  const c = CN_CONV_CONFIG.radar;
+  buildAnimPanel('radarPanel', await collectNmcFrames(nmcRadarUrl, c.stepMin, c.lookbackMin, c.maxFrames), { title:c.title, srcPage:c.srcPage });
+}
+async function resolveNmcSatelliteFrames() {
+  const c = CN_CONV_CONFIG.satellite;
+  buildAnimPanel('fy4bPanel', await collectNmcFrames(nmcFy4bUrl, c.stepMin, c.lookbackMin, c.maxFrames), { title:c.title, srcPage:c.srcPage, night:true });
 }
 
 // ---------- 美国图集 ----------
@@ -705,6 +842,53 @@ async function renderWawSection() {
     </details>`).join('');
 }
 
+// ---------- World Ag Weather 作物区15天预报图(嵌入匹配产区卡) ----------
+let WAW_CROP_ID = (typeof WAW_CROP_ANCHOR !== 'undefined') ? WAW_CROP_ANCHOR.id : 5095;
+function wawCropUrl(kind, crop, sub, id) {
+  return `https://www.worldagweather.com/crops/fcstwx/${kind === 'tmp' ? 'fcsttmp' : 'fcstpcp'}_${crop}_${sub}_metric_${id}.png`;
+}
+function wawPageUrl(crop, sub) {
+  return `https://www.worldagweather.com/metric/crops.php#map=chart&crop=${crop}&region=usa&subregion=${sub}&vrbl=tmp&nday=15`;
+}
+// 仅对 WAW_CROP_CHARTS 中匹配的产区返回图块；否则空串(不影响其它卡)
+function wawCropBlock(f) {
+  if (typeof WAW_CROP_CHARTS === 'undefined') return '';
+  const map = WAW_CROP_CHARTS[`${f.crop}|${f.region.name}`];
+  if (!map) return '';
+  const { crop, sub } = map, page = wawPageUrl(crop, sub);
+  const fig = (kind, lab) => `
+    <div class="waw-fig">
+      <div class="waw-lab">${lab}</div>
+      <img class="waw-img" data-kind="${kind}" data-crop="${crop}" data-sub="${sub}" src="${wawCropUrl(kind, crop, sub, WAW_CROP_ID)}"
+           alt="${sub} ${crop} 15天${lab}预报图" loading="lazy"
+           onerror="this.style.display='none';this.nextElementSibling.style.display='block';">
+      <div class="waw-err">World Ag Weather 图暂不可用 · <a href="${page}" target="_blank" rel="noopener">来源 ↗</a></div>
+    </div>`;
+  return `
+    <details class="waw-mini">
+      <summary>World Ag Weather · 15天作物区预报 <span class="waw-sum">温度 / 降水 ↗</span></summary>
+      <div class="waw-body">
+        ${fig('tmp', '温度')}${fig('pcp', '降水')}
+        <a class="waw-src" href="${page}" target="_blank" rel="noopener">World Ag Weather · ${crop}/${sub} 来源 ↗</a>
+      </div>
+    </details>`;
+}
+// 从锚点探测最新可用ID，并刷新已渲染的WAW图src
+async function findWawCropId() {
+  if (typeof WAW_CROP_ANCHOR === 'undefined') return;
+  const a = WAW_CROP_ANCHOR, tpl = id => wawCropUrl('tmp', 'soybeans', 'illinois', id);
+  let found = null;
+  for (let id = a.id + a.margin; id >= Math.max(1, a.id - a.maxProbe); id--) { if (await probeImage(tpl(id))) { found = id; break; } }
+  if (found && found !== WAW_CROP_ID) {
+    WAW_CROP_ID = found;
+    document.querySelectorAll('img.waw-img').forEach(im => {
+      im.style.display = '';
+      if (im.nextElementSibling && im.nextElementSibling.classList.contains('waw-err')) im.nextElementSibling.style.display = 'none';
+      im.src = wawCropUrl(im.dataset.kind, im.dataset.crop, im.dataset.sub, WAW_CROP_ID);
+    });
+  }
+}
+
 // ---------- 产区 ----------
 function renderRegionCard(f, m, status) {
   const gddSuf = m ? (m.gddRolling ? `(滚动${LOOKBACK_DAYS}天)` : `(自${m.gddFrom}${m.gddClamped ? '·窗口截断' : ''})`) : '';
@@ -736,6 +920,7 @@ function renderRegionCard(f, m, status) {
       </div>
       ${f.region.phase ? `<div class="phase">${f.region.phase}</div>` : ''}
       <div class="season-link" onclick="openSeasonModal('${f.id}')">季节性图 · 今年 vs 近10年同期 ↗</div>
+      ${wawCropBlock(f)}
       <div class="tags">${risks.map(r => `<span class="tag ${r.cls}">${r.label}</span>`).join('')}</div>
     </div>`;
 }
@@ -873,23 +1058,18 @@ function renderSpecialEvents() {
     </div>`).join('')}</div>`;
 }
 // 台风监测面板：可视警报图(随报更新, 失败有 fallback) + 官方源预览直达。数据见 fieldsight-data.js 的 TYPHOON_MONITOR。
+// 台风监测：工具栏切换嵌入图层(Ventusky风/雨 → NMC官方路径iframe → JTWC静态图)，链接仅兜底
 function renderTyphoonPanel() {
   const el = document.getElementById('typhoonSection');
   if (!el || typeof TYPHOON_MONITOR === 'undefined') return;
-  const t = TYPHOON_MONITOR, emb = t.embed;
+  const t = TYPHOON_MONITOR;
+  const toolbar = t.layers.map(l => `<button type="button" class="ty-tab" data-key="${l.key}" onclick="switchTyphoonLayer('${l.key}')">${l.label}</button>`).join('');
   el.innerHTML = `
-    <div class="typhoon-map">
-      <img src="${emb.url}" alt="${emb.title}" loading="lazy"
-           onerror="this.style.display='none';this.parentElement.querySelector('.typhoon-fallback').style.display='flex';">
-      <div class="typhoon-fallback">
-        <div class="tf-ic" aria-hidden="true">🌀</div>
-        <div>${emb.title}<br><span>图片暂不可用（风暴消散或源限制）· <a href="${emb.srcUrl}" target="_blank" rel="noopener">前往 ${emb.src} 查看 ↗</a></span></div>
-      </div>
-      <div class="typhoon-cap">${emb.title} <span>— 来源 <a href="${emb.srcUrl}" target="_blank" rel="noopener">${emb.src} ↗</a> · ${emb.note}</span></div>
-    </div>
-    <div class="img-grid" style="grid-template-columns:repeat(auto-fill,minmax(280px,1fr));">
+    <div class="ty-toolbar">${toolbar}<span class="ty-hint">切换图层 · 空白/被拦截时请点“打开来源”或换图层</span></div>
+    <div class="typhoon-embed" id="typhoonEmbed"></div>
+    <div class="img-grid" style="grid-template-columns:repeat(auto-fill,minmax(280px,1fr));margin-top:12px;">
       ${t.cards.map(c => `
-        <a class="src-card${c.primary ? ' primary' : ''}" href="${c.u}" target="_blank" rel="noopener" aria-label="${c.t} — ${c.kind}（查看来源）">
+        <a class="src-card${c.primary ? ' primary' : ''}" href="${c.u}" target="_blank" rel="noopener" aria-label="${c.t} — ${c.kind}（打开来源）">
           <div class="sc-ic" aria-hidden="true">${c.icon}</div>
           <h5>${c.t} ↗</h5>
           <div class="sc-kind">${c.kind}</div>
@@ -897,6 +1077,31 @@ function renderTyphoonPanel() {
         </a>`).join('')}
     </div>
     <div class="conv-note">${t.note}</div>`;
+  switchTyphoonLayer(t.defaultLayer || (t.layers[0] && t.layers[0].key));
+}
+function switchTyphoonLayer(key) {
+  const t = TYPHOON_MONITOR, box = document.getElementById('typhoonEmbed');
+  if (!box) return;
+  const l = t.layers.find(x => x.key === key) || t.layers[0];
+  document.querySelectorAll('.ty-tab').forEach(b => b.classList.toggle('active', b.dataset.key === l.key));
+  const openLink = `<a href="${l.srcUrl}" target="_blank" rel="noopener">在新窗口打开 ${l.srcName} ↗</a>`;
+  const altLink = l.alt ? ` · 备用 <a href="${l.alt.url}" target="_blank" rel="noopener">${l.alt.name} ↗</a>` : '';
+  if (l.type === 'iframe') {
+    box.innerHTML = `
+      <iframe class="ty-frame" src="${l.src}" title="${l.title}" loading="lazy" referrerpolicy="no-referrer-when-downgrade" allowfullscreen></iframe>
+      <div class="ty-cap">${l.title} — 来源 ${openLink}${altLink}<br><span>若面板空白，多为该站禁止跨站嵌入：请点上方链接新窗口打开，或切换其他图层。</span></div>`;
+  } else {
+    box.innerHTML = `
+      <div class="typhoon-map">
+        <img src="${l.src}" alt="${l.title}" loading="lazy"
+             onerror="this.style.display='none';this.parentElement.querySelector('.typhoon-fallback').style.display='flex';">
+        <div class="typhoon-fallback">
+          <div class="tf-ic" aria-hidden="true">🌀</div>
+          <div>${l.title}<br><span>图片暂不可用（风暴消散或源限制）· ${openLink}</span></div>
+        </div>
+      </div>
+      <div class="ty-cap">${l.title} — 来源 ${openLink}${l.note ? ' · ' + l.note : ''}</div>`;
+  }
 }
 // 要闻辑录：仅展示 ts 距当前 <= NEWS_WINDOW_HOURS(12) 小时的条目；超窗口自动隐去，全部过期则显示空状态(不编造)。
 function renderNews() {
@@ -1131,6 +1336,7 @@ async function init() {
   renderNews();
   renderTyphoonPanel();
   renderCropSkeletons();
+  findWawCropId();
 
   let completed = 0, ok = 0;
   const statusEl = document.getElementById('apiStatus');

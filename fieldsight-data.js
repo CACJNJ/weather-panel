@@ -468,26 +468,60 @@ const CN_OFFICIAL_LINKS = [
   { t:'FY-4B卫星云图', u:'http://www.nmc.cn/publish/satellite/fy4b-visible.htm', d:'可见光云图' },
 ];
 
-// ---------- 中国强对流天气监测【静态/人工维护 · 源预览卡】 ----------
-// NMC 强对流/雷达/卫星均为动态页或带时间戳产品，直接热链不稳定，故以"源预览卡"直达官方页(点击查看实时)。
-// 监测要素：雷暴大风、冰雹、短时强降水；有效时段以来源发布为准。
-const CN_CONVECTION = {
-  note:'监测要素：雷暴大风、冰雹、短时强降水。结合雷达回波与卫星对流云信号研判落区与移动；有效时段以来源发布为准（强对流预报每日约08/20时更新，雷达/卫星近实时刷新）。因官方图多为动态页/带时间戳，此处以源预览卡直达，避免热链失效。',
+// ---------- 中国强对流天气监测【图像自动探测 · 近实时】 ----------
+// 三类NMC真实产品图，前端用 probeImage/pool 探测最新可用时次(与降水图同源逻辑；时间戳均为UTC)：
+//  · CSPB 强对流预报(4张 base64_1..4；UTC起报 0000/0600/1000/2200)
+//  · RDCP 全国雷达拼图(约6分钟一帧 → 多帧动画)
+//  · WXBL FY-4B可见光云图(约15分钟一帧 → 多帧动画；夜间可能缺测)
+// 图片URL仅前端引用官方公开地址，不本地缓存；官方源链接仅作兜底(小字"查看来源")。
+const CN_CONV_CONFIG = {
+  convective: { title:'强对流天气预报', srcPage:'http://www.nmc.cn/publish/bulletin/swpc.html',
+    issues:['2200','1000','0600','0000'], count:4,
+    labels:['强对流预报图 1','强对流预报图 2','强对流预报图 3','强对流预报图 4'] },
+  radar:     { title:'全国雷达拼图（实况）', srcPage:'http://www.nmc.cn/publish/radar/chinaall.html',
+    stepMin:6, lookbackMin:180, maxFrames:12 },
+  satellite: { title:'FY-4B 可见光云图', srcPage:'http://www.nmc.cn/publish/satellite/fy4b-visible.htm',
+    stepMin:15, lookbackMin:420, maxFrames:8 },
+};
+
+// ---------- 台风监测面板【嵌入动画/交互地图 · 图层切换】 ----------
+// 主体为真实嵌入地图(iframe/动图)，非链接卡；顶部工具栏切换图层，链接仅兜底。
+// 图层顺序：Ventusky风场 → Ventusky雨/雷达 → 中央气象台台风路径(交互) → JTWC警报图(静态兜底)。
+// 注：Zoom Earth 用 SAMEORIGIN 禁止跨站iframe，故不作嵌入源(仅可外链)。
+const TYPHOON_MONITOR = {
+  note:'台风路径与强度以官方发布为准。面板嵌入实时/交互地图；若某图层空白或被浏览器拦截，请切换其他图层或点“打开来源”。JTWC 警报图为静态兜底(风暴消散后会失效)。',
+  defaultLayer:'wind',
+  layers:[
+    { key:'wind', label:'风场', type:'iframe', title:'Ventusky 西北太平洋 风场(动画)',
+      src:'https://www.ventusky.com/?p=23;125;4&l=wind-10m', srcName:'Ventusky', srcUrl:'https://www.ventusky.com/?p=23;125;4&l=wind-10m',
+      alt:{ name:'earth.nullschool 风场动画', url:'https://earth.nullschool.net/#current/wind/surface/level/orthographic=125.00,23.00,1200' } },
+    { key:'rain', label:'雨 · 雷达', type:'iframe', title:'Ventusky 西北太平洋 降水/雷达(动画)',
+      src:'https://www.ventusky.com/?p=23;125;4&l=rain-3h', srcName:'Ventusky', srcUrl:'https://www.ventusky.com/?p=23;125;4&l=rain-3h' },
+    { key:'track', label:'官方路径', type:'iframe', title:'中央气象台 台风路径(交互地图)',
+      src:'https://typhoon.nmc.cn/web.html', srcName:'中央气象台台风网', srcUrl:'https://typhoon.nmc.cn/web.html' },
+    { key:'warn', label:'静态警报图', type:'image', title:'JTWC 西北太平洋 第09号(巴威/Bavi)警报图',
+      src:'https://www.metoc.navy.mil/jtwc/products/wp0926.gif', srcName:'JTWC', srcUrl:'https://www.metoc.navy.mil/jtwc/jtwc.html',
+      note:'联合台风警报中心警报图，随每报更新；风暴消散后此图将失效，届时以官方路径为准' },
+  ],
   cards:[
-    { icon:'⚡', t:'强对流天气预报', kind:'预报落区 · 蓝/黄/橙预警', u:'http://www.nmc.cn/publish/bulletin/swpc.html', d:'雷暴大风、冰雹、短时强降水落区与等级；每日约08/20时更新' },
-    { icon:'📡', t:'全国雷达拼图（实况）', kind:'雷达实况 · 近实时', u:'http://www.nmc.cn/publish/radar/chinaall.html', d:'全国雷达组合反射率拼图，识别强对流回波强度与移动（约6-10分钟刷新）' },
-    { icon:'🛰️', t:'FY-4B 可见光云图', kind:'卫星实况 · 近实时', u:'http://www.nmc.cn/publish/satellite/fy4b-visible.htm', d:'风云四号B可见光云图，白天监测对流云团发展（夜间转红外产品）' },
+    { icon:'🌀', t:'中央气象台台风网', kind:'官方 · 实时路径/预报/集合', u:'http://typhoon.nmc.cn', d:'国内直连：实时定位、强度、预报路径与集合预报、警报信息', primary:true },
+    { icon:'💨', t:'earth.nullschool 风场', kind:'全球风场动画', u:'https://earth.nullschool.net/#current/wind/surface/level/orthographic=125.00,23.00,1200', d:'西北太平洋近地面风场动画(备用)' },
+    { icon:'🛰️', t:'JTWC 联合台风警报中心', kind:'西北太平洋警报图(英文)', u:'https://www.metoc.navy.mil/jtwc/jtwc.html', d:'警报、路径图与技术报文' },
   ],
 };
 
-// ---------- 台风监测面板【静态/人工维护 · 源预览+可视直达】 ----------
-// 不伪造实时数据：优先官方可视直达；embed 为随每报更新的静态警报图(风暴消散后会失效，已配 fallback 直达链接)。
-const TYPHOON_MONITOR = {
-  note:'台风路径与强度以官方发布为准。本面板提供官方可视直达与"随报更新"的警报图，不伪造实时数据；如警报图失效请点官方直达。',
-  embed:{ title:'JTWC 西北太平洋 第09号(巴威/Bavi)警报图', url:'https://www.metoc.navy.mil/jtwc/products/wp0926.gif', src:'JTWC', srcUrl:'https://www.metoc.navy.mil/jtwc/jtwc.html', note:'联合台风警报中心警报图，随每报更新；当前活跃系统为巴威(09W)，风暴消散后此图将失效，届时以官方直达为准' },
-  cards:[
-    { icon:'🌀', t:'中央气象台台风网', kind:'官方 · 实时路径/预报/集合(含动画)', u:'http://typhoon.nmc.cn', d:'国内直连：实时定位、强度、预报路径与集合预报、警报信息', primary:true },
-    { icon:'🛰️', t:'JTWC 联合台风警报中心', kind:'西北太平洋警报图(英文)', u:'https://www.metoc.navy.mil/jtwc/jtwc.html', d:'警报、路径图与技术报文' },
-    { icon:'🌏', t:'Zoom Earth 实时追踪', kind:'卫星底图动画', u:'https://zoom.earth/storms/', d:'卫星云图上的实时台风路径与云系动画' },
-  ],
+// ---------- World Ag Weather 作物区15天预报图【图像 · ID自动探测】 ----------
+// 仅对"当前 cropRegions 已存在 且 WAW 支持"的美国玉米/大豆产区嵌入(温度+降水两图)；不新增任何产区。
+// key = `${crop}|${region.name}`（crop 用 cropRegions 的 crop 字段：玉米=corn、大豆=soybean）。
+// 图片ID随时间变化：前端从锚点ID附近探测最新可用ID(probeImage)，失败则回退锚点。
+const WAW_CROP_ANCHOR = { id:5095, margin:8, maxProbe:40 };
+const WAW_CROP_CHARTS = {
+  'corn|爱荷华(得梅因)':        { crop:'corn',     sub:'iowa' },
+  'corn|伊利诺伊(斯普林菲尔德)': { crop:'corn',     sub:'illinois' },
+  'corn|内布拉斯加(奥马哈)':     { crop:'corn',     sub:'nebraska' },
+  'soybean|伊利诺伊':            { crop:'soybeans', sub:'illinois' },
+  'soybean|爱荷华':              { crop:'soybeans', sub:'iowa' },
+  'soybean|印第安纳':            { crop:'soybeans', sub:'indiana' },
+  'soybean|明尼苏达':            { crop:'soybeans', sub:'minnesota' },
+  'soybean|内布拉斯加':          { crop:'soybeans', sub:'nebraska' },
 };
