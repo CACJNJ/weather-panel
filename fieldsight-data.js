@@ -184,7 +184,41 @@ const cropRegions = [
       { province:'河北', regions:[ { name:'石家庄', lat:38.04, lon:114.51, gddStart:'2026-04-25', phase:'<b>发育期</b>：现蕾-开花期。' } ]},
       { province:'山东', regions:[ { name:'济南', lat:36.65, lon:117.12, gddStart:'2026-04-25', phase:'<b>发育期</b>：现蕾-开花期。' } ]},
       { province:'河南', regions:[ { name:'郑州', lat:34.75, lon:113.63, gddStart:'2026-04-25', phase:'<b>发育期</b>：现蕾-开花期。' } ]},
-      { province:'印度', regions:[ { name:'德干高原(浦那)', lat:18.52, lon:73.86, gddStart:'2026-06-15', phase:'<b>发育期</b>：季风播种-苗期。EN年季风偏弱是最大风险。' } ]},
+      { province:'印度·马哈拉施特拉邦', regions:[
+        { name:'那格浦尔', lat:21.15, lon:79.09, gddStart:'2026-06-15', phase:'<b>发育期</b>：维达巴雨养棉，季风播种-苗期。EN年季风偏弱是最大风险。' },
+        { name:'阿科拉', lat:20.70, lon:77.02, gddStart:'2026-06-15', phase:'<b>发育期</b>：维达巴棉区，季风播种-苗期。' },
+        { name:'亚沃特马尔', lat:20.39, lon:78.13, gddStart:'2026-06-15', phase:'<b>发育期</b>：维达巴核心棉区，季风播种-苗期。' },
+      ]},
+      { province:'印度·古吉拉特邦', regions:[
+        { name:'拉杰果德', lat:22.30, lon:70.80, gddStart:'2026-06-15', phase:'<b>发育期</b>：索拉施特拉主产棉区，季风播种-苗期。' },
+        { name:'艾哈迈达巴德', lat:23.03, lon:72.58, gddStart:'2026-06-15', phase:'<b>发育期</b>：季风播种-苗期。' },
+        { name:'巴夫纳加尔', lat:21.76, lon:72.15, gddStart:'2026-06-15', phase:'<b>发育期</b>：索拉施特拉棉区，季风播种-苗期。' },
+      ]},
+      { province:'印度·特伦甘纳邦', regions:[
+        { name:'瓦朗加尔', lat:17.97, lon:79.59, gddStart:'2026-06-15', phase:'<b>发育期</b>：季风播种-苗期。' },
+        { name:'阿迪拉巴德', lat:19.67, lon:78.53, gddStart:'2026-06-15', phase:'<b>发育期</b>：北特伦甘纳棉区，季风播种-苗期。' },
+        { name:'海得拉巴', lat:17.38, lon:78.49, gddStart:'2026-06-15', phase:'<b>发育期</b>：季风播种-苗期。' },
+      ]},
+      { province:'印度·安得拉邦', regions:[
+        { name:'贡土尔', lat:16.31, lon:80.44, gddStart:'2026-06-15', phase:'<b>发育期</b>：季风播种-苗期。' },
+        { name:'库努尔', lat:15.83, lon:78.04, gddStart:'2026-06-15', phase:'<b>发育期</b>：拉亚拉西马棉区，季风播种-苗期。' },
+      ]},
+      { province:'印度·卡纳塔克邦', regions:[
+        { name:'胡布利', lat:15.36, lon:75.12, gddStart:'2026-06-15', phase:'<b>发育期</b>：季风播种-苗期。' },
+        { name:'赖久尔', lat:16.21, lon:77.36, gddStart:'2026-06-15', phase:'<b>发育期</b>：北卡棉区，季风播种-苗期。' },
+      ]},
+      { province:'印度·中央邦', regions:[
+        { name:'印多尔', lat:22.72, lon:75.86, gddStart:'2026-06-15', phase:'<b>发育期</b>：季风播种-苗期。' },
+        { name:'肯德瓦', lat:21.83, lon:76.35, gddStart:'2026-06-15', phase:'<b>发育期</b>：尼马尔棉区，季风播种-苗期。' },
+      ]},
+      { province:'印度·拉贾斯坦邦', regions:[
+        { name:'斯里根根格尔', lat:29.92, lon:73.88, gddStart:'2026-05-01', phase:'<b>发育期</b>：北部灌溉棉，现蕾-开花期。' },
+        { name:'科塔', lat:25.21, lon:75.86, gddStart:'2026-05-15', phase:'<b>发育期</b>：现蕾-开花期。' },
+      ]},
+      { province:'印度·旁遮普-哈里亚纳', regions:[
+        { name:'巴丁达(旁遮普)', lat:30.21, lon:74.95, gddStart:'2026-05-01', phase:'<b>发育期</b>：北部灌溉棉，现蕾-花铃期。' },
+        { name:'希萨尔(哈里亚纳)', lat:29.15, lon:75.72, gddStart:'2026-05-01', phase:'<b>发育期</b>：北部灌溉棉，现蕾-花铃期。' },
+      ]},
       { province:'巴西', regions:[ { name:'马托格罗索(库亚巴)', lat:-15.60, lon:-56.10, gddStart:null, phase:'<b>发育期</b>：二季棉吐絮-采收期，干燥天气有利收获。' } ]},
       { province:'美国', regions:[ { name:'密西西比河谷(阿肯色)', lat:34.75, lon:-92.29, gddStart:'2026-05-05', phase:'<b>发育期</b>：现蕾期。' } ]},
     ]
@@ -359,10 +393,31 @@ const cropRegions = [
       { province:'巴西', regions:[
         { name:'圣保罗州(里贝朗普雷图)', lat:-21.18, lon:-47.81, gddStart:null, phase:'<b>物候</b>：压榨季(4-11月)。干燥利于收割与出糖率，但过旱损害下季宿根。' },
       ]},
-      { province:'印度', regions:[
-        { name:'马哈拉施特拉邦(科尔哈普尔)', lat:16.70, lon:74.24, gddStart:null, phase:'<b>物候</b>：季风生长期。<b>风险</b>：EN年季风偏弱→单产与出糖率下调。' },
-        { name:'卡纳塔克邦(贝尔高姆)', lat:15.85, lon:74.50, gddStart:null, phase:'<b>物候</b>：季风生长期。' },
-        { name:'北方邦(勒克瑙)', lat:26.85, lon:80.95, gddStart:null, phase:'<b>物候</b>：季风生长期。印度最大产糖邦。' },
+      { province:'印度·北方邦', regions:[
+        { name:'勒克瑙', lat:26.85, lon:80.95, gddStart:null, phase:'<b>物候</b>：季风生长期。印度最大产糖邦。<b>风险</b>：EN年季风偏弱→单产与出糖率下调。' },
+        { name:'密拉特', lat:28.98, lon:77.71, gddStart:null, phase:'<b>物候</b>：西北方邦蔗区，季风生长期。' },
+        { name:'戈勒克布尔', lat:26.76, lon:83.37, gddStart:null, phase:'<b>物候</b>：东方邦蔗区，季风生长期。' },
+      ]},
+      { province:'印度·马哈拉施特拉邦', regions:[
+        { name:'科尔哈普尔', lat:16.70, lon:74.24, gddStart:null, phase:'<b>物候</b>：主产蔗区，季风生长期。<b>风险</b>：EN年季风偏弱→单产与出糖率下调。' },
+        { name:'艾哈迈德讷格尔', lat:19.09, lon:74.74, gddStart:null, phase:'<b>物候</b>：主产蔗区，季风生长期。' },
+        { name:'索拉普尔', lat:17.66, lon:75.91, gddStart:null, phase:'<b>物候</b>：季风生长期，易受干旱影响。' },
+      ]},
+      { province:'印度·卡纳塔克邦', regions:[
+        { name:'贝尔高姆', lat:15.85, lon:74.50, gddStart:null, phase:'<b>物候</b>：北卡主产蔗区，季风生长期。' },
+        { name:'曼迪亚', lat:12.52, lon:76.90, gddStart:null, phase:'<b>物候</b>：南卡灌溉蔗区，生长期。' },
+      ]},
+      { province:'印度·泰米尔纳德邦', regions:[
+        { name:'哥印拜陀', lat:11.02, lon:76.96, gddStart:null, phase:'<b>物候</b>：灌溉蔗区，生长期。' },
+        { name:'埃罗德', lat:11.34, lon:77.72, gddStart:null, phase:'<b>物候</b>：灌溉蔗区，生长期。' },
+      ]},
+      { province:'印度·古吉拉特邦', regions:[
+        { name:'苏拉特', lat:21.17, lon:72.83, gddStart:null, phase:'<b>物候</b>：南古吉拉特蔗区，季风生长期。' },
+        { name:'巴多利', lat:21.12, lon:73.11, gddStart:null, phase:'<b>物候</b>：南古吉拉特蔗区，季风生长期。' },
+      ]},
+      { province:'印度·比哈尔邦', regions:[
+        { name:'穆扎法尔普尔', lat:26.12, lon:85.39, gddStart:null, phase:'<b>物候</b>：北比哈尔蔗区，季风生长期。' },
+        { name:'西查姆帕兰(贝蒂亚)', lat:26.80, lon:84.50, gddStart:null, phase:'<b>物候</b>：蔗区，季风生长期。' },
       ]},
       { province:'泰国', regions:[
         { name:'东北部(孔敬)', lat:16.44, lon:102.84, gddStart:null, phase:'<b>物候</b>：雨季生长期。<b>风险</b>：EN年泰国降水偏少→出口量收缩。' },
