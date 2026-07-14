@@ -1,8 +1,8 @@
 // ============================================================
 // 静态数据层 — 由定时任务/人工定期刷新
-// 最后更新: 2026-07-13 (数据来源见各板块)
+// 最后更新: 2026-07-14 (数据来源见各板块)
 // ============================================================
-const STATIC_UPDATED = '2026-07-13';
+const STATIC_UPDATED = '2026-07-14';
 
 // ---------- ENSO 总览【静态/人工维护 · 官方指数快照，需定期刷新】 ----------
 const ensoOverview = [
@@ -14,9 +14,9 @@ const ensoOverview = [
 
 // ---------- 异常提醒（【静态/人工维护】首项=当前最高公共影响天气，人工/研究定期刷新，非自动计算） ----------
 const alerts = [
-  { level:'danger', title:'🌀 台风"巴威"登陆后减弱：华东转入洪涝防范，残余雨带北抬至江淮—黄淮', detail:'"巴威"于7月11日23:20前后在浙江玉环登陆(10分钟最大风速约144km/h)、约20分钟后在乐清二次登陆，登陆后数小时减弱为热带风暴并向西北移入安徽一带继续减弱。浙江累计疏散逾220万人、上海逾29万、福建逾18万(全国超170万)。当前主要风险由大风转为浙东、闽东北的洪涝与地质灾害；残余环流带来的强降雨向北扩展至江淮、黄淮(赣鄂皖豫及苏皖北部)，需防内涝与农田渍害。', hint:'华东关注洪涝退水与农田渍涝(水稻/大棚/港口物流)；残余雨带影响黄淮海夏玉米/花生产区墒情，逐日核对降雨落区' },
+  { level:'danger', title:'🔥 美玉米带"热盖"压顶授粉期，玉米大豆创月内最大单日涨幅', detail:'一轮热盖(heat dome)正自美国东部向平原与中西部西扩，NWS延伸期预报显示高温将持续并笼罩玉米授粉核心期；8-14天展望全美气温偏高，中西部腹地7月下半月出现"干袋(dry pocket)"。玉米正进入授粉盛期(未来两周)，热干叠加直接威胁单产。7月13日盘面录得自6月种植面积报告以来最大单日涨幅：大豆主力涨约43-49美分、玉米涨13-15美分、小麦涨7-12美分。新作玉米/大豆结转本已走低，单产小幅下修即可令平衡表由宽松转紧。', hint:'授粉期(7月中下旬)西部/中西部热盖强度与"干袋"落区是玉米单产与天气升水核心；期价处相对低位，天气升水弹性大于利空' },
   { level:'danger', title:'🔥 厄尔尼诺已确立并持续增强', detail:'NINO3.4周值已升至+1.7°C（6月17日当周），SOI 30天值-21.9，大气-海洋耦合确认。150°W-80°W次表层50-150m暖异常最高达+6°C，为持续增强提供能量。JJA-SON厄尔尼诺概率100%，预计至少持续至2026年10月，强度中等至强。', hint:'关注东南亚/澳洲干旱、印度季风减弱、南美异常降水对棕榈油、小麦、咖啡的供给冲击；峰值预计2026年秋冬' },
-  { level:'warn', title:'🌽 美玉米授粉期遇"热盖"风险，7月WASDE收紧玉米结转库存', detail:'USDA 7月WASDE(7/10)：玉米单产维持183蒲/英亩，2026/27结转库存下调1.7亿蒲至17.9亿蒲(旧作亦由21.45下调至20.20亿蒲)；大豆单产维持53蒲、产量升至44.75亿蒲(若兑现为历史新高)，但结转偏紧——"天气若转坏几无缓冲"。报告后盘面走强：12月玉米上破$4.60、11月大豆上破$11.90、小麦日涨逾$0.20。未来一周北部平原/中西部有冷锋带来阵雨与短暂降温，但6-10天气温偏高、西部玉米带酝酿"热盖(heat ridge)"且中期预报延长其时长，正值授粉关键期成为定价核心。USDA另报对华售豆47.2万吨(去年11月来最大单日)。', hint:'授粉期(7月中下旬)西部热盖强度/持续时间与周度作物进度(周一发布)是美玉米单产与天气升水核心' },
+  { level:'warn', title:'🌀 台风"巴威"登陆后消散：华东转入灾后恢复，残余雨带影响江淮—黄淮', detail:'"巴威"7月11日在浙江玉环/乐清登陆后减弱为热带风暴、西北移入内陆并逐步消散，浙江累计疏散逾220万人。当前浙东/闽东北转入洪涝退水与灾后恢复；残余水汽与季风雨带影响江淮、黄淮(苏皖北部、河南等)，需关注农田渍涝与夏玉米/花生墒情。上周WASDE(7/10)已下调新作玉米结转库存、并预估大豆丰产但结转偏紧，天气升水放大。', hint:'华东关注灾后农业与港口物流恢复；黄淮海产区留意持续降雨对夏播作物墒情影响' },
   { level:'warn', title:'☕ 巴西霜冻担忧升温，阿拉比卡单日跳涨约10%重上$3/磅', detail:'巴西2026/27采收进度偏慢，截至7月初仅约52%采收完成（落后去年及五年均值），近期强降雨扰乱采收并或影响豆质，中旬预计再有降水。叠加7-8月南部霜冻高风险窗口（南米纳斯/塞拉多/圣保罗/巴拉那），投机资金对寒潮高度敏感，阿拉比卡期价单日跳涨近10%、创年初以来新高并重上$3/磅。', hint:'逐日跟踪巴西南部最低气温预报；EN年南部霜冻概率变化叠加缓慢采收是当前咖啡定价主线' },
   { level:'warn', title:'🌊 PDO 持续负相位', detail:'JMA月度PDO指数2026年5月为-0.83，自2020年以来负相位主导；2025年7月曾探底-3.23。负相位叠加厄尔尼诺，冬季环流形势复杂。', hint:'负PDO增强西伯利亚高压，冬季冷空气南下频率可能增加' },
   { level:'warn', title:'⚠️ IOD 中性，模型预测7-8月起或发展正IOD', detail:'IOD指数-0.02（6月27日），当前中性。BOM最新展望：模型预测正IOD可能于2026年7-8月开始发展，南半球冬春季正IOD事件概率较高，但各模式对时间与强度分歧仍大。', hint:'正IOD+厄尔尼诺→东南亚/澳洲干旱加剧，棕榈油、澳麦风险放大' },
@@ -436,33 +436,33 @@ const cropRegions = [
 const NEWS_WINDOW_HOURS = 12;
 const AG_NEWS = [
   {
-    title: '台风"巴威"残余致华东洪涝：浙东/闽东北退水防灾，强降雨带北抬至江淮—黄淮(赣鄂皖豫及苏皖北部)',
+    title: '美玉米带"热盖"压顶授粉期：玉米大豆创6月种植面积报告以来最大单日涨幅(豆+43~49美分、玉米+13~15美分)',
+    link: 'https://www.farmprogress.com/markets-and-quotes/morning-market-review',
+    ts: '2026-07-14T07:50:00+08:00', date: '7/14 07:50', source: 'Farm Progress', sourceClass: 'usda',
+  },
+  {
+    title: 'NWS 8-14天展望：全美气温偏高，中西部腹地7月下半月现"干袋"，直击玉米授粉核心期',
+    link: 'https://www.farmprogress.com/marketing/july-heat-dry-periods-threaten-corn-pollination',
+    ts: '2026-07-14T07:10:00+08:00', date: '7/14 07:10', source: 'Farm Progress', sourceClass: 'usda',
+  },
+  {
+    title: '台风"巴威"登陆后消散：华东进入灾后恢复(浙江疏散逾220万)，残余雨带影响江淮—黄淮',
     link: 'https://www.washingtontimes.com/news/2026/jul/12/weakening-typhoon-bavi-still-brings-strong-winds-rain-china/',
-    ts: '2026-07-13T08:15:00+08:00', date: '7/13 08:15', source: 'Washington Times', sourceClass: 'fao',
-  },
-  {
-    title: '美玉米带"热盖"风险升温：本周冷锋阵雨后6-10天转热，西部玉米带酝酿heat ridge，正值授粉关键期',
-    link: 'https://www.agrolatam.com/weather/usda-weather-heat-drought-corn-soybeans-july-2026/',
-    ts: '2026-07-13T07:40:00+08:00', date: '7/13 07:40', source: 'AgroLatam', sourceClass: 'usda',
-  },
-  {
-    title: 'WASDE后盘面走强：12月玉米上破$4.60、11月大豆上破$11.90；USDA报对华售豆47.2万吨(去年11月来最大单日)',
-    link: 'https://www.agweb.com/markets/usda-reports/usda-cuts-corn-stocks-weather-threats-loom-over-tight-supplies',
-    ts: '2026-07-13T07:00:00+08:00', date: '7/13 07:00', source: 'AgWeb', sourceClass: 'agweb',
+    ts: '2026-07-14T06:40:00+08:00', date: '7/14 06:40', source: 'Washington Times', sourceClass: 'fao',
   },
 ];
 
 // ============================================================
-// 特殊天气事件 — 台风/高温/强降水/霜冻等重大天气（静态参考, 更新于 2026-07-13）
+// 特殊天气事件 — 台风/高温/强降水/霜冻等重大天气（静态参考, 更新于 2026-07-14）
 // severity 用 tag 分级: severe(白字红底)/high(红)/mid(琥珀)/low(墨绿)
 // ============================================================
 const SPECIAL_EVENTS = [
   {
-    icon:'🌀', title:'台风"巴威"(Bavi) 登陆后减弱', severity:'减弱为热带风暴·洪涝', cls:'high', status:'登陆过后 · 华东洪涝',
-    region:'浙江玉环/乐清(登陆) → 安徽 → 江淮·黄淮',
-    time:'7/11 23:20浙江登陆，7/12-13残余雨带北抬',
-    detail:'7月11日23:20前后在浙江玉环登陆(10min最大风速约144km/h)、约20分钟后乐清二次登陆，数小时后减弱为热带风暴并西北移入安徽。浙江疏散逾220万、上海逾29万、福建逾18万(全国超170万)。当前主要风险转为浙东/闽东北洪涝与地质灾害，残余强降雨北抬至江淮、黄淮(赣鄂皖豫及苏皖北部)，需防内涝与农田渍害。',
-    sources:[ { l:'中央气象台台风网', u:'https://typhoon.nmc.cn/web.html' }, { l:'The Watchers', u:'https://watchers.news/2026/07/11/typhoon-bavi-landfall-zhejiang-china-damage-aftermath-july-2026/' }, { l:'Al Jazeera', u:'https://www.aljazeera.com/news/2026/7/11/hundreds-of-thousands-evacuated-as-typhoon-bavi-barrels-towards-china' } ],
+    icon:'🌀', title:'台风"巴威"(Bavi) 已消散', severity:'已消散·灾后恢复', cls:'mid', status:'灾后恢复',
+    region:'浙江(登陆) → 内陆消散；残余雨带→江淮·黄淮',
+    time:'7/11浙江登陆，7/13前后消散',
+    detail:'7月11日在浙江玉环/乐清登陆后减弱为热带风暴、西北移入内陆并逐步消散；浙江累计疏散逾220万人。浙东/闽东北转入洪涝退水与灾后恢复，残余水汽/季风雨带影响江淮、黄淮(苏皖北部、河南等)，关注农田渍涝与夏玉米/花生墒情。',
+    sources:[ { l:'中央气象台台风网', u:'https://typhoon.nmc.cn/web.html' }, { l:'The Watchers', u:'https://watchers.news/2026/07/11/typhoon-bavi-landfall-zhejiang-china-damage-aftermath-july-2026/' } ],
   },
   {
     icon:'❄️', title:'巴西南部霜冻风险', severity:'霜冻窗口·尾部风险', cls:'high', status:'高风险窗口临近',
@@ -472,11 +472,11 @@ const SPECIAL_EVENTS = [
     sources:[ { l:'Rio Times', u:'https://www.riotimesonline.com/coffee-prices-2026-brazil-weather-spike/' }, { l:'INMET(巴西气象)', u:'https://portal.inmet.gov.br/' } ],
   },
   {
-    icon:'🔥', title:'美国玉米带"热盖"风险(授粉期)', severity:'高温脊·授粉承压', cls:'high', status:'酝酿中',
-    region:'西部玉米带 · 中西部',
-    time:'本周冷锋阵雨后，6-10天转热',
-    detail:'本周北部平原/中西部有冷锋带来阵雨与短暂降温，但6-10天展望气温偏高、西部玉米带酝酿"热盖(heat ridge)"，中期预报延长其持续时间。玉米未来两周进入授粉主体期，热盖强度与时长成为单产与天气升水核心。WASDE(7/10)已收紧玉米结转库存，"天气转坏几无缓冲"。',
-    sources:[ { l:'NOAA CPC 6-10天', u:'https://www.cpc.ncep.noaa.gov/products/predictions/610day/' } ],
+    icon:'🔥', title:'美国玉米带"热盖"压顶授粉期', severity:'热盖压顶·期价大涨', cls:'severe', status:'压顶授粉期',
+    region:'美国东部→平原/中西部 · 玉米带腹地',
+    time:'7月下半月高温+干袋',
+    detail:'热盖(heat dome)自美东西扩至平原与中西部，8-14天展望全美偏热、中西部腹地7月下半月现"干袋"，正压玉米授粉核心期。7/13盘面创6月种植面积报告以来最大单日涨幅(豆+43~49美分、玉米+13~15美分)。新作结转偏低，单产小幅下修即由宽松转紧。',
+    sources:[ { l:'NOAA CPC 8-14天', u:'https://www.cpc.ncep.noaa.gov/products/predictions/814day/' }, { l:'NWS WPC', u:'https://www.wpc.ncep.noaa.gov/' } ],
   },
   {
     icon:'⛈️', title:'美国东玉米带强降水(局地过湿)', severity:'强降水', cls:'mid', status:'临近',
