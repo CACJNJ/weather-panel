@@ -4,52 +4,89 @@
 // ============================================================
 const STATIC_UPDATED = '2026-07-14';
 
-// ---------- ENSO 总览【静态/人工维护 · 官方指数快照，需定期刷新】 ----------
+// ---------- ENSO 总览【静态/人工维护 · 官方指数快照，来源核对: 2026-07-14】 ----------
+// 数值均取自下方各项 sources 列出的固定权威来源；无法核实者标注"未核实"，不凭记忆/模型生成
+const SOURCE_CHECKED = '2026-07-14';
 const ensoOverview = [
-  { value:'+1.7°C',   label:'NINO3.4 周值 (6/17当周)', status:'厄尔尼诺已确立，持续增强' },
-  { value:'-21.9',    label:'SOI 30天值 (至6/20)',      status:'强负值，大气海洋耦合确认' },
-  { value:'100%',     label:'JJA-SON 厄尔尼诺概率',      status:'OND-DJF 仍高达99%' },
-  { value:'中-强',    label:'预测峰值强度',              status:'次表层暖异常最高达+6°C' },
+  { value:'+1.2°C',  label:'NINO3.4 周值 (NOAA 7/9讨论)',  status:'El Niño Advisory · 持续增强' },
+  { value:'−25.2',   label:'SOI 30天 (BOM Troup 至6/27)',  status:'强负值，海气耦合确认' },
+  { value:'97%',     label:'持续至2027初春概率 (NOAA)',     status:'10-12月 81% 为强/极强' },
+  { value:'中-强',   label:'预测峰值强度 (NOAA/BOM)',       status:'次表层增暖·下沉Kelvin波' },
 ];
 
-// ---------- 异常提醒（【静态/人工维护】首项=当前最高公共影响天气，人工/研究定期刷新，非自动计算） ----------
+// ---------- 气候概览分析【静态/人工维护 · 仅气候指数，每项须有来源+日期，需定期核对】 ----------
+// 范围: 仅 ENSO/PDO/NAO/IOD 等气候指数; 天气事件(台风/高温/霜冻)见"伍 特殊天气事件"章节
 const alerts = [
-  { level:'danger', title:'🔥 美玉米带"热盖"压顶授粉期，玉米大豆创月内最大单日涨幅', detail:'一轮热盖(heat dome)正自美国东部向平原与中西部西扩，NWS延伸期预报显示高温将持续并笼罩玉米授粉核心期；8-14天展望全美气温偏高，中西部腹地7月下半月出现"干袋(dry pocket)"。玉米正进入授粉盛期(未来两周)，热干叠加直接威胁单产。7月13日盘面录得自6月种植面积报告以来最大单日涨幅：大豆主力涨约43-49美分、玉米涨13-15美分、小麦涨7-12美分。新作玉米/大豆结转本已走低，单产小幅下修即可令平衡表由宽松转紧。', hint:'授粉期(7月中下旬)西部/中西部热盖强度与"干袋"落区是玉米单产与天气升水核心；期价处相对低位，天气升水弹性大于利空' },
-  { level:'danger', title:'🔥 厄尔尼诺已确立并持续增强', detail:'NINO3.4周值已升至+1.7°C（6月17日当周），SOI 30天值-21.9，大气-海洋耦合确认。150°W-80°W次表层50-150m暖异常最高达+6°C，为持续增强提供能量。JJA-SON厄尔尼诺概率100%，预计至少持续至2026年10月，强度中等至强。', hint:'关注东南亚/澳洲干旱、印度季风减弱、南美异常降水对棕榈油、小麦、咖啡的供给冲击；峰值预计2026年秋冬' },
-  { level:'warn', title:'🌀 台风"巴威"登陆后消散：华东转入灾后恢复，残余雨带影响江淮—黄淮', detail:'"巴威"7月11日在浙江玉环/乐清登陆后减弱为热带风暴、西北移入内陆并逐步消散，浙江累计疏散逾220万人。当前浙东/闽东北转入洪涝退水与灾后恢复；残余水汽与季风雨带影响江淮、黄淮(苏皖北部、河南等)，需关注农田渍涝与夏玉米/花生墒情。上周WASDE(7/10)已下调新作玉米结转库存、并预估大豆丰产但结转偏紧，天气升水放大。', hint:'华东关注灾后农业与港口物流恢复；黄淮海产区留意持续降雨对夏播作物墒情影响' },
-  { level:'warn', title:'☕ 巴西霜冻担忧升温，阿拉比卡单日跳涨约10%重上$3/磅', detail:'巴西2026/27采收进度偏慢，截至7月初仅约52%采收完成（落后去年及五年均值），近期强降雨扰乱采收并或影响豆质，中旬预计再有降水。叠加7-8月南部霜冻高风险窗口（南米纳斯/塞拉多/圣保罗/巴拉那），投机资金对寒潮高度敏感，阿拉比卡期价单日跳涨近10%、创年初以来新高并重上$3/磅。', hint:'逐日跟踪巴西南部最低气温预报；EN年南部霜冻概率变化叠加缓慢采收是当前咖啡定价主线' },
-  { level:'warn', title:'🌊 PDO 持续负相位', detail:'JMA月度PDO指数2026年5月为-0.83，自2020年以来负相位主导；2025年7月曾探底-3.23。负相位叠加厄尔尼诺，冬季环流形势复杂。', hint:'负PDO增强西伯利亚高压，冬季冷空气南下频率可能增加' },
-  { level:'warn', title:'⚠️ IOD 中性，模型预测7-8月起或发展正IOD', detail:'IOD指数-0.02（6月27日），当前中性。BOM最新展望：模型预测正IOD可能于2026年7-8月开始发展，南半球冬春季正IOD事件概率较高，但各模式对时间与强度分歧仍大。', hint:'正IOD+厄尔尼诺→东南亚/澳洲干旱加剧，棕榈油、澳麦风险放大' },
+  {
+    level:'danger', title:'🌊 ENSO 厄尔尼诺(El Niño)已确立并将持续增强',
+    observed:'官方处于 El Niño Advisory。NINO3.4 最新周值 +1.2°C（NOAA，7/9讨论）；BOM 相对 NINO3.4 +1.24°C（至6/28当周，两周内升约0.3°C）；NINO1+2 +2.7°C、NINO4 +0.5°C。SOI 强负（BOM 30天 Troup 至6/27 为 −25.2），海气耦合确认；赤道次表层增暖（下沉 Kelvin 波），未见固定"+6°C"官方数值。',
+    outlook:'NOAA：El Niño 将增强至年底，97% 概率维持到 2027 年初春；10-12月有 81% 概率达强/极强级别。BOM：多数模式预测强-极强事件，部分模式指向1950年以来最强之一。下次 NOAA 讨论 2026-08-13。',
+    implication:'若强 El Niño 兑现，历史上*倾向于*东南亚/澳洲偏干、南美偏湿，对棕榈油、澳麦、南美大豆/玉米有潜在供给扰动。此为条件性推断——ENSO 仅为众多影响因子之一，不能单独决定天气、单产或价格。',
+    cadence:'每周指数更新 · 每月官方讨论', obsPeriod:'周值至 2026-06-28 / 讨论 2026-07-09', updated:'NOAA 2026-07-09；BOM 2026-06-30', checked:'2026-07-14',
+    sources:[{l:'NOAA CPC ENSO讨论',u:'https://www.cpc.ncep.noaa.gov/products/analysis_monitoring/enso_advisory/ensodisc.shtml'},{l:'NOAA CPC 指数',u:'https://www.cpc.ncep.noaa.gov/data/indices/'},{l:'BOM ENSO',u:'http://www.bom.gov.au/climate/enso/'}]
+  },
+  {
+    level:'warn', title:'🌊 PDO 太平洋年代际振荡：负相位延续',
+    observed:'JMA 月度 PDO 指数 2026年5月 −0.83（最新可得），较4月 −0.47 更负；2025年7月曾探底 −3.23。自2020年以来负相位主导。',
+    outlook:'PDO 为月度指数、无逐日实时值；当前趋势维持负相位。注：NOAA PSL 的 PDO 序列目前仅更新至 2025年8月，故此处采用 JMA 月度官方值。',
+    implication:'负 PDO *可能*增强冬季经向环流与西伯利亚高压，与 El Niño 叠加时冬季环流形势复杂。属长期背景因子，条件性推断。',
+    cadence:'月度官方更新', obsPeriod:'月值 2026-05（最新可得）', updated:'JMA 2026-05 值', checked:'2026-07-14',
+    sources:[{l:'JMA 月度PDO',u:'https://ds.data.jma.go.jp/tcc/tcc/products/elnino/decadal/pdo_month.html'}]
+  },
+  {
+    level:'info', title:'🌀 NAO 北大西洋涛动：春季强正相位已回落至中性',
+    observed:'NOAA CPC 月度 NAO：2026年3月 +2.69（春季高值）、4月 +1.39，随后回落——5月 −0.74、6月 +0.10（最新，近中性）。',
+    outlook:'月度指数；春季强正相位已消退，当前处于中性，信号偏弱。',
+    implication:'NAO 主要*间接*影响北大西洋-欧洲环流及黑海/欧洲麦区降水格局；当前中性，指示意义有限。条件性推断。',
+    cadence:'月度更新', obsPeriod:'月值 2026-06（最新可得）', updated:'NOAA CPC 2026-06 值', checked:'2026-07-14',
+    sources:[{l:'NOAA CPC NAO',u:'https://www.cpc.ncep.noaa.gov/products/precip/CWlink/pna/nao.shtml'}]
+  },
+  {
+    level:'info', title:'🌏 IOD 印度洋偶极子：中性',
+    observed:'BOM DMI 2026年6月27日 −0.02°C，处于中性区间（−0.4 至 +0.4°C 之间）。',
+    outlook:'BOM：模式预测南半球冬-春*可能*发展为正 IOD，但对时间与强度分歧大、不确定性高。',
+    implication:'若正 IOD 兑现并与 El Niño 叠加，*可能*加剧东南亚/澳洲干旱，对棕榈油、澳麦为潜在风险；目前尚未发生。条件性推断。',
+    cadence:'每两周更新', obsPeriod:'至 2026-06-27', updated:'BOM 2026-06-30', checked:'2026-07-14',
+    sources:[{l:'BOM IOD',u:'https://www.bom.gov.au/climate/iod/'}]
+  },
 ];
 
-// ---------- 海洋指数【静态/人工维护 · ENSO/PDO/NAO/IOD 指数快照，需定期刷新】 ----------
+// ---------- 海洋指数【静态/人工维护 · ENSO/PDO/NAO/IOD, 每项标观测期与来源, 核对 2026-07-14】 ----------
 const oceanIndices = [
   {
-    name:'🔥 ENSO 厄尔尼诺-南方涛动', borderColor:'#ef4444',
-    metrics:[{v:'+1.7°C',l:'NINO3.4 周值 6/17',c:'hi-temp'},{v:'厄尔尼诺',l:'当前相位',c:'hi-temp'},{v:'-21.9',l:'SOI (至6/20)',c:'hi-temp'},{v:'100%',l:'JJA-SON概率'}],
+    name:'🌊 ENSO 厄尔尼诺-南方涛动', borderColor:'#ef4444',
+    metrics:[{v:'+1.2°C',l:'NINO3.4 周值(NOAA 7/9)',c:'hi-temp'},{v:'El Niño',l:'当前相位',c:'hi-temp'},{v:'−25.2',l:'SOI(BOM 至6/27)',c:'hi-temp'},{v:'97%',l:'持续至27初春'}],
     risks:[{label:'高风险',cls:'risk-high'},{label:'持续增强',cls:'risk-severe'}],
-    detail:'2026年6-7月完成向厄尔尼诺转换，多数模式预测中等至强事件，至少持续至10月，大概率跨入2027年初。次表层暖异常（最高+6°C）支撑继续增强。',
-    sources:[{l:'IRI ENSO Forecast',u:'https://iri.columbia.edu/our-expertise/climate/forecasts/enso/current/'},{l:'NOAA CPC',u:'https://www.cpc.ncep.noaa.gov/products/analysis_monitoring/enso_advisory/ensodisc.shtml'},{l:'BOM',u:'https://www.bom.gov.au/climate/enso/'}]
+    dir:'NINO3.4 较两周前约 +0.3°C（增暖）',
+    detail:'官方 El Niño Advisory。NINO1+2 +2.7°C、NINO4 +0.5°C，次表层增暖（下沉Kelvin波）；将持续增强，10-12月 81% 概率为强/极强事件。',
+    cadence:'每周指数 / 每月讨论', obsPeriod:'周值至6/28 · 讨论7/9', checked:'2026-07-14',
+    sources:[{l:'NOAA CPC ENSO讨论',u:'https://www.cpc.ncep.noaa.gov/products/analysis_monitoring/enso_advisory/ensodisc.shtml'},{l:'NOAA CPC 指数',u:'https://www.cpc.ncep.noaa.gov/data/indices/'},{l:'BOM',u:'http://www.bom.gov.au/climate/enso/'}]
   },
   {
     name:'🌊 PDO 太平洋年代际振荡', borderColor:'#f59e0b',
-    metrics:[{v:'负相位',l:'当前相位'},{v:'-0.83',l:'2026年5月 (JMA)',c:'hi-temp'},{v:'-3.23',l:'2025年7月极值'},{v:'2020年起',l:'负相位主导'}],
+    metrics:[{v:'负相位',l:'当前相位'},{v:'−0.83',l:'2026年5月(JMA)',c:'hi-temp'},{v:'−0.47',l:'2026年4月'},{v:'−3.23',l:'2025年7月极值'}],
     risks:[{label:'中风险',cls:'risk-mid'},{label:'长期影响',cls:'risk-high'}],
-    detail:'JMA月度指数2026年1-5月为-0.57/-0.27/-0.53/-0.47/-0.83，负相位延续。负PDO通常增强西伯利亚高压、影响北太平洋风暴路径。',
-    sources:[{l:'JMA PDO',u:'https://ds.data.jma.go.jp/tcc/tcc/products/elnino/decadal/pdo_month.html'},{l:'NOAA NCEI PDO',u:'https://www.ncei.noaa.gov/access/monitoring/pdo/'}]
+    dir:'5月(−0.83)较4月(−0.47)更负',
+    detail:'JMA 月度指数；负相位自2020年延续，负PDO通常增强西伯利亚高压、影响北太平洋风暴路径。(NOAA PSL 序列现止于2025-08，故采用 JMA 月度值)',
+    cadence:'月度官方更新', obsPeriod:'月值 2026-05（最新可得）', checked:'2026-07-14',
+    sources:[{l:'JMA 月度PDO',u:'https://ds.data.jma.go.jp/tcc/tcc/products/elnino/decadal/pdo_month.html'}]
   },
   {
-    name:'🌀 NAO 北大西洋振荡', borderColor:'#8b5cf6',
-    metrics:[{v:'正相位',l:'2026年春季'},{v:'+2.69',l:'2026年3月'},{v:'+1.39',l:'2026年4月'},{v:'关注',l:'夏季走向'}],
-    risks:[{label:'中风险',cls:'risk-mid'},{label:'季节性',cls:'risk-low'}],
-    detail:'2026年春季NAO强正相位（3月+2.69为近年高值）。正NAO→美东偏暖、南欧偏干；对黑海、欧洲麦区降水格局有间接影响。',
+    name:'🌀 NAO 北大西洋涛动', borderColor:'#8b5cf6',
+    metrics:[{v:'近中性',l:'当前相位'},{v:'+0.10',l:'2026年6月'},{v:'−0.74',l:'2026年5月'},{v:'+2.69',l:'3月春季峰值'}],
+    risks:[{label:'当前低风险',cls:'risk-low'},{label:'季节性',cls:'risk-mid'}],
+    dir:'春季强正(+2.69)已回落至中性',
+    detail:'NOAA CPC 月度指数；3月强正相位(+2.69)后回落，当前中性。正NAO间接影响欧洲/黑海麦区降水格局。',
+    cadence:'月度更新', obsPeriod:'月值 2026-06（最新可得）', checked:'2026-07-14',
     sources:[{l:'NOAA CPC NAO',u:'https://www.cpc.ncep.noaa.gov/products/precip/CWlink/pna/nao.shtml'}]
   },
   {
     name:'🌏 IOD 印度洋偶极子', borderColor:'#10b981',
-    metrics:[{v:'中性',l:'当前相位'},{v:'-0.02',l:'DMI (6/27)'},{v:'7-8月',l:'或开始转正'},{v:'需关注',l:'与EN叠加'}],
+    metrics:[{v:'中性',l:'当前相位'},{v:'−0.02',l:'DMI (6/27)'},{v:'冬-春',l:'或转正(不确定)'},{v:'需关注',l:'与EN叠加'}],
     risks:[{label:'当前低风险',cls:'risk-low'},{label:'潜在风险',cls:'risk-mid'}],
-    detail:'当前中性。BOM最新展望(7月上旬)：模型预测正IOD可能于7-8月开始发展，南半球冬春季正IOD概率较高，但时间与强度模式间分歧大。正IOD+厄尔尼诺→东南亚/澳洲干旱显著加剧。',
+    dir:'基本持平于中性',
+    detail:'BOM；当前中性(−0.4至+0.4°C内)。模式预测南半球冬-春或发展正IOD，时间与强度分歧大。正IOD+El Niño→东南亚/澳洲干旱潜在加剧。',
+    cadence:'每两周更新', obsPeriod:'至 2026-06-27', checked:'2026-07-14',
     sources:[{l:'BOM IOD',u:'https://www.bom.gov.au/climate/iod/'}]
   },
 ];

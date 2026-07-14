@@ -84,6 +84,22 @@ a:hover { text-decoration:underline; }
 .kv .v.hot { color:var(--red); }
 .ocean .desc { font-size:0.8rem; color:var(--ink2); margin-top:9px; }
 .ocean .src { font-size:0.72rem; margin-top:6px; }
+.ocean .odir { font-size:0.76rem; color:var(--ink2); margin-top:6px; }
+
+/* ---------- 气候概览分析项 (来源可核) ---------- */
+.alert-list .ao { font-size:0.83rem; margin-top:7px; line-height:1.7; }
+.alert-list .aol { display:inline-block; font-size:0.66rem; font-weight:700; letter-spacing:0.03em; color:var(--paper); background:var(--ink2); padding:1px 7px; margin-right:7px; border-radius:2px; vertical-align:middle; white-space:nowrap; }
+.alert-list .aol.out { background:var(--blue); }
+.alert-list .aol.imp { background:var(--amber); color:var(--ink); }
+.alert-list .af { margin-top:9px; padding-top:7px; border-top:1px dotted var(--line); font-size:0.7rem; color:var(--ink3); line-height:1.6; }
+.alert-list .af .afc { color:var(--blue); font-weight:600; }
+.alert-list .af a { color:var(--ink2); }
+.sec-head .sub .tag { vertical-align:middle; margin-right:4px; }
+@media (max-width:640px){
+  .sec-head { flex-wrap:wrap; }
+  .sec-head .sub { flex-basis:100%; order:3; margin-top:4px; line-height:1.6; }
+  .stat { flex:1 1 46%; }
+}
 
 /* ---------- 标签 ---------- */
 .tag { display:inline-block; font-size:0.7rem; padding:1px 8px; border:1px solid; margin:2px 3px 0 0; letter-spacing:0.05em; }
@@ -278,7 +294,7 @@ footer { margin-top:50px; border-top:3px double var(--line2); padding-top:16px; 
 </div>
 
 <section class="sec" data-key="climate">
-  <div class="sec-head" onclick="toggleSec(this)"><span class="num">壹</span><h2>气候总览</h2><span class="sub">ENSO 现状与异常提醒 · 静态参考</span><span class="tog">[−]</span></div>
+  <div class="sec-head" onclick="toggleSec(this)"><span class="num">壹</span><h2>气候总览</h2><span class="sub" id="climateSummary">ENSO 现状 · 静态参考</span><span class="tog">[−]</span></div>
   <div class="sec-body">
     <div class="stat-row" id="ensoBar"></div>
     <ol class="alert-list" id="alertBox"></ol>
@@ -592,17 +608,27 @@ function renderEnsoBar() {
 }
 function renderAlerts() {
   document.getElementById('alertBox').innerHTML = alerts.map(a => `
-    <li class="${a.level}"><b>${a.title}</b> — ${a.detail}<span class="hint">${a.hint}</span></li>`).join('');
+    <li class="${a.level}">
+      <b>${a.title}</b>
+      <div class="ao"><span class="aol">实况观测</span>${a.observed}</div>
+      <div class="ao"><span class="aol out">官方展望</span>${a.outlook}</div>
+      <div class="ao"><span class="aol imp">农业影响·条件性推断</span>${a.implication}</div>
+      <div class="af"><span class="afc">${a.cadence}</span>｜观测期 ${a.obsPeriod}｜来源发布 ${a.updated}｜核对 ${a.checked}<br>来源: ${a.sources.map(s => `<a href="${s.u}" target="_blank" rel="noopener">${s.l}</a>`).join(' · ')}</div>
+    </li>`).join('');
+  const c = document.getElementById('climateSummary');
+  if (c) c.innerHTML = `<span class="tag high">El Niño · 增强</span>NINO3.4 +1.2°C｜SOI −25.2｜PDO −0.83｜IOD 中性　·　官方来源 07-09(NOAA) · 本站核对 ${SOURCE_CHECKED}`;
 }
 function renderOceanIndices() {
-  document.getElementById('oceanSub').textContent = `ENSO · PDO · NAO · IOD · 静态参考, 更新于 ${STATIC_UPDATED}`;
+  const sub = document.getElementById('oceanSub');
+  if (sub) sub.innerHTML = `ENSO · PDO · NAO · IOD　<span class="tag mid">4项已核对</span>本站核对 ${SOURCE_CHECKED}`;
   document.getElementById('oceanGrid').innerHTML = oceanIndices.map(o => `
     <div class="ocean" style="border-top-color:${o.borderColor};">
       <h4>${o.name}</h4>
       ${o.metrics.map(m => `<div class="kv"><span class="k">${m.l}</span><span class="v ${m.c?'hot':''}">${m.v}</span></div>`).join('')}
       <div style="margin-top:8px;">${o.risks.map(r => `<span class="tag ${r.cls.replace('risk-','')}">${r.label}</span>`).join('')}</div>
       <div class="desc">${o.detail}</div>
-      <div class="src">来源: ${o.sources.map(s => `<a href="${s.u}" target="_blank">${s.l}</a>`).join(' · ')}</div>
+      <div class="odir">↔ 较前值: ${o.dir}</div>
+      <div class="src">观测期 ${o.obsPeriod}｜${o.cadence}｜核对 ${o.checked}<br>来源: ${o.sources.map(s => `<a href="${s.u}" target="_blank" rel="noopener">${s.l}</a>`).join(' · ')}</div>
     </div>`).join('');
 }
 
@@ -1268,8 +1294,11 @@ function toggleSec(head) {
 }
 function applySecState() {
   const s = loadState('fsSecCollapsed');
+  const DEFAULT_CLOSED = ['climate', 'ocean']; // 气候总览/海洋指数默认折叠(移动端更紧凑)
   document.querySelectorAll('.sec').forEach(sec => {
-    if (s[sec.dataset.key]) {
+    const k = sec.dataset.key;
+    const closed = (k in s) ? s[k] : DEFAULT_CLOSED.includes(k);
+    if (closed) {
       sec.classList.add('closed');
       const tog = sec.querySelector('.sec-head .tog');
       if (tog) tog.textContent = '[+]';
