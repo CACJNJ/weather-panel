@@ -2,7 +2,7 @@
 // 静态数据层 — 由定时任务/人工定期刷新
 // 最后更新: 2026-07-14 (数据来源见各板块)
 // ============================================================
-const STATIC_UPDATED = '2026-07-15';
+const STATIC_UPDATED = '2026-07-16';
 
 // ---------- ENSO 总览【静态/人工维护 · 官方指数快照，来源核对: 2026-07-15】 ----------
 // 数值均取自下方各项 sources 列出的固定权威来源；无法核实者标注"未核实"，不凭记忆/模型生成
@@ -463,6 +463,73 @@ const cropRegions = [
       ]},
     ]
   },
+  // ---------- 菜籽/油菜籽 (Rapeseed/Canola) ----------
+  // 产地依据: 加拿大 StatCan(SK>AB>MB 三省占全国绝大多数)；EU FR/DE/PL/RO/CZ 为主产国；澳洲 WA 占全国>50%(Esperance 单区最大), 次为 VIC/NSW/SA。
+  // 物候: 加拿大春油菜(5月播/7月开花-结荚); 欧盟冬油菜(上年秋播/7月收获, gddStart=null 走滚动窗口); 澳洲冬油菜(4-5月播/8-9月开花, 当前营养-抽薹期)。代表点为各产带主要种植/气象站城市。
+  { crop:'canola', icon:'🌼', name:'菜籽产区气象监测', color:'#facc15',
+    groups:[
+      { province:'加拿大·萨斯喀彻温', regions:[
+        { name:'里贾纳', lat:50.45, lon:-104.62, gddStart:'2026-05-10', phase:'<b>发育期</b>：春油菜开花-结荚期(5月播种)。全国最大产省，7-8月花期高温(>30°C)/干旱影响结实与含油率。' },
+        { name:'萨斯卡通', lat:52.13, lon:-106.67, gddStart:'2026-05-10', phase:'<b>发育期</b>：春油菜开花-结荚期。中萨主产带。' },
+        { name:'约克顿', lat:51.21, lon:-102.46, gddStart:'2026-05-10', phase:'<b>发育期</b>：春油菜开花-结荚期。东萨油菜与压榨集散地。' },
+        { name:'阿尔伯特王子城', lat:53.20, lon:-105.75, gddStart:'2026-05-10', phase:'<b>发育期</b>：春油菜开花-结荚期。北部黑土带。' },
+      ]},
+      { province:'加拿大·艾伯塔', regions:[
+        { name:'红鹿市', lat:52.27, lon:-113.81, gddStart:'2026-05-10', phase:'<b>发育期</b>：春油菜开花-结荚期。中艾伯塔核心油菜带。' },
+        { name:'大草原城', lat:55.17, lon:-118.80, gddStart:'2026-05-10', phase:'<b>发育期</b>：春油菜开花-结荚期。北部和平河(Peace)主产区。' },
+        { name:'莱斯布里奇', lat:49.69, lon:-112.83, gddStart:'2026-05-10', phase:'<b>发育期</b>：春油菜开花-结荚期。南部(含灌溉)产区。' },
+      ]},
+      { province:'加拿大·马尼托巴', regions:[
+        { name:'布兰登', lat:49.85, lon:-99.95, gddStart:'2026-05-10', phase:'<b>发育期</b>：春油菜开花-结荚期。西南曼省主产带。' },
+        { name:'波蒂奇拉普雷里', lat:49.97, lon:-98.29, gddStart:'2026-05-10', phase:'<b>发育期</b>：春油菜开花-结荚期。红河谷产区。' },
+        { name:'多芬', lat:51.15, lon:-100.05, gddStart:'2026-05-10', phase:'<b>发育期</b>：春油菜开花-结荚期。西北曼省产区。' },
+      ]},
+      { province:'法国', regions:[
+        { name:'奥尔良(中央-卢瓦尔河谷)', lat:47.90, lon:1.90, gddStart:null, phase:'<b>物候</b>：冬油菜收获期(上年秋播)。法国主产带，关注收割窗口降水。' },
+        { name:'沙特尔(博斯)', lat:48.44, lon:1.49, gddStart:null, phase:'<b>物候</b>：冬油菜收获期。博斯(Beauce)大田油料带。' },
+        { name:'第戎(勃艮第-弗朗什孔泰)', lat:47.32, lon:5.04, gddStart:null, phase:'<b>物候</b>：冬油菜收获期。勃艮第油菜带。' },
+      ]},
+      { province:'德国', regions:[
+        { name:'罗斯托克(梅前州)', lat:54.09, lon:12.14, gddStart:null, phase:'<b>物候</b>：冬油菜收获期。梅克伦堡-前波美拉尼亚为德国第一大油菜州。' },
+        { name:'马格德堡(萨安州)', lat:52.12, lon:11.63, gddStart:null, phase:'<b>物候</b>：冬油菜收获期。萨克森-安哈尔特黑土油料带。' },
+        { name:'科特布斯(勃兰登堡)', lat:51.76, lon:14.33, gddStart:null, phase:'<b>物候</b>：冬油菜收获期。勃兰登堡产区。' },
+      ]},
+      { province:'波兰', regions:[
+        { name:'波兹南(大波兰省)', lat:52.41, lon:16.93, gddStart:null, phase:'<b>物候</b>：冬油菜收获期。大波兰为主产区之一。' },
+        { name:'比得哥什(库亚瓦-滨海省)', lat:53.12, lon:18.01, gddStart:null, phase:'<b>物候</b>：冬油菜收获期。库亚瓦油料带。' },
+        { name:'弗罗茨瓦夫(下西里西亚)', lat:51.11, lon:17.03, gddStart:null, phase:'<b>物候</b>：冬油菜收获期。下西里西亚肥沃产区。' },
+      ]},
+      { province:'罗马尼亚', regions:[
+        { name:'蒂米什瓦拉(巴纳特)', lat:45.75, lon:21.23, gddStart:null, phase:'<b>物候</b>：冬油菜收获期。西部巴纳特平原油料带。' },
+        { name:'康斯坦察(多布罗加)', lat:44.18, lon:28.63, gddStart:null, phase:'<b>物候</b>：冬油菜收获期。多布罗加(黑海沿岸)产区。' },
+        { name:'克拉约瓦(奥尔特尼亚)', lat:44.33, lon:23.79, gddStart:null, phase:'<b>物候</b>：冬油菜收获期。南部瓦拉几亚平原产区。' },
+      ]},
+      { province:'捷克', regions:[
+        { name:'布尔诺(南摩拉维亚)', lat:49.20, lon:16.61, gddStart:null, phase:'<b>物候</b>：冬油菜收获期。南摩拉维亚主产油料区。' },
+        { name:'奥洛穆茨(哈纳)', lat:49.59, lon:17.25, gddStart:null, phase:'<b>物候</b>：冬油菜收获期。哈纳(Haná)肥沃平原。' },
+      ]},
+      { province:'澳大利亚·西澳', regions:[
+        { name:'埃斯佩兰斯', lat:-33.86, lon:121.89, gddStart:'2026-05-01', phase:'<b>发育期</b>：冬油菜营养-抽薹期(4-5月播)。南海岸单区产量全国最大；需350-500mm冬春降水。' },
+        { name:'卡塔宁(大南部)', lat:-33.69, lon:117.56, gddStart:'2026-05-01', phase:'<b>发育期</b>：冬油菜营养-抽薹期。大南部主产带。' },
+        { name:'杰拉尔顿', lat:-28.77, lon:114.61, gddStart:'2026-05-01', phase:'<b>发育期</b>：冬油菜营养-抽薹期。北部麦区，早播早熟、旱情敏感。' },
+        { name:'莫拉瓦', lat:-29.21, lon:116.01, gddStart:'2026-05-01', phase:'<b>发育期</b>：冬油菜营养-抽薹期。北部内陆麦区。' },
+      ]},
+      { province:'澳大利亚·新南威尔士', regions:[
+        { name:'沃加沃加(里韦里纳)', lat:-35.11, lon:147.37, gddStart:'2026-05-01', phase:'<b>发育期</b>：冬油菜营养-抽薹期。里韦里纳为NSW油菜核心带。' },
+        { name:'特莫拉', lat:-34.45, lon:147.53, gddStart:'2026-05-01', phase:'<b>发育期</b>：冬油菜营养-抽薹期。南部坡地油菜带。' },
+        { name:'达博', lat:-32.24, lon:148.60, gddStart:'2026-05-01', phase:'<b>发育期</b>：冬油菜营养-抽薹期。中部西坡产区。' },
+      ]},
+      { province:'澳大利亚·维多利亚', regions:[
+        { name:'霍舍姆(威默拉)', lat:-36.71, lon:142.20, gddStart:'2026-05-01', phase:'<b>发育期</b>：冬油菜营养-抽薹期。威默拉大田油菜带。' },
+        { name:'阿拉拉特(西南维州)', lat:-37.28, lon:142.93, gddStart:'2026-05-01', phase:'<b>发育期</b>：冬油菜营养-抽薹期。西南维州为全州最大油菜产区。' },
+      ]},
+      { province:'澳大利亚·南澳', regions:[
+        { name:'纳拉库特(石灰岩海岸)', lat:-36.96, lon:140.74, gddStart:'2026-05-01', phase:'<b>发育期</b>：冬油菜营养-抽薹期。东南石灰岩海岸产区。' },
+        { name:'克莱尔(中北部)', lat:-33.83, lon:138.61, gddStart:'2026-05-01', phase:'<b>发育期</b>：冬油菜营养-抽薹期。中北部谷地产区。' },
+        { name:'卡明斯(艾尔半岛)', lat:-34.26, lon:135.72, gddStart:'2026-05-01', phase:'<b>发育期</b>：冬油菜营养-抽薹期。艾尔半岛(Eyre)主产带。' },
+      ]},
+    ]
+  },
 ];
 
 // ============================================================
@@ -473,19 +540,24 @@ const cropRegions = [
 const NEWS_WINDOW_HOURS = 12;
 const AG_NEWS = [
   {
-    title: '玉米/大豆收盘走低：天气转凉+作物评级上调压制授粉期天气升水。9月玉米−2½收438½、12月−2¾收460½(7月合约到期433¾)；8月大豆−4收1192¾、11月−3¾收1191(豆粕+0.20、豆油−0.42)；USDA优良率 玉米68%(+1,吐丝34%)、大豆65%(+1)，巴西CONAB上调新豆产量至180.57MMT',
-    link: 'https://www.totalfarmmarketing.com/tfm-daily-market-summary-07-14-2026/',
-    ts: '2026-07-15T03:35:00+08:00', date: '7/15 03:35', source: 'Total Farm Marketing', sourceClass: 'usda',
+    title: '小麦暴涨、三市双位数收高：黑海局势升级(据报过去一周逾100艘俄船遭乌无人机袭击、关键航线中断)+巴黎小麦跳涨+美元大跌。芝加哥9月+32½收677½、堪萨斯+42收720、MIAX+25¼收683¼；SovEcon/IKAR下调俄7月出口至约2MMT(IKAR −20%)；法国软麦预估32MMT(同比−4%)',
+    link: 'https://www.totalfarmmarketing.com/tfm-daily-market-summary-07-15-2026/',
+    ts: '2026-07-16T03:55:00+08:00', date: '7/16 03:55', source: 'Total Farm Marketing', sourceClass: 'usda',
   },
   {
-    title: '小麦三市齐涨：黑海航运受阻(刻赤海峡关闭)+美元走弱+MATIF走强支撑。芝加哥9月+9¾收645、堪萨斯+11¾收678、MIAX+4¾收658；冬麦收割67%(快于均值)，上周WASDE预估美麦产量为50年最低',
-    link: 'https://www.totalfarmmarketing.com/tfm-daily-market-summary-07-14-2026/',
-    ts: '2026-07-15T03:40:00+08:00', date: '7/15 03:40', source: 'Total Farm Marketing', sourceClass: 'usda',
+    title: '玉米受小麦带动+空头回补上涨：9月+9收447½、12月+9收469½(6月1日以来最高)。上周乙醇产量降至10周低位306百万加仑(同比−4%)；因南美竞争，美玉米出口疲弱(6月23日以来无新公布销售)',
+    link: 'https://www.totalfarmmarketing.com/tfm-daily-market-summary-07-15-2026/',
+    ts: '2026-07-16T03:50:00+08:00', date: '7/16 03:50', source: 'Total Farm Marketing', sourceClass: 'usda',
   },
   {
-    title: '美中西部天气转向：本周高温后，预报转为偏凉、正常至偏多降水进入7月下旬，利于玉米授粉展开(西太平洋热带活动令急流南压，带来降温与降水)',
-    link: 'https://www.farmprogress.com/marketing/july-heat-dry-periods-threaten-corn-pollination',
-    ts: '2026-07-15T03:45:00+08:00', date: '7/15 03:45', source: 'Farm Progress', sourceClass: 'usda',
+    title: '大豆走高但$12.05附近遇阻：8月+9½收1202¼、11月+10¾收1201¾(豆粕+1.50、豆油+0.52)。NOPA 6月压榨214.34百万蒲超预期(环比+2.7%、同比+15.7%)；热干天气提振，周末起预计转凉',
+    link: 'https://www.totalfarmmarketing.com/tfm-daily-market-summary-07-15-2026/',
+    ts: '2026-07-16T03:45:00+08:00', date: '7/16 03:45', source: 'Total Farm Marketing / NOPA', sourceClass: 'usda',
+  },
+  {
+    title: '美中西部天气：本周暖干，周末起转凉、月内后半段降水机会改善(交易员紧盯预报能否兑现)；玉米授粉、大豆开花正处关键发育窗口',
+    link: 'https://www.totalfarmmarketing.com/tfm-daily-market-summary-07-15-2026/',
+    ts: '2026-07-16T03:40:00+08:00', date: '7/16 03:40', source: 'Total Farm Marketing', sourceClass: 'usda',
   },
 ];
 

@@ -127,12 +127,13 @@ details.ig[open] summary { border-bottom:1px solid var(--line); }
 .fallback { display:none; padding:36px 10px; color:var(--ink2); font-size:0.8rem; }
 
 /* ---------- 产区 (品种图标切换) ---------- */
-.crop-tabs { display:flex; flex-wrap:wrap; gap:10px; margin-bottom:20px; }
-.crop-tab { flex:1 1 105px; min-width:96px; text-align:center; border:1px solid var(--line2); border-top:3px solid var(--line2); background:var(--panel); padding:10px 6px 8px; cursor:pointer; user-select:none; transition:transform .12s, background .12s; }
+/* 产区选择条：单行不换行，桌面自动铺满，窄屏横向滚动(见新增第8个作物"菜籽"后仍保持一行) */
+.crop-tabs { display:flex; flex-wrap:nowrap; gap:8px; margin-bottom:20px; overflow-x:auto; -webkit-overflow-scrolling:touch; padding:3px 0 6px; scrollbar-width:thin; }
+.crop-tab { flex:1 0 auto; min-width:80px; text-align:center; border:1px solid var(--line2); border-top:3px solid var(--line2); background:var(--panel); padding:8px 5px 7px; cursor:pointer; user-select:none; transition:transform .12s, background .12s; }
 .crop-tab:hover { transform:translateY(-2px); }
-.crop-tab .ic { font-size:1.7rem; display:block; line-height:1.2; }
-.crop-tab .nm { font-family:Georgia,'Songti SC',serif; font-weight:700; font-size:0.88rem; display:block; }
-.crop-tab .ct { font-size:0.65rem; color:var(--ink2); }
+.crop-tab .ic { font-size:1.4rem; display:block; line-height:1.2; }
+.crop-tab .nm { font-family:Georgia,'Songti SC',serif; font-weight:700; font-size:0.8rem; display:block; white-space:nowrap; }
+.crop-tab .ct { font-size:0.6rem; color:var(--ink2); }
 .crop-tab.active { background:var(--ink); border-color:var(--ink); }
 .crop-tab.active .nm { color:var(--paper); }
 .crop-tab.active .ct { color:var(--line); }
@@ -993,6 +994,7 @@ function generateStrategies(results) {
   const agg = {};
   for (const r of results) {
     if (!r.metrics) continue;
+    if (r.crop === 'canola') continue; // 菜籽仅在"产区监测"展示，不纳入策略聚合，保持"捌 策略观察"输出不变
     if (!agg[r.crop]) agg[r.crop] = { regions:[], highTempDays:[], droughtStreak:[], sumPrecip:[], recent7Precip:[], fcPrecip:[], fcMaxTemp:[] };
     const a = agg[r.crop], m = r.metrics;
     a.regions.push(r.name);
