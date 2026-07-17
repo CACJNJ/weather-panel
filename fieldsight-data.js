@@ -2,7 +2,7 @@
 // 静态数据层 — 由定时任务/人工定期刷新
 // 最后更新: 2026-07-14 (数据来源见各板块)
 // ============================================================
-const STATIC_UPDATED = '2026-07-16';
+const STATIC_UPDATED = '2026-07-17';
 
 // ---------- ENSO 总览【静态/人工维护 · 官方指数快照，来源核对: 2026-07-15】 ----------
 // 数值均取自下方各项 sources 列出的固定权威来源；无法核实者标注"未核实"，不凭记忆/模型生成
@@ -185,13 +185,13 @@ const cropCalendar = [
   { crop:'🧵 棉花', region:'中国新疆', season:'花铃期', sensitive:'高温干旱', risk:'花铃期高温影响授粉与铃重', enso:'北半球夏季偏暖' },
   { crop:'🌽 玉米', region:'中国东北', season:'拔节期', sensitive:'7月下旬抽雄授粉', risk:'当前光热适宜，关注后期高温', enso:'东北积温正常有利' },
   { crop:'🌽 玉米', region:'黄淮海', season:'苗期(三叶-七叶)', sensitive:'高温影响幼苗', risk:'35°C+高温不利壮苗', enso:'黄淮盛夏偏热风险' },
-  { crop:'🌽 玉米', region:'美国玉米带', season:'抽雄-吐丝期(16%已吐丝)', sensitive:'授粉主体7/15-30', risk:'优良率67%；8-14天展望东带偏湿、西带偏热干至7/19', enso:'雨热分歧成定价焦点；北伊/东爱/南明局地雨水过多' },
+  { crop:'🌽 玉米', region:'美国玉米带', season:'抽雄-吐丝期(授粉高峰7月下旬)', sensitive:'授粉主体7月下旬', risk:'优良率约68%(7/13)；NWS 30天预报玉米带转凉偏湿至8月中、利授粉灌浆', enso:'天气升水回吐；关注凉湿预报能否兑现' },
   { crop:'🫘 大豆', region:'中国东北', season:'分枝-初花期', sensitive:'开花结荚期水分', risk:'当前墒情适宜', enso:'关注8月干旱风险' },
-  { crop:'🫘 大豆', region:'美国中西部', season:'开花初期', sensitive:'高温干旱', risk:'热浪影响开花', enso:'当前整体有利，后期关注' },
+  { crop:'🫘 大豆', region:'美国中西部', season:'开花期(R1，约37%开花)', sensitive:'开花-结荚期水分/温度', risk:'早前热浪已缓，周末转凉、凉湿预报利结荚', enso:'整体转好；关注8月降水兑现' },
   { crop:'🌾 小麦', region:'中国黄淮海', season:'已收获', sensitive:'—', risk:'收获完毕，腾茬夏播', enso:'新麦上市，关注质量' },
   { crop:'🌾 小麦', region:'澳大利亚', season:'播种-分蘖期', sensitive:'冬春降水', risk:'厄尔尼诺→澳洲干旱是最大风险', enso:'EN年澳麦减产概率大' },
   { crop:'🌾 小麦', region:'黑海(俄/乌)', season:'灌浆-收获期', sensitive:'收获期降水/高温', risk:'收获窗口天气', enso:'间接影响较弱' },
-  { crop:'☕ 咖啡', region:'巴西米纳斯', season:'采收期(5-9月，进度约52%偏慢)', sensitive:'霜冻', risk:'霜冻担忧升温，阿拉比卡单日跳涨约10%重上$3/磅；中旬再有降水扰动采收', enso:'EN年巴西南部霜冻概率变化需跟踪' },
+  { crop:'☕ 咖啡', region:'巴西米纳斯', season:'采收期(5-9月，7/1约52%完成偏慢)', sensitive:'霜冻/采收期降水', risk:'采收恢复压制价格，阿拉比卡7/16回落约4%至约$3.14/磅；7-8月霜冻窗口仍开但当前风险低', enso:'EN或令9-10月(下季)开花期偏干，为中期支撑' },
   { crop:'🍬 白糖', region:'中国广西', season:'甘蔗伸长期', sensitive:'7-9月需水关键期', risk:'伸长期干旱直接损失蔗茎产量', enso:'EN年华南秋冬偏干需警惕' },
   { crop:'🍬 白糖', region:'印度/泰国', season:'季风生长期', sensitive:'季风降水', risk:'印度7月初季风转入降水盈余，产量预期改善；泰国仍偏干', enso:'EN年季风后期仍可能转弱，中期风险未除' },
 ];
@@ -540,59 +540,59 @@ const cropRegions = [
 const NEWS_WINDOW_HOURS = 12;
 const AG_NEWS = [
   {
-    title: '小麦暴涨、三市双位数收高：黑海局势升级(据报过去一周逾100艘俄船遭乌无人机袭击、关键航线中断)+巴黎小麦跳涨+美元大跌。芝加哥9月+32½收677½、堪萨斯+42收720、MIAX+25¼收683¼；SovEcon/IKAR下调俄7月出口至约2MMT(IKAR −20%)；法国软麦预估32MMT(同比−4%)',
-    link: 'https://www.totalfarmmarketing.com/tfm-daily-market-summary-07-15-2026/',
-    ts: '2026-07-16T03:55:00+08:00', date: '7/16 03:55', source: 'Total Farm Marketing', sourceClass: 'usda',
+    title: '玉米/大豆回落：玉米回吐周二涨幅、大豆冲高回落。9月玉米−6收441½、12月−5½收464；8月大豆−7¼、11月−6¾均收11.95(豆粕+4.00、豆油−0.49)。USDA周度出口销售：旧作玉米创年度低、逊预期；大豆超预期(中国上周购106万吨美豆)但价格未获支撑',
+    link: 'https://www.totalfarmmarketing.com/tfm-daily-market-summary-07-16-2026/',
+    ts: '2026-07-17T03:55:00+08:00', date: '7/17 03:55', source: 'Total Farm Marketing', sourceClass: 'usda',
   },
   {
-    title: '玉米受小麦带动+空头回补上涨：9月+9收447½、12月+9收469½(6月1日以来最高)。上周乙醇产量降至10周低位306百万加仑(同比−4%)；因南美竞争，美玉米出口疲弱(6月23日以来无新公布销售)',
-    link: 'https://www.totalfarmmarketing.com/tfm-daily-market-summary-07-15-2026/',
-    ts: '2026-07-16T03:50:00+08:00', date: '7/16 03:50', source: 'Total Farm Marketing', sourceClass: 'usda',
+    title: 'NWS 30天预报(7/16发布)：玉米带气温偏凉、降水偏多延续至8月中旬，西玉米带最湿→利玉米授粉与大豆结荚；若兑现，前期天气升水回吐',
+    link: 'https://www.totalfarmmarketing.com/tfm-daily-market-summary-07-16-2026/',
+    ts: '2026-07-17T03:50:00+08:00', date: '7/17 03:50', source: 'Total Farm Marketing / NWS', sourceClass: 'usda',
   },
   {
-    title: '大豆走高但$12.05附近遇阻：8月+9½收1202¼、11月+10¾收1201¾(豆粕+1.50、豆油+0.52)。NOPA 6月压榨214.34百万蒲超预期(环比+2.7%、同比+15.7%)；热干天气提振，周末起预计转凉',
-    link: 'https://www.totalfarmmarketing.com/tfm-daily-market-summary-07-15-2026/',
-    ts: '2026-07-16T03:45:00+08:00', date: '7/16 03:45', source: 'Total Farm Marketing / NOPA', sourceClass: 'usda',
+    title: '小麦冲高回落收平：获利了结+美元反弹，黑海题材续撑波动。芝加哥9月−2¾收674¾、堪萨斯−3½收716½、MIAX+2收685¼。USDM:48%冬麦、24%春麦处旱(春麦周增5个百分点)；德国DRV预估2026麦产同比−12%',
+    link: 'https://www.totalfarmmarketing.com/tfm-daily-market-summary-07-16-2026/',
+    ts: '2026-07-17T03:45:00+08:00', date: '7/17 03:45', source: 'Total Farm Marketing', sourceClass: 'usda',
   },
   {
-    title: '美中西部天气：本周暖干，周末起转凉、月内后半段降水机会改善(交易员紧盯预报能否兑现)；玉米授粉、大豆开花正处关键发育窗口',
-    link: 'https://www.totalfarmmarketing.com/tfm-daily-market-summary-07-15-2026/',
-    ts: '2026-07-16T03:40:00+08:00', date: '7/16 03:40', source: 'Total Farm Marketing', sourceClass: 'usda',
+    title: '咖啡：阿拉比卡7/16跌3.98%至约313.7美分/磅，巴西采收恢复(7/1约52%完成)+主产区近期无霜冻预期压制价格；El Niño对下季9-10月开花期偏干为中期支撑',
+    link: 'https://tradingeconomics.com/commodity/coffee',
+    ts: '2026-07-17T02:30:00+08:00', date: '7/17 02:30', source: 'ICE / TradingEconomics', sourceClass: 'fao',
   },
 ];
 
 // ============================================================
-// 特殊天气事件 — 台风/高温/强降水/霜冻等重大天气（静态参考, 更新于 2026-07-14）
+// 特殊天气事件 — 台风/高温/强降水/霜冻等重大天气（静态参考, 更新于 2026-07-17）
 // severity 用 tag 分级: severe(白字红底)/high(红)/mid(琥珀)/low(墨绿)
 // ============================================================
 const SPECIAL_EVENTS = [
   {
-    icon:'🌀', title:'台风"巴威"(Bavi) 已消散', severity:'已消散·灾后恢复', cls:'mid', status:'灾后恢复',
-    region:'浙江(登陆) → 内陆消散；残余雨带→江淮·黄淮',
-    time:'7/11浙江登陆，7/13前后消散',
-    detail:'7月11日在浙江玉环/乐清登陆后减弱为热带风暴、西北移入内陆并逐步消散；浙江累计疏散逾220万人。浙东/闽东北转入洪涝退水与灾后恢复，残余水汽/季风雨带影响江淮、黄淮(苏皖北部、河南等)，关注农田渍涝与夏玉米/花生墒情。',
-    sources:[ { l:'中央气象台台风网', u:'https://typhoon.nmc.cn/web.html' }, { l:'The Watchers', u:'https://watchers.news/2026/07/11/typhoon-bavi-landfall-zhejiang-china-damage-aftermath-july-2026/' } ],
+    icon:'🌦️', title:'美玉米带天气转向：授粉期转凉偏湿(利多作物)', severity:'天气转好·升水消退', cls:'low', status:'凉湿·利授粉灌浆',
+    region:'美国玉米带(西部最湿)',
+    time:'7月中—8月中',
+    detail:'NWS 7月16日发布最新30天预报：玉米带气温偏凉、降水偏多将延续至8月中旬，最湿区位于西玉米带；早前(6月末—7月中)热浪已消退。若兑现，利于玉米授粉与大豆结荚，此前天气升水本周自高位回吐(玉米/大豆回落)。',
+    sources:[ { l:'NOAA CPC 月度/30天展望', u:'https://www.cpc.ncep.noaa.gov/products/predictions/30day/' }, { l:'NWS WPC', u:'https://www.wpc.ncep.noaa.gov/' } ],
   },
   {
-    icon:'❄️', title:'巴西南部霜冻风险', severity:'霜冻窗口·尾部风险', cls:'high', status:'高风险窗口临近',
+    icon:'🏜️', title:'美国冬麦/春麦旱情', severity:'旱区扩大', cls:'mid', status:'春麦旱区跳升',
+    region:'美国北部平原 · 冬麦带',
+    time:'至7/14 (USDM)',
+    detail:'美国干旱监测(USDM，截至7月14日)：约48%冬小麦种植区处于干旱(周增1个百分点)；春小麦旱区一周跳升5个百分点至24%，或反映于下期作物评级。不过整体仍较去年同期低约12个百分点。',
+    sources:[ { l:'US Drought Monitor', u:'https://droughtmonitor.unl.edu/' } ],
+  },
+  {
+    icon:'🔥', title:'欧洲高温致麦类减产', severity:'高温减产', cls:'high', status:'减产确认',
+    region:'德国 · 法国',
+    time:'2026收获季',
+    detail:'德国合作社DRV：2026年小麦产量预估同比-12%至19.9MMT(高温致早熟、粒重与单产下降)。法国亦受热浪减产(单产估降约7%)，但因欧盟外销售强劲，FranceAgriMer 上调25/26出口至15.4MMT(同比约+48%)。',
+    sources:[ { l:'Reuters/DRV', u:'https://www.reuters.com/markets/commodities/' }, { l:'FranceAgriMer', u:'https://www.franceagrimer.fr/' } ],
+  },
+  {
+    icon:'❄️', title:'巴西南部霜冻窗口(当前风险低)', severity:'霜冻窗口·尾部风险', cls:'mid', status:'当前风险低',
     region:'南米纳斯 · 塞拉多 · 圣保罗 · 巴拉那',
-    time:'7-8月霜冻高风险期',
-    detail:'巴西2026/27咖啡采收偏慢（截至7月初约52%，落后去年及五年均值），近期强降雨扰乱采收；叠加7-8月南部霜冻高风险窗口，投机资金对寒潮高度敏感，阿拉比卡期价单日一度跳涨近10%、重上$3/磅。需逐日跟踪南部最低气温预报。',
-    sources:[ { l:'Rio Times', u:'https://www.riotimesonline.com/coffee-prices-2026-brazil-weather-spike/' }, { l:'INMET(巴西气象)', u:'https://portal.inmet.gov.br/' } ],
-  },
-  {
-    icon:'🔥', title:'美国玉米带"热盖"压顶授粉期', severity:'热盖压顶·期价大涨', cls:'severe', status:'压顶授粉期',
-    region:'美国东部→平原/中西部 · 玉米带腹地',
-    time:'7月下半月高温+干袋',
-    detail:'热盖(heat dome)自美东西扩至平原与中西部，8-14天展望全美偏热、中西部腹地7月下半月现"干袋"，正压玉米授粉核心期。7/13盘面创6月种植面积报告以来最大单日涨幅(豆+43~49美分、玉米+13~15美分)。新作结转偏低，单产小幅下修即由宽松转紧。',
-    sources:[ { l:'NOAA CPC 8-14天', u:'https://www.cpc.ncep.noaa.gov/products/predictions/814day/' }, { l:'NWS WPC', u:'https://www.wpc.ncep.noaa.gov/' } ],
-  },
-  {
-    icon:'⛈️', title:'美国东玉米带强降水(局地过湿)', severity:'强降水', cls:'mid', status:'临近',
-    region:'东玉米带 · 北伊利诺伊 · 东中爱荷华 · 南明尼苏达',
-    time:'7/9-15偏湿',
-    detail:'8-14天展望显示7/9-15东玉米带偏湿，北伊利诺伊、东中爱荷华、南明尼苏达局地雨水过多，需关注渍涝与病害风险；与西部偏干形成"东湿西热"分化格局。',
-    sources:[ { l:'WPC 定量降水预报', u:'https://www.wpc.ncep.noaa.gov/qpf/qpf2.shtml' } ],
+    time:'7-8月霜冻窗口',
+    detail:'7-8月南部霜冻窗口仍开，但当前预报主产区无霜冻、严重寒潮风险低。采收恢复(7/1约52%完成、仍偏慢)压制价格，阿拉比卡7/16跌约4%至约$3.14/磅。中期支撑更多转向 El Niño 对9-10月开花期(下季作物)可能偏干的影响。',
+    sources:[ { l:'INMET(巴西气象)', u:'https://portal.inmet.gov.br/' }, { l:'TradingEconomics 咖啡', u:'https://tradingeconomics.com/commodity/coffee' } ],
   },
 ];
 
@@ -663,9 +663,9 @@ const TYPHOON_MONITOR = {
       src:'https://www.ventusky.com/?p=23;125;4&l=rain-3h', srcName:'Ventusky', srcUrl:'https://www.ventusky.com/?p=23;125;4&l=rain-3h' },
     { key:'track', label:'官方路径', type:'iframe', title:'中央气象台 台风路径(交互地图)',
       src:'https://typhoon.nmc.cn/web.html', srcName:'中央气象台台风网', srcUrl:'https://typhoon.nmc.cn/web.html' },
-    { key:'warn', label:'静态警报图', type:'image', title:'JTWC 西北太平洋 第09号(巴威/Bavi)警报图',
+    { key:'warn', label:'静态警报图', type:'image', title:'JTWC 西北太平洋 活动风暴警报图',
       src:'https://www.metoc.navy.mil/jtwc/products/wp0926.gif', srcName:'JTWC', srcUrl:'https://www.metoc.navy.mil/jtwc/jtwc.html',
-      note:'联合台风警报中心警报图，随每报更新；风暴消散后此图将失效，届时以官方路径为准' },
+      note:'联合台风警报中心警报图，随每报更新。当前西北太平洋无命名活动风暴(台风"巴威"已于7月中消散)，此图可能为空，请以"官方路径"图层及来源为准' },
   ],
   cards:[
     { icon:'🌀', t:'中央气象台台风网', kind:'官方 · 实时路径/预报/集合', u:'http://typhoon.nmc.cn', d:'国内直连：实时定位、强度、预报路径与集合预报、警报信息', primary:true },
