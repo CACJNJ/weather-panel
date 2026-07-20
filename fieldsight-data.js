@@ -2,7 +2,7 @@
 // 静态数据层 — 由定时任务/人工定期刷新
 // 最后更新: 2026-07-14 (数据来源见各板块)
 // ============================================================
-const STATIC_UPDATED = '2026-07-17';
+const STATIC_UPDATED = '2026-07-20';
 
 // ---------- ENSO 总览【静态/人工维护 · 官方指数快照，来源核对: 2026-07-15】 ----------
 // 数值均取自下方各项 sources 列出的固定权威来源；无法核实者标注"未核实"，不凭记忆/模型生成
@@ -540,44 +540,44 @@ const cropRegions = [
 const NEWS_WINDOW_HOURS = 12;
 const AG_NEWS = [
   {
-    title: '玉米/大豆回落：玉米回吐周二涨幅、大豆冲高回落。9月玉米−6收441½、12月−5½收464；8月大豆−7¼、11月−6¾均收11.95(豆粕+4.00、豆油−0.49)。USDA周度出口销售：旧作玉米创年度低、逊预期；大豆超预期(中国上周购106万吨美豆)但价格未获支撑',
-    link: 'https://www.totalfarmmarketing.com/tfm-daily-market-summary-07-16-2026/',
-    ts: '2026-07-17T03:55:00+08:00', date: '7/17 03:55', source: 'Total Farm Marketing', sourceClass: 'usda',
+    title: '周一盘前：谷物隔夜反弹、天气升水回归。进入玉米授粉高峰，平原与西部玉米带6-15天转向偏热偏干，市场重新计入天气风险(新作估产已从趋势183蒲下修向181蒲);今日凌晨(美东周一午后)将公布USDA周度作物生长报告',
+    link: 'https://www.agbull.com/category/wiesemeyers-perspectives/',
+    ts: '2026-07-20T07:35:00+08:00', date: '7/20 07:35', source: 'Ag Bull / 市场综合', sourceClass: 'usda',
   },
   {
-    title: 'NWS 30天预报(7/16发布)：玉米带气温偏凉、降水偏多延续至8月中旬，西玉米带最湿→利玉米授粉与大豆结荚；若兑现，前期天气升水回吐',
-    link: 'https://www.totalfarmmarketing.com/tfm-daily-market-summary-07-16-2026/',
-    ts: '2026-07-17T03:50:00+08:00', date: '7/17 03:50', source: 'Total Farm Marketing / NWS', sourceClass: 'usda',
+    title: '天气两面性：平原与西玉米带6-15天偏热偏干(授粉最敏感窗口)令升水回归；但北/东玉米带月末降水模式仍有分歧，且前期爱荷华/北伊/印第安纳强降水后有渍涝与土壤脱氮隐忧。定价焦点回到未来两周实况',
+    link: 'https://www.cpc.ncep.noaa.gov/products/predictions/814day/',
+    ts: '2026-07-20T07:25:00+08:00', date: '7/20 07:25', source: 'NOAA CPC / 市场综合', sourceClass: 'usda',
   },
   {
-    title: '小麦冲高回落收平：获利了结+美元反弹，黑海题材续撑波动。芝加哥9月−2¾收674¾、堪萨斯−3½收716½、MIAX+2收685¼。USDM:48%冬麦、24%春麦处旱(春麦周增5个百分点)；德国DRV预估2026麦产同比−12%',
-    link: 'https://www.totalfarmmarketing.com/tfm-daily-market-summary-07-16-2026/',
-    ts: '2026-07-17T03:45:00+08:00', date: '7/17 03:45', source: 'Total Farm Marketing', sourceClass: 'usda',
+    title: '原油/植物油：美伊在霍尔木兹海峡持续交火、通行受限令原油维持高位，经生物柴油需求支撑棕榈油与豆油；隔夜芝加哥豆油走强',
+    link: 'https://www.brecorder.com/markets/commodities',
+    ts: '2026-07-20T07:15:00+08:00', date: '7/20 07:15', source: 'Reuters / Business Recorder', sourceClass: 'fao',
   },
   {
-    title: '咖啡：阿拉比卡7/16跌3.98%至约313.7美分/磅，巴西采收恢复(7/1约52%完成)+主产区近期无霜冻预期压制价格；El Niño对下季9-10月开花期偏干为中期支撑',
-    link: 'https://tradingeconomics.com/commodity/coffee',
-    ts: '2026-07-17T02:30:00+08:00', date: '7/17 02:30', source: 'ICE / TradingEconomics', sourceClass: 'fao',
+    title: '需求与宏观焦点：市场持续关注中国采购美豆进展与中美关税缓和(USDA平衡表未计入中国玉米需求，存潜在上行空间)；黑海流向、中东局势仍为风险变量',
+    link: 'https://www.agbull.com/category/wiesemeyers-perspectives/',
+    ts: '2026-07-20T07:05:00+08:00', date: '7/20 07:05', source: 'Ag Bull / 市场综合', sourceClass: 'usda',
   },
 ];
 
 // ============================================================
-// 特殊天气事件 — 台风/高温/强降水/霜冻等重大天气（静态参考, 更新于 2026-07-17）
+// 特殊天气事件 — 台风/高温/强降水/霜冻等重大天气（静态参考, 更新于 2026-07-20）
 // severity 用 tag 分级: severe(白字红底)/high(红)/mid(琥珀)/low(墨绿)
 // ============================================================
 const SPECIAL_EVENTS = [
   {
-    icon:'🌦️', title:'美玉米带天气转向：授粉期转凉偏湿(利多作物)', severity:'天气转好·升水消退', cls:'low', status:'凉湿·利授粉灌浆',
-    region:'美国玉米带(西部最湿)',
-    time:'7月中—8月中',
-    detail:'NWS 7月16日发布最新30天预报：玉米带气温偏凉、降水偏多将延续至8月中旬，最湿区位于西玉米带；早前(6月末—7月中)热浪已消退。若兑现，利于玉米授粉与大豆结荚，此前天气升水本周自高位回吐(玉米/大豆回落)。',
-    sources:[ { l:'NOAA CPC 月度/30天展望', u:'https://www.cpc.ncep.noaa.gov/products/predictions/30day/' }, { l:'NWS WPC', u:'https://www.wpc.ncep.noaa.gov/' } ],
+    icon:'🌡️', title:'美玉米带授粉期天气两面性(升水回归)', severity:'偏热偏干风险回升', cls:'mid', status:'升水回归·两面性',
+    region:'平原/西玉米带(偏热干) · 北/东玉米带(月末转湿分歧)',
+    time:'7月下旬授粉高峰',
+    detail:'进入玉米授粉高峰，平原与西部玉米带6-15天转向偏热偏干，市场重新计入天气升水(谷物隔夜反弹)。但北/东玉米带月末降水模式仍有分歧；前期爱荷华/北伊利诺伊/印第安纳局地强降水后有渍涝与土壤脱氮(氮流失)隐忧，可能在灌浆期显现。定价焦点回到未来两周实况。',
+    sources:[ { l:'NOAA CPC 6-10/8-14天', u:'https://www.cpc.ncep.noaa.gov/products/predictions/814day/' }, { l:'NWS WPC', u:'https://www.wpc.ncep.noaa.gov/' } ],
   },
   {
     icon:'🏜️', title:'美国冬麦/春麦旱情', severity:'旱区扩大', cls:'mid', status:'春麦旱区跳升',
     region:'美国北部平原 · 冬麦带',
-    time:'至7/14 (USDM)',
-    detail:'美国干旱监测(USDM，截至7月14日)：约48%冬小麦种植区处于干旱(周增1个百分点)；春小麦旱区一周跳升5个百分点至24%，或反映于下期作物评级。不过整体仍较去年同期低约12个百分点。',
+    time:'USDM 7/17发布(数据截至7/14)',
+    detail:'美国干旱监测(USDM，7月17日发布、数据截至7/14)：约48%冬小麦种植区处于干旱(周增1个百分点)；春小麦旱区一周跳升5个百分点至24%，或反映于后续作物评级。整体仍较去年同期低约12个百分点。下次发布7/24。',
     sources:[ { l:'US Drought Monitor', u:'https://droughtmonitor.unl.edu/' } ],
   },
   {
@@ -591,7 +591,7 @@ const SPECIAL_EVENTS = [
     icon:'❄️', title:'巴西南部霜冻窗口(当前风险低)', severity:'霜冻窗口·尾部风险', cls:'mid', status:'当前风险低',
     region:'南米纳斯 · 塞拉多 · 圣保罗 · 巴拉那',
     time:'7-8月霜冻窗口',
-    detail:'7-8月南部霜冻窗口仍开，但当前预报主产区无霜冻、严重寒潮风险低。采收恢复(7/1约52%完成、仍偏慢)压制价格，阿拉比卡7/16跌约4%至约$3.14/磅。中期支撑更多转向 El Niño 对9-10月开花期(下季作物)可能偏干的影响。',
+    detail:'7-8月南部霜冻窗口仍开，但近期预报主产区无霜冻、严重寒潮风险低。采收恢复(约52%完成、仍偏慢)压制价格，阿拉比卡7/16跌约4%至约$3.14/磅后维持弱势。中期支撑更多转向 El Niño 对9-10月开花期(下季作物)可能偏干的影响。',
     sources:[ { l:'INMET(巴西气象)', u:'https://portal.inmet.gov.br/' }, { l:'TradingEconomics 咖啡', u:'https://tradingeconomics.com/commodity/coffee' } ],
   },
 ];
