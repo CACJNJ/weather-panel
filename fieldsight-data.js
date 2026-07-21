@@ -2,7 +2,7 @@
 // 静态数据层 — 由定时任务/人工定期刷新
 // 最后更新: 2026-07-14 (数据来源见各板块)
 // ============================================================
-const STATIC_UPDATED = '2026-07-20';
+const STATIC_UPDATED = '2026-07-21';
 
 // ---------- ENSO 总览【静态/人工维护 · 官方指数快照，来源核对: 2026-07-15】 ----------
 // 数值均取自下方各项 sources 列出的固定权威来源；无法核实者标注"未核实"，不凭记忆/模型生成
@@ -540,29 +540,29 @@ const cropRegions = [
 const NEWS_WINDOW_HOURS = 12;
 const AG_NEWS = [
   {
-    title: '周一盘前：谷物隔夜反弹、天气升水回归。进入玉米授粉高峰，平原与西部玉米带6-15天转向偏热偏干，市场重新计入天气风险(新作估产已从趋势183蒲下修向181蒲);今日凌晨(美东周一午后)将公布USDA周度作物生长报告',
-    link: 'https://www.agbull.com/category/wiesemeyers-perspectives/',
-    ts: '2026-07-20T07:35:00+08:00', date: '7/20 07:35', source: 'Ag Bull / 市场综合', sourceClass: 'usda',
+    title: '小麦领涨、黑海供应担忧升级：上周小麦大涨创阶段新高(芝加哥SRW 9月+42½美分/周、堪萨斯+56、明尼阿波利斯+39¼)，因乌克兰袭击俄船只令亚速海(Sea of Azov)出口受限、俄军又打击乌敖德萨(Odesa)港；玉米受带动走强(9月+5¼、12月+6½/周)',
+    link: 'https://blog.pricegroup.com/2026/07/20/look-at-my-muscles-ag-marketing-report-07-20-2026/',
+    ts: '2026-07-20T22:30:00+08:00', date: '7/20 22:30', source: 'Price Group / Brugler', sourceClass: 'usda',
   },
   {
-    title: '天气两面性：平原与西玉米带6-15天偏热偏干(授粉最敏感窗口)令升水回归；但北/东玉米带月末降水模式仍有分歧，且前期爱荷华/北伊/印第安纳强降水后有渍涝与土壤脱氮隐忧。定价焦点回到未来两周实况',
+    title: '大豆偏强、中国采购延续：上周大豆走高(8月+12¾美分/周、11月+12¼)，豆油大涨(+435点)；出口销售买家活跃(上周中国购47.6万吨美豆)；NOPA 6月压榨214.34百万蒲(同比+15.7%)',
+    link: 'https://blog.pricegroup.com/2026/07/20/look-at-my-muscles-ag-marketing-report-07-20-2026/',
+    ts: '2026-07-20T22:20:00+08:00', date: '7/20 22:20', source: 'Price Group / NOPA', sourceClass: 'usda',
+  },
+  {
+    title: 'USDA周度作物生长报告(截至7/19)今晨发布：关注玉米吐丝/优良率、大豆开花/优良率较上期变化(上期截至7/12：玉米68%优良、吐丝34%；大豆65%优良、开花50%)，为本周谷物定价关键',
+    link: 'https://www.nass.usda.gov/Publications/National_Crop_Progress/',
+    ts: '2026-07-21T04:10:00+08:00', date: '7/21 04:10', source: 'USDA NASS', sourceClass: 'usda',
+  },
+  {
+    title: '天气两面性延续：玉米授粉高峰，平原与西玉米带偏热偏干、北/东玉米带降水改善；近期中西部部分地区(含俄亥俄)降水利于玉米、大豆发育',
     link: 'https://www.cpc.ncep.noaa.gov/products/predictions/814day/',
-    ts: '2026-07-20T07:25:00+08:00', date: '7/20 07:25', source: 'NOAA CPC / 市场综合', sourceClass: 'usda',
-  },
-  {
-    title: '原油/植物油：美伊在霍尔木兹海峡持续交火、通行受限令原油维持高位，经生物柴油需求支撑棕榈油与豆油；隔夜芝加哥豆油走强',
-    link: 'https://www.brecorder.com/markets/commodities',
-    ts: '2026-07-20T07:15:00+08:00', date: '7/20 07:15', source: 'Reuters / Business Recorder', sourceClass: 'fao',
-  },
-  {
-    title: '需求与宏观焦点：市场持续关注中国采购美豆进展与中美关税缓和(USDA平衡表未计入中国玉米需求，存潜在上行空间)；黑海流向、中东局势仍为风险变量',
-    link: 'https://www.agbull.com/category/wiesemeyers-perspectives/',
-    ts: '2026-07-20T07:05:00+08:00', date: '7/20 07:05', source: 'Ag Bull / 市场综合', sourceClass: 'usda',
+    ts: '2026-07-21T03:00:00+08:00', date: '7/21 03:00', source: 'NOAA CPC / 市场综合', sourceClass: 'usda',
   },
 ];
 
 // ============================================================
-// 特殊天气事件 — 台风/高温/强降水/霜冻等重大天气（静态参考, 更新于 2026-07-20）
+// 特殊天气事件 — 台风/高温/强降水/霜冻等重大天气（静态参考, 更新于 2026-07-21）
 // severity 用 tag 分级: severe(白字红底)/high(红)/mid(琥珀)/low(墨绿)
 // ============================================================
 const SPECIAL_EVENTS = [
@@ -570,7 +570,7 @@ const SPECIAL_EVENTS = [
     icon:'🌡️', title:'美玉米带授粉期天气两面性(升水回归)', severity:'偏热偏干风险回升', cls:'mid', status:'升水回归·两面性',
     region:'平原/西玉米带(偏热干) · 北/东玉米带(月末转湿分歧)',
     time:'7月下旬授粉高峰',
-    detail:'进入玉米授粉高峰，平原与西部玉米带6-15天转向偏热偏干，市场重新计入天气升水(谷物隔夜反弹)。但北/东玉米带月末降水模式仍有分歧；前期爱荷华/北伊利诺伊/印第安纳局地强降水后有渍涝与土壤脱氮(氮流失)隐忧，可能在灌浆期显现。定价焦点回到未来两周实况。',
+    detail:'进入玉米授粉高峰，平原与西部玉米带6-15天转向偏热偏干，市场重新计入天气升水(谷物隔夜反弹)。但北/东玉米带月末降水模式仍有分歧；前期爱荷华/北伊利诺伊/印第安纳局地强降水后有渍涝与土壤脱氮(氮流失)隐忧，可能在灌浆期显现；近期中西部部分地区(含俄亥俄)降水改善利于作物发育。定价焦点回到未来两周实况。',
     sources:[ { l:'NOAA CPC 6-10/8-14天', u:'https://www.cpc.ncep.noaa.gov/products/predictions/814day/' }, { l:'NWS WPC', u:'https://www.wpc.ncep.noaa.gov/' } ],
   },
   {
