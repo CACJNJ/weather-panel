@@ -2,7 +2,7 @@
 // 静态数据层 — 由定时任务/人工定期刷新
 // 最后更新: 2026-07-14 (数据来源见各板块)
 // ============================================================
-const STATIC_UPDATED = '2026-07-21';
+const STATIC_UPDATED = '2026-07-22';
 
 // ---------- ENSO 总览【静态/人工维护 · 官方指数快照，来源核对: 2026-07-15】 ----------
 // 数值均取自下方各项 sources 列出的固定权威来源；无法核实者标注"未核实"，不凭记忆/模型生成
@@ -185,9 +185,9 @@ const cropCalendar = [
   { crop:'🧵 棉花', region:'中国新疆', season:'花铃期', sensitive:'高温干旱', risk:'花铃期高温影响授粉与铃重', enso:'北半球夏季偏暖' },
   { crop:'🌽 玉米', region:'中国东北', season:'拔节期', sensitive:'7月下旬抽雄授粉', risk:'当前光热适宜，关注后期高温', enso:'东北积温正常有利' },
   { crop:'🌽 玉米', region:'黄淮海', season:'苗期(三叶-七叶)', sensitive:'高温影响幼苗', risk:'35°C+高温不利壮苗', enso:'黄淮盛夏偏热风险' },
-  { crop:'🌽 玉米', region:'美国玉米带', season:'抽雄-吐丝期(授粉高峰7月下旬)', sensitive:'授粉主体7月下旬', risk:'优良率约68%(7/13)；NWS 30天预报玉米带转凉偏湿至8月中、利授粉灌浆', enso:'天气升水回吐；关注凉湿预报能否兑现' },
+  { crop:'🌽 玉米', region:'美国玉米带', season:'吐丝期(59%吐丝、13%乳熟，快于常年)', sensitive:'授粉高峰(7月下旬)', risk:'优良率67%(7/19，周降1点、仍低于去年)；本周中西部阵雨+转凉、大平原偏热干(得州除外)', enso:'天气两面性；北部中西部条件改善' },
   { crop:'🫘 大豆', region:'中国东北', season:'分枝-初花期', sensitive:'开花结荚期水分', risk:'当前墒情适宜', enso:'关注8月干旱风险' },
-  { crop:'🫘 大豆', region:'美国中西部', season:'开花期(R1，约37%开花)', sensitive:'开花-结荚期水分/温度', risk:'早前热浪已缓，周末转凉、凉湿预报利结荚', enso:'整体转好；关注8月降水兑现' },
+  { crop:'🫘 大豆', region:'美国中西部', season:'开花66%、结荚32%(7/19)', sensitive:'开花-结荚期水分/温度', risk:'优良率66%(7/19，周升1点)；北部中西部改善、他区偏热干；中国新需求+南美收获并存', enso:'整体尚可；关注8月降水' },
   { crop:'🌾 小麦', region:'中国黄淮海', season:'已收获', sensitive:'—', risk:'收获完毕，腾茬夏播', enso:'新麦上市，关注质量' },
   { crop:'🌾 小麦', region:'澳大利亚', season:'播种-分蘖期', sensitive:'冬春降水', risk:'厄尔尼诺→澳洲干旱是最大风险', enso:'EN年澳麦减产概率大' },
   { crop:'🌾 小麦', region:'黑海(俄/乌)', season:'灌浆-收获期', sensitive:'收获期降水/高温', risk:'收获窗口天气', enso:'间接影响较弱' },
@@ -540,29 +540,29 @@ const cropRegions = [
 const NEWS_WINDOW_HOURS = 12;
 const AG_NEWS = [
   {
-    title: '小麦领涨、黑海供应担忧升级：上周小麦大涨创阶段新高(芝加哥SRW 9月+42½美分/周、堪萨斯+56、明尼阿波利斯+39¼)，因乌克兰袭击俄船只令亚速海(Sea of Azov)出口受限、俄军又打击乌敖德萨(Odesa)港；玉米受带动走强(9月+5¼、12月+6½/周)',
-    link: 'https://blog.pricegroup.com/2026/07/20/look-at-my-muscles-ag-marketing-report-07-20-2026/',
-    ts: '2026-07-20T22:30:00+08:00', date: '7/20 22:30', source: 'Price Group / Brugler', sourceClass: 'usda',
+    title: '玉米/大豆走高、小麦盘整回落：上周黑海大涨后小麦本周进入获利回吐(冬麦收获约3/4完成、得州多雨拉低单产)；玉米、大豆受支撑走高——大豆获中国新需求与北部中西部条件改善提振，但其他产区仍偏热偏干、南美收获压制',
+    link: 'https://blog.pricegroup.com/2026/07/21/grains-report-07-21-2026/',
+    ts: '2026-07-22T02:30:00+08:00', date: '7/22 02:30', source: 'Price Group / Scoville', sourceClass: 'usda',
   },
   {
-    title: '大豆偏强、中国采购延续：上周大豆走高(8月+12¾美分/周、11月+12¼)，豆油大涨(+435点)；出口销售买家活跃(上周中国购47.6万吨美豆)；NOPA 6月压榨214.34百万蒲(同比+15.7%)',
-    link: 'https://blog.pricegroup.com/2026/07/20/look-at-my-muscles-ag-marketing-report-07-20-2026/',
-    ts: '2026-07-20T22:20:00+08:00', date: '7/20 22:20', source: 'Price Group / NOPA', sourceClass: 'usda',
+    title: 'USDA周度作物生长报告(截至7/19)：玉米优良率降1点至67%(吐丝59%、乳熟13%，进度快于常年)；大豆升1点至66%(开花66%、结荚32%)；两者评级仍低于去年同期',
+    link: 'https://www.dtnpf.com/agriculture/web/ag/news/article/2026/07/06/usda-crop-progress-corn-rated-67-64',
+    ts: '2026-07-22T04:00:00+08:00', date: '7/22 04:00', source: 'USDA NASS / Brownfield', sourceClass: 'usda',
   },
   {
-    title: 'USDA周度作物生长报告(截至7/19)今晨发布：关注玉米吐丝/优良率、大豆开花/优良率较上期变化(上期截至7/12：玉米68%优良、吐丝34%；大豆65%优良、开花50%)，为本周谷物定价关键',
-    link: 'https://www.nass.usda.gov/Publications/National_Crop_Progress/',
-    ts: '2026-07-21T04:10:00+08:00', date: '7/21 04:10', source: 'USDA NASS', sourceClass: 'usda',
-  },
-  {
-    title: '天气两面性延续：玉米授粉高峰，平原与西玉米带偏热偏干、北/东玉米带降水改善；近期中西部部分地区(含俄亥俄)降水利于玉米、大豆发育',
+    title: '天气：本周中西部散布阵雨、气温较上周转凉，北部中西部条件改善；大平原维持偏热偏干(得州因多雨除外)；欧洲仍偏热。整体授粉-灌浆条件尚可但产区分化',
     link: 'https://www.cpc.ncep.noaa.gov/products/predictions/814day/',
-    ts: '2026-07-21T03:00:00+08:00', date: '7/21 03:00', source: 'NOAA CPC / 市场综合', sourceClass: 'usda',
+    ts: '2026-07-22T03:00:00+08:00', date: '7/22 03:00', source: 'NOAA CPC / 市场综合', sourceClass: 'usda',
+  },
+  {
+    title: '植物油：棕榈油受外围市场走弱收低(马棕现货毛棕榈8月约4,540令吉、跌40)；加拿大菜籽走高；豆油随原油回落',
+    link: 'https://blog.pricegroup.com/2026/07/21/grains-report-07-21-2026/',
+    ts: '2026-07-22T01:00:00+08:00', date: '7/22 01:00', source: 'Reuters / Price Group', sourceClass: 'fao',
   },
 ];
 
 // ============================================================
-// 特殊天气事件 — 台风/高温/强降水/霜冻等重大天气（静态参考, 更新于 2026-07-21）
+// 特殊天气事件 — 台风/高温/强降水/霜冻等重大天气（静态参考, 更新于 2026-07-22）
 // severity 用 tag 分级: severe(白字红底)/high(红)/mid(琥珀)/low(墨绿)
 // ============================================================
 const SPECIAL_EVENTS = [
