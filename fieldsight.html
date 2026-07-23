@@ -617,7 +617,7 @@ function renderAlerts() {
       <div class="af"><span class="afc">${a.cadence}</span>｜观测期 ${a.obsPeriod}｜来源发布 ${a.updated}｜核对 ${a.checked}<br>来源: ${a.sources.map(s => `<a href="${s.u}" target="_blank" rel="noopener">${s.l}</a>`).join(' · ')}</div>
     </li>`).join('');
   const c = document.getElementById('climateSummary');
-  if (c) c.innerHTML = `<span class="tag high">El Niño · 增强</span>NINO3.4 +1.2°C(NOAA)/+1.47(BOM 7/12)｜SOI −25.8｜PDO −0.83｜IOD −0.06中性　·　官方来源 NOAA 7/9 · BOM 7/14 · 本站核对 ${SOURCE_CHECKED}`;
+  if (c) c.innerHTML = `<span class="tag high">El Niño · 增强</span>NINO3.4 +1.2°C(NOAA)/+1.47(BOM 7/12)｜SOI −25.8｜PDO −0.94｜IOD −0.06中性　·　官方来源 NOAA 7/9 · BOM 7/14 · 本站核对 ${SOURCE_CHECKED}`;
 }
 function renderOceanIndices() {
   const sub = document.getElementById('oceanSub');

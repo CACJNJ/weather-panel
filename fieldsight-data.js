@@ -4,9 +4,9 @@
 // ============================================================
 const STATIC_UPDATED = '2026-07-23';
 
-// ---------- ENSO 总览【静态/人工维护 · 官方指数快照，来源核对: 2026-07-15】 ----------
+// ---------- ENSO 总览【静态/人工维护 · 官方指数快照，来源核对: 2026-07-23】 ----------
 // 数值均取自下方各项 sources 列出的固定权威来源；无法核实者标注"未核实"，不凭记忆/模型生成
-const SOURCE_CHECKED = '2026-07-15';
+const SOURCE_CHECKED = '2026-07-23';
 const ensoOverview = [
   { value:'+1.2°C',  label:'NINO3.4 周值 (NOAA 7/9讨论)',  status:'El Niño Advisory · BOM 7/12已达+1.47' },
   { value:'−25.8',   label:'SOI 30天 (BOM Troup 至7/12)',  status:'强负值，海气耦合确认' },
@@ -22,15 +22,15 @@ const alerts = [
     observed:'官方处于 El Niño Advisory 且持续增强。NOAA(7/9讨论)最新周值 NINO3.4 +1.2°C、NINO1+2 +2.7°C、NINO4 +0.5°C；BOM(7/14更新)相对 NINO3.4 已升至 +1.47°C(至7/12当周,两周升约0.2°C)、30天 SOI −25.8(至7/12)、海气耦合明显；赤道次表层增暖(下沉 Kelvin 波)。全球 6 月海温为有记录以来最暖6月(BOM)。',
     outlook:'NOAA：El Niño 将增强至年底，97% 概率维持到 2027 年初春；10-12月有 81% 概率达强/极强级别。BOM：多数模式指向强-极强事件、或为1950年以来最强之一，料至少持续至(南半球)夏季。下次 NOAA 讨论 2026-08-13。',
     implication:'若强 El Niño 兑现，历史上*倾向于*东南亚/澳洲偏干、南美偏湿，对棕榈油、澳麦、南美大豆/玉米有潜在供给扰动。此为条件性推断——ENSO 仅为众多影响因子之一，不能单独决定天气、单产或价格。',
-    cadence:'每周指数更新 · 每月官方讨论', obsPeriod:'周值至 2026-07-12 / NOAA讨论 2026-07-09', updated:'NOAA 2026-07-09；BOM 2026-07-14', checked:'2026-07-15',
+    cadence:'每周指数更新 · 每月官方讨论', obsPeriod:'周值至 2026-07-12 / NOAA讨论 2026-07-09', updated:'NOAA 2026-07-09；BOM 2026-07-14', checked:'2026-07-23',
     sources:[{l:'NOAA CPC ENSO讨论',u:'https://www.cpc.ncep.noaa.gov/products/analysis_monitoring/enso_advisory/ensodisc.shtml'},{l:'NOAA CPC 指数',u:'https://www.cpc.ncep.noaa.gov/data/indices/'},{l:'BOM ENSO',u:'http://www.bom.gov.au/climate/enso/'}]
   },
   {
     level:'warn', title:'🌊 PDO 太平洋年代际振荡：负相位延续',
-    observed:'JMA 月度 PDO 指数 2026年5月 −0.83（最新可得），较4月 −0.47 更负；2025年7月曾探底 −3.23。自2020年以来负相位主导。',
+    observed:'JMA 月度 PDO 指数 2026年6月 −0.94（最新可得），较5月 −0.79 更负；2025年7月曾探底 −3.23。自2020年以来负相位主导。',
     outlook:'PDO 为月度指数、无逐日实时值；当前趋势维持负相位。注：NOAA PSL 的 PDO 序列目前仅更新至 2025年8月，故此处采用 JMA 月度官方值。',
     implication:'负 PDO *可能*增强冬季经向环流与西伯利亚高压，与 El Niño 叠加时冬季环流形势复杂。属长期背景因子，条件性推断。',
-    cadence:'月度官方更新', obsPeriod:'月值 2026-05（最新可得）', updated:'JMA 2026-05 值', checked:'2026-07-15',
+    cadence:'月度官方更新', obsPeriod:'月值 2026-06（最新可得）', updated:'JMA 2026-06 值', checked:'2026-07-23',
     sources:[{l:'JMA 月度PDO',u:'https://ds.data.jma.go.jp/tcc/tcc/products/elnino/decadal/pdo_month.html'}]
   },
   {
@@ -38,7 +38,7 @@ const alerts = [
     observed:'NOAA CPC 月度 NAO：2026年3月 +2.69（春季高值）、4月 +1.39，随后回落——5月 −0.74、6月 +0.10（最新，近中性）。',
     outlook:'月度指数；春季强正相位已消退，当前处于中性，信号偏弱。',
     implication:'NAO 主要*间接*影响北大西洋-欧洲环流及黑海/欧洲麦区降水格局；当前中性，指示意义有限。条件性推断。',
-    cadence:'月度更新', obsPeriod:'月值 2026-06（最新可得）', updated:'NOAA CPC 2026-06 值', checked:'2026-07-15',
+    cadence:'月度更新', obsPeriod:'月值 2026-06（最新可得）', updated:'NOAA CPC 2026-06 值', checked:'2026-07-23',
     sources:[{l:'NOAA CPC NAO',u:'https://www.cpc.ncep.noaa.gov/products/precip/CWlink/pna/nao.shtml'}]
   },
   {
@@ -46,12 +46,12 @@ const alerts = [
     observed:'BOM(7/14更新) 周度 IOD 指数 2026年7月12日 −0.06°C，处于中性区间（−0.4 至 +0.4°C 之间）。',
     outlook:'BOM：模式预测南半球冬季*可能*发展为正 IOD 并持续到春季，但时间与强度分歧大、维持中性亦为可能结果。',
     implication:'若正 IOD 兑现并与 El Niño 叠加，*可能*加剧东南亚/澳洲干旱，对棕榈油、澳麦为潜在风险；目前尚未发生。条件性推断。',
-    cadence:'每两周更新', obsPeriod:'至 2026-07-12', updated:'BOM 2026-07-14', checked:'2026-07-15',
+    cadence:'每两周更新', obsPeriod:'至 2026-07-12', updated:'BOM 2026-07-14', checked:'2026-07-23',
     sources:[{l:'BOM IOD',u:'https://www.bom.gov.au/climate/iod/'}]
   },
 ];
 
-// ---------- 海洋指数【静态/人工维护 · ENSO/PDO/NAO/IOD, 每项标观测期与来源, 核对 2026-07-15】 ----------
+// ---------- 海洋指数【静态/人工维护 · ENSO/PDO/NAO/IOD, 每项标观测期与来源, 核对 2026-07-23】 ----------
 const oceanIndices = [
   {
     name:'🌊 ENSO 厄尔尼诺-南方涛动', borderColor:'#ef4444',
@@ -59,16 +59,16 @@ const oceanIndices = [
     risks:[{label:'高风险',cls:'risk-high'},{label:'持续增强',cls:'risk-severe'}],
     dir:'BOM相对NINO3.4 两周升约+0.2°C(至7/12 +1.47)',
     detail:'官方 El Niño Advisory。NOAA(7/9):NINO1+2 +2.7°C、NINO4 +0.5°C、次表层增暖(下沉Kelvin波);BOM(7/14):相对NINO3.4 +1.47(7/12)、SOI −25.8。将持续增强,10-12月81%概率为强/极强、或为1950年来最强之一。',
-    cadence:'每周指数 / 每月讨论', obsPeriod:'周值至7/12 · NOAA讨论7/9', checked:'2026-07-15',
+    cadence:'每周指数 / 每月讨论', obsPeriod:'周值至7/12 · NOAA讨论7/9', checked:'2026-07-23',
     sources:[{l:'NOAA CPC ENSO讨论',u:'https://www.cpc.ncep.noaa.gov/products/analysis_monitoring/enso_advisory/ensodisc.shtml'},{l:'NOAA CPC 指数',u:'https://www.cpc.ncep.noaa.gov/data/indices/'},{l:'BOM(7/14)',u:'http://www.bom.gov.au/climate/enso/'}]
   },
   {
     name:'🌊 PDO 太平洋年代际振荡', borderColor:'#f59e0b',
-    metrics:[{v:'负相位',l:'当前相位'},{v:'−0.83',l:'2026年5月(JMA)',c:'hi-temp'},{v:'−0.47',l:'2026年4月'},{v:'−3.23',l:'2025年7月极值'}],
+    metrics:[{v:'负相位',l:'当前相位'},{v:'−0.94',l:'2026年6月(JMA)',c:'hi-temp'},{v:'−0.79',l:'2026年5月'},{v:'−3.23',l:'2025年7月极值'}],
     risks:[{label:'中风险',cls:'risk-mid'},{label:'长期影响',cls:'risk-high'}],
-    dir:'5月(−0.83)较4月(−0.47)更负',
+    dir:'6月(−0.94)较5月(−0.79)更负',
     detail:'JMA 月度指数；负相位自2020年延续，负PDO通常增强西伯利亚高压、影响北太平洋风暴路径。(NOAA PSL 序列现止于2025-08，故采用 JMA 月度值)',
-    cadence:'月度官方更新', obsPeriod:'月值 2026-05（最新可得）', checked:'2026-07-15',
+    cadence:'月度官方更新', obsPeriod:'月值 2026-06（最新可得）', checked:'2026-07-23',
     sources:[{l:'JMA 月度PDO',u:'https://ds.data.jma.go.jp/tcc/tcc/products/elnino/decadal/pdo_month.html'}]
   },
   {
@@ -77,7 +77,7 @@ const oceanIndices = [
     risks:[{label:'当前低风险',cls:'risk-low'},{label:'季节性',cls:'risk-mid'}],
     dir:'春季强正(+2.69)已回落至中性',
     detail:'NOAA CPC 月度指数；3月强正相位(+2.69)后回落，当前中性。正NAO间接影响欧洲/黑海麦区降水格局。',
-    cadence:'月度更新', obsPeriod:'月值 2026-06（最新可得）', checked:'2026-07-15',
+    cadence:'月度更新', obsPeriod:'月值 2026-06（最新可得）', checked:'2026-07-23',
     sources:[{l:'NOAA CPC NAO',u:'https://www.cpc.ncep.noaa.gov/products/precip/CWlink/pna/nao.shtml'}]
   },
   {
@@ -86,7 +86,7 @@ const oceanIndices = [
     risks:[{label:'当前低风险',cls:'risk-low'},{label:'潜在风险',cls:'risk-mid'}],
     dir:'基本持平于中性(−0.02→−0.06)',
     detail:'BOM(7/14);当前中性(−0.4至+0.4°C内)。模式预测南半球冬季或发展正IOD并持续到春季,时间与强度分歧大。正IOD+El Niño→东南亚/澳洲干旱潜在加剧。',
-    cadence:'每两周更新', obsPeriod:'至 2026-07-12', checked:'2026-07-15',
+    cadence:'每两周更新', obsPeriod:'至 2026-07-12', checked:'2026-07-23',
     sources:[{l:'BOM IOD',u:'https://www.bom.gov.au/climate/iod/'}]
   },
 ];
