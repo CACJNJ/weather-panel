@@ -1014,11 +1014,11 @@ function generateStrategies(results) {
     const worst = a.regions[a.droughtStreak.indexOf(maxDrought)] || '';
     const heatPct = Math.round(avgHeat / LOOKBACK_DAYS * 100);
     let ensoBonus = 0, ensoNote = '';
-    if (key === 'palm')   { ensoBonus = 0.35; ensoNote = '厄尔尼诺确立，东南亚干旱风险最高，历史上EN年棕榈油领涨油脂；'; }
-    if (key === 'coffee') { ensoBonus = 0.25; ensoNote = 'EN年巴西降水格局改变+7-8月霜冻窗口，咖啡波动放大；'; }
-    if (key === 'wheat')  { ensoBonus = 0.30; ensoNote = 'EN年澳麦干旱减产概率大，冬春正IOD将进一步放大风险；'; }
-    if (key === 'soybean'){ ensoBonus = 0.10; ensoNote = '美豆开花期热浪+南美下季播种面临EN扰动；'; }
-    if (key === 'corn')   { ensoBonus = 0.10; ensoNote = '美玉米7月中下旬授粉期是核心定价窗口；'; }
+    if (key === 'palm')   { ensoBonus = 0.35; ensoNote = '厄尔尼诺确立、东南亚干旱风险最高，EN年棕榈油历史领涨油脂；近期随芝加哥豆油/原油波动；'; }
+    if (key === 'coffee') { ensoBonus = 0.25; ensoNote = 'EN年7-8月巴西南部霜冻窗口(当前风险低)+采收恢复压价，9-10月开花期偏干为中期支撑；'; }
+    if (key === 'wheat')  { ensoBonus = 0.30; ensoNote = 'EN年澳麦干旱减产概率大；近期黑海(亚速海/敖德萨)装运放缓添\"战争升水\"，美冬麦收获近尾声、评级分化；'; }
+    if (key === 'soybean'){ ensoBonus = 0.10; ensoNote = '美豆需求关注中国闪购延续、南美收获压制；EN对南美下季播种为潜在扰动；'; }
+    if (key === 'corn')   { ensoBonus = 0.10; ensoNote = '美玉米授粉-灌浆期为核心定价窗口；近10天平原/西玉米带偏干支撑，EN年天气升水弹性大；'; }
     if (key === 'cotton') { ensoBonus = 0.10; ensoNote = '印度季风受EN压制风险+新疆花铃期高温；'; }
     if (key === 'sugar')  { ensoBonus = 0.25; ensoNote = 'EN年印度/泰国季风偏弱历史上利多糖价，广西正值伸长期需水关键窗口；'; }
     const heatScore = avgHeat / LOOKBACK_DAYS, droughtScore = maxDrought / LOOKBACK_DAYS;
