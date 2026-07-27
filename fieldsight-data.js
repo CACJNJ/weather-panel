@@ -648,6 +648,41 @@ const CN_CONV_CONFIG = {
     stepMin:15, lookbackMin:420, maxFrames:8 },
 };
 
+// ---------- 中国农业实况：土壤墒情 + 逐时气温【图像自动探测 · 近实时】 ----------
+// 与降水/雷达同源(image.nmc.cn)，时间戳同一规律：{日期}{起报HHmm(UTC)}{时效FFF}00
+//  · AMSM 土壤相对湿度(墒情)：每日 0000UTC(北京时08时)一张，分 10/20/30/40/50cm 五个层次
+//    样本: .../2026/07/27/AMSM/medium/SEVP_NMC_AMSM_CAGMSS_ESRH_ACHN_L10CM_PS_20260727000000000.jpg
+//  · STFC/ET0 全国逐时气温实况：每小时一张(UTC整点) → 多帧动画
+//    样本: .../2026/05/16/STFC/medium/SEVP_NMC_STFC_SFER_ET0_ACHN_L88_PB_20260516030000000.jpg
+// 图片URL仅前端引用官方公开地址，不本地缓存；官方源链接作兜底。
+const CN_OBS_CONFIG = {
+  soil: {
+    title:'全国土壤相对湿度（墒情）实况',
+    srcPage:'https://www.nmc.cn/publish/soil-moisture/10cm.html',
+    depths:[
+      { cm:'10', label:'10 厘米（表层墒情）', page:'https://www.nmc.cn/publish/soil-moisture/10cm.html' },
+      { cm:'20', label:'20 厘米', page:'https://www.nmc.cn/publish/soil-moisture/20cm.html' },
+      { cm:'30', label:'30 厘米（根层墒情）', page:'https://www.nmc.cn/publish/soil-moisture/30cm.html' },
+      { cm:'40', label:'40 厘米', page:'https://www.nmc.cn/publish/soil-moisture/40cm.html' },
+      { cm:'50', label:'50 厘米（深层墒情）', page:'https://www.nmc.cn/publish/soil-moisture/50cm.html' },
+    ],
+    lookbackDays:8,   // 逐日发布, 遇缺测向前回溯
+    note:'土壤相对湿度＝实测土壤含水量占田间持水量的百分比。一般 <40% 为重旱、40–60% 偏旱、60–90% 适宜、>90% 偏涝(渍害风险)。表层(10cm)反映近期降水与蒸发,30–50cm 反映根层可用水,判断旱情持续性应以深层为准。',
+  },
+  temp: {
+    title:'全国逐时气温实况',
+    srcPage:'https://www.nmc.cn/publish/observations/hourly-temperature.html',
+    stepMin:60, lookbackMin:900, maxFrames:12,
+    links:[
+      { t:'全国逐日气温', u:'https://www.nmc.cn/publish/observations/day-temperature/avg.html' },
+      { t:'近30天最高气温', u:'https://www.nmc.cn/publish/observations/high-30days.html' },
+      { t:'近30天最低气温', u:'https://www.nmc.cn/publish/observations/low-30days.html' },
+      { t:'近30天平均气温距平', u:'https://www.nmc.cn/publish/observations/mta-30days.html' },
+    ],
+    note:'逐小时实况气温(非预报)。夏季关注黄淮/华北夏玉米授粉期 35°C 以上高温时段、以及新疆棉区昼夜温差;冬季关注冬麦区霜冻与越冬条件。距平类产品见下方链接。',
+  },
+};
+
 // ---------- 台风监测面板【嵌入动画/交互地图 · 图层切换】 ----------
 // 主体为真实嵌入地图(iframe/动图)，非链接卡；顶部工具栏切换图层，链接仅兜底。
 // 图层顺序：Ventusky风场 → Ventusky雨/雷达 → 中央气象台台风路径(交互) → JTWC警报图(静态兜底)。

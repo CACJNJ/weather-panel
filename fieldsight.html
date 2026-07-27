@@ -308,7 +308,7 @@ footer { margin-top:50px; border-top:3px double var(--line2); padding-top:16px; 
 </section>
 
 <section class="sec" data-key="cnwx">
-  <div class="sec-head" onclick="toggleSec(this)"><span class="num">叁</span><h2>中国 · 预报图</h2><span class="sub">中央气象台全国降水量预报 1-7天 · 时间戳自动探测</span><span class="tog">[−]</span></div>
+  <div class="sec-head" onclick="toggleSec(this)"><span class="num">叁</span><h2>中国 · 预报图</h2><span class="sub">中央气象台 降水预报1-7天 · 土壤墒情10-50cm · 逐时气温 · 强对流/雷达/卫星 · 时间戳自动探测</span><span class="tog">[−]</span></div>
   <div class="sec-body" id="cnWeather"></div>
 </section>
 
@@ -647,6 +647,25 @@ function renderCNWeather() {
       </div></div>
     </details>
     <details class="ig" open>
+      <summary>🌱 全国土壤墒情（10–50cm） <span class="src">— 中央气象台 AMSM 土壤相对湿度 · 逐日08时 · <span id="nmcSoilLabel">探测最新时次中…</span></span><span class="mk"></span></summary>
+      <div class="ig-body">
+        <div class="img-grid" id="soilGrid" style="grid-template-columns:repeat(auto-fill,minmax(300px,1fr));">
+          <div class="note" style="padding:24px 0;grid-column:1/-1;text-align:center;">⏳ 正在探测最新土壤墒情图…</div>
+        </div>
+        <div class="conv-note">${CN_OBS_CONFIG.soil.note} <a class="conv-srclink" href="${CN_OBS_CONFIG.soil.srcPage}" target="_blank" rel="noopener">查看来源 ↗</a></div>
+      </div>
+    </details>
+    <details class="ig" open>
+      <summary>🌡️ 全国逐时气温实况 <span class="src">— 中央气象台 ET0 逐小时实况 · 多帧动画 · 图像自动探测最新时次</span><span class="mk"></span></summary>
+      <div class="ig-body">
+        <div class="conv-block">
+          <h5 class="conv-h">🌡️ 逐时气温（近实时·多帧动画） <a class="conv-srclink" href="${CN_OBS_CONFIG.temp.srcPage}" target="_blank" rel="noopener">查看来源 ↗</a></h5>
+          <div id="cnTempPanel" class="anim-panel"><div class="note" style="padding:24px 0;text-align:center;">⏳ 正在探测逐时气温帧…</div></div>
+        </div>
+        <div class="conv-note">${CN_OBS_CONFIG.temp.note}<br>相关产品：${CN_OBS_CONFIG.temp.links.map(l => `<a class="conv-srclink" href="${l.u}" target="_blank" rel="noopener">${l.t} ↗</a>`).join('　')}</div>
+      </div>
+    </details>
+    <details class="ig" open>
       <summary>⛈️ 全国强对流天气监测 <span class="src">— 中央气象台 CSPB强对流 / RDCP雷达 / FY-4B卫星 · 图像自动探测最新时次</span><span class="mk"></span></summary>
       <div class="ig-body">
         <div class="conv-block">
@@ -679,6 +698,8 @@ function renderCNWeather() {
       </div>
     </details>`;
   resolveNmcImages();
+  resolveNmcSoilImages();
+  resolveNmcTempFrames();
   resolveNmcConvectionImages();
   resolveNmcRadarFrames();
   resolveNmcSatelliteFrames();
@@ -812,6 +833,41 @@ function buildAnimPanel(panelId, frames, meta) {
   btn.addEventListener('click', () => (playing ? stop() : start()));
   if (frames.length > 1) start(); else btn.style.display = 'none';
 }
+// D. AMSM 土壤墒情(5个层次)：逐日 0000UTC(北京时08时)发布，先用10cm探到最新可用日期，再铺各层
+function nmcSoilUrl(p, cm) {
+  return `https://image.nmc.cn/product/${p.y}/${p.m}/${p.d}/AMSM/medium/SEVP_NMC_AMSM_CAGMSS_ESRH_ACHN_L${cm}CM_PS_${p.y}${p.m}${p.d}000000000.jpg`;
+}
+async function resolveNmcSoilImages() {
+  const cfg = CN_OBS_CONFIG.soil, grid = document.getElementById('soilGrid'), lb = document.getElementById('nmcSoilLabel');
+  if (!grid) return;
+  const now = new Date();
+  let hit = null;
+  for (let off = 0; off <= cfg.lookbackDays; off++) {
+    const dd = new Date(now); dd.setUTCDate(dd.getUTCDate() - off);
+    const p = nmcUtcParts(dd);
+    if (await probeImage(nmcSoilUrl(p, cfg.depths[0].cm))) { hit = p; break; }
+  }
+  if (!hit) {
+    if (lb) lb.textContent = '暂未探测到可用图';
+    grid.innerHTML = `<div class="fallback" style="display:block;grid-column:1/-1;">⚠️ 土壤墒情图暂不可用 · <a href="${cfg.srcPage}" target="_blank" rel="noopener">前往来源查看 ↗</a></div>`;
+    return;
+  }
+  const day = `${+hit.m}/${+hit.d}`;
+  if (lb) lb.textContent = `观测 ${day} 北京时08时`;
+  grid.innerHTML = cfg.depths.map(d =>
+    imgCell(d.label, nmcSoilUrl(hit, d.cm), `中央气象台 土壤相对湿度 ${d.cm}cm · 观测 ${day} 北京时08时 · 点击放大`)
+  ).join('');
+}
+
+// E. ET0 全国逐时气温实况：每小时一帧 → 复用动画面板
+function nmcTempUrl(p) {
+  return `https://image.nmc.cn/product/${p.y}/${p.m}/${p.d}/STFC/medium/SEVP_NMC_STFC_SFER_ET0_ACHN_L88_PB_${p.y}${p.m}${p.d}${p.hh}${p.mm}00000.jpg`;
+}
+async function resolveNmcTempFrames() {
+  const c = CN_OBS_CONFIG.temp;
+  buildAnimPanel('cnTempPanel', await collectNmcFrames(nmcTempUrl, c.stepMin, c.lookbackMin, c.maxFrames), { title:c.title, srcPage:c.srcPage });
+}
+
 async function resolveNmcRadarFrames() {
   const c = CN_CONV_CONFIG.radar;
   buildAnimPanel('radarPanel', await collectNmcFrames(nmcRadarUrl, c.stepMin, c.lookbackMin, c.maxFrames), { title:c.title, srcPage:c.srcPage });
