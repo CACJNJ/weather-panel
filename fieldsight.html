@@ -308,7 +308,7 @@ footer { margin-top:50px; border-top:3px double var(--line2); padding-top:16px; 
 </section>
 
 <section class="sec" data-key="cnwx">
-  <div class="sec-head" onclick="toggleSec(this)"><span class="num">叁</span><h2>中国 · 预报图</h2><span class="sub">中央气象台 降水预报1-7天 · 土壤墒情10-50cm · 逐时气温 · 强对流/雷达/卫星 · 时间戳自动探测</span><span class="tog">[−]</span></div>
+  <div class="sec-head" onclick="toggleSec(this)"><span class="num">叁</span><h2>中国 · 预报图</h2><span class="sub">中央气象台 降水预报1-7天 · 土壤墒情10-50cm · 最高气温预报1-7天 · 逐时气温实况 · 强对流/雷达/卫星 · 时间戳自动探测</span><span class="tog">[−]</span></div>
   <div class="sec-body" id="cnWeather"></div>
 </section>
 
@@ -656,7 +656,19 @@ function renderCNWeather() {
       </div>
     </details>
     <details class="ig" open>
-      <summary>🌡️ 全国逐时气温实况 <span class="src">— 中央气象台 ET0 逐小时实况 · 多帧动画 · 图像自动探测最新时次</span><span class="mk"></span></summary>
+      <summary>🌡️ 全国最高气温预报 · 未来1-7天 <span class="src">— 中央气象台 · 图片时间戳自动探测 · <span id="tempFcInitLabel">探测起报时次中…</span></span><span class="mk"></span></summary>
+      <div class="ig-body"><div class="img-grid" id="tempFcGrid">
+        ${CN_OBS_CONFIG.tempFc.hours.map(h => `
+          <div class="img-cell" id="tempfc-${h.fff}">
+            <h5>${h.label}</h5>
+            <div class="note" style="padding:30px 0;">⏳ 正在探测最新图片地址…</div>
+          </div>`).join('')}
+      </div>
+      <div class="conv-note">${CN_OBS_CONFIG.tempFc.note} <a class="conv-srclink" href="${CN_OBS_CONFIG.tempFc.srcPage}" target="_blank" rel="noopener">查看来源 ↗</a></div>
+      </div>
+    </details>
+    <details class="ig">
+      <summary>🌡️ 全国逐时气温实况（非预报） <span class="src">— 中央气象台 ET0 逐小时实况 · 多帧动画 · 点击展开</span><span class="mk"></span></summary>
       <div class="ig-body">
         <div class="conv-block">
           <h5 class="conv-h">🌡️ 逐时气温（近实时·多帧动画） <a class="conv-srclink" href="${CN_OBS_CONFIG.temp.srcPage}" target="_blank" rel="noopener">查看来源 ↗</a></h5>
@@ -699,6 +711,7 @@ function renderCNWeather() {
     </details>`;
   resolveNmcImages();
   resolveNmcSoilImages();
+  resolveNmcTempForecast();
   resolveNmcTempFrames();
   resolveNmcConvectionImages();
   resolveNmcRadarFrames();
@@ -859,7 +872,54 @@ async function resolveNmcSoilImages() {
   ).join('');
 }
 
-// E. ET0 全国逐时气温实况：每小时一帧 → 复用动画面板
+// E. RFFC/ETM 全国最高气温预报 1-7天：与降水预报图同构的7宫格
+// 注意：该产品URL里的起报时次是【北京时】(08/20)，不是UTC，故日期按北京时推算。
+function bjtDateParts(offsetDays) {
+  const d = new Date(Date.now() + 8 * 3600e3 - offsetDays * 86400e3);
+  return { y:d.getUTCFullYear().toString(), m:String(d.getUTCMonth()+1).padStart(2,'0'), d:String(d.getUTCDate()).padStart(2,'0') };
+}
+function nmcTempFcUrl(p, hhmm, fff) {
+  return `https://image.nmc.cn/product/${p.y}/${p.m}/${p.d}/RFFC/medium/SEVP_NMC_RFFC_SNWFD_ETM_ACHN_L88_P9_${p.y}${p.m}${p.d}${hhmm}${fff}12.jpg`;
+}
+const TEMPFC_INIT_LABEL = { '0800':'08时', '2000':'20时' };
+async function resolveNmcTempForecast() {
+  const cfg = CN_OBS_CONFIG.tempFc;
+  let foundInit = null;
+  await pool(cfg.hours.map(h => async () => {
+    let hit = null;
+    outer:
+    for (let off = 0; off <= cfg.lookbackDays; off++) {
+      const p = bjtDateParts(off);
+      for (const hhmm of cfg.inits) {
+        const url = nmcTempFcUrl(p, hhmm, h.fff);
+        if (await probeImage(url)) { hit = { url, hhmm, p }; break outer; }
+      }
+    }
+    const cell = document.getElementById('tempfc-' + h.fff);
+    if (!cell) return;
+    if (hit) {
+      if (!foundInit) {
+        foundInit = hit;
+        const lb = document.getElementById('tempFcInitLabel');
+        if (lb) lb.textContent = `当前起报: ${+hit.p.m}月${+hit.p.d}日 北京时${TEMPFC_INIT_LABEL[hit.hhmm] || hit.hhmm}`;
+      }
+      cell.innerHTML = `
+        <h5>${h.label}</h5>
+        <img src="${hit.url}" alt="${h.label}" loading="lazy"
+             onerror="this.nextElementSibling.style.display='block';this.style.display='none';"
+             onclick="window.open(this.src,'_blank')" title="点击查看大图">
+        <div class="fallback">⚠️ 图片加载失败 · <a href="${hit.url}" target="_blank">直接打开原图</a></div>
+        <div class="note">中央气象台 最高气温预报 · 起报 ${+hit.p.m}/${+hit.p.d} 北京时${TEMPFC_INIT_LABEL[hit.hhmm] || hit.hhmm} · 点击放大</div>`;
+    } else {
+      cell.innerHTML = `
+        <h5>${h.label}</h5>
+        <div class="fallback" style="display:block;">⚠️ 未探测到该时效图片<br>
+        <a href="${cfg.srcPage}" target="_blank" rel="noopener">前往官方页面查看 ↗</a></div>`;
+    }
+  }), 3);
+}
+
+// F. ET0 全国逐时气温实况：每小时一帧 → 复用动画面板
 function nmcTempUrl(p) {
   return `https://image.nmc.cn/product/${p.y}/${p.m}/${p.d}/STFC/medium/SEVP_NMC_STFC_SFER_ET0_ACHN_L88_PB_${p.y}${p.m}${p.d}${p.hh}${p.mm}00000.jpg`;
 }

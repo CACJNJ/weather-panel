@@ -676,6 +676,27 @@ const CN_OBS_CONFIG = {
     lookbackDays:8,   // 逐日发布, 遇缺测向前回溯
     note:'土壤相对湿度＝实测土壤含水量占田间持水量的百分比。一般 <40% 为重旱、40–60% 偏旱、60–90% 适宜、>90% 偏涝(渍害风险)。表层(10cm)反映近期降水与蒸发,30–50cm 反映根层可用水,判断旱情持续性应以深层为准。',
   },
+  // 气温预报(1-7天)：与降水预报图同构的7宫格。产品 RFFC/ETM(最高气温)，每日北京时08/20时起报。
+  // 样本 24h : .../2026/07/28/RFFC/medium/SEVP_NMC_RFFC_SNWFD_ETM_ACHN_L88_P9_20260728080002412.jpg
+  // 样本 168h: .../2026/07/28/RFFC/medium/SEVP_NMC_RFFC_SNWFD_ETM_ACHN_L88_P9_20260728080016812.jpg
+  // 规律 {日期}{起报HHmm(北京时)}{时效FFF}12 —— 与降水图同长(17位)，仅末两位常量由 00 变 12。
+  // ⚠️ 此产品起报时次写的是北京时(非UTC)，故日期须按北京时计算，勿套用降水/雷达的 UTC 逻辑。
+  tempFc: {
+    title:'全国最高气温预报',
+    srcPage:'https://www.nmc.cn/publish/temperature/hight/24hour.html',
+    inits:['2000','0800'],  // 北京时起报时次, 新→旧探测
+    lookbackDays:1,
+    hours:[
+      { fff:'024', label:'24小时 (第1天)' },
+      { fff:'048', label:'48小时 (第2天)' },
+      { fff:'072', label:'72小时 (第3天)' },
+      { fff:'096', label:'96小时 (第4天)' },
+      { fff:'120', label:'120小时 (第5天)' },
+      { fff:'144', label:'144小时 (第6天)' },
+      { fff:'168', label:'168小时 (第7天)' },
+    ],
+    note:'中央气象台最高气温预报，逐日北京时08/20时起报，图片时次由前端自动探测。农业关注：黄淮/华北夏玉米授粉期连续 35°C 以上高温会显著影响结实率；新疆棉区花铃期高温与昼夜温差；长江流域伏旱高温叠加。',
+  },
   temp: {
     title:'全国逐时气温实况',
     srcPage:'https://www.nmc.cn/publish/observations/hourly-temperature.html',
