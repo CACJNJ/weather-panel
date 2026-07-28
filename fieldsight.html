@@ -1070,12 +1070,12 @@ function generateStrategies(results) {
     const worst = a.regions[a.droughtStreak.indexOf(maxDrought)] || '';
     const heatPct = Math.round(avgHeat / LOOKBACK_DAYS * 100);
     let ensoBonus = 0, ensoNote = '';
-    if (key === 'palm')   { ensoBonus = 0.35; ensoNote = '厄尔尼诺确立、东南亚干旱风险最高，EN年棕榈油历史领涨油脂；近期随芝加哥豆油/原油波动；'; }
+    if (key === 'palm')   { ensoBonus = 0.35; ensoNote = '厄尔尼诺确立、东南亚干旱风险最高，EN年棕榈油历史领涨油脂；但周一原油暴跌约7%(美伊停火预期)拖累整个油脂板块，短期随豆油/原油波动；'; }
     if (key === 'coffee') { ensoBonus = 0.25; ensoNote = 'EN年7-8月巴西南部霜冻窗口(当前风险低)+采收恢复压价，9-10月开花期偏干为中期支撑；'; }
-    if (key === 'wheat')  { ensoBonus = 0.30; ensoNote = 'EN年澳麦干旱减产概率大；俄乌或改善小麦出口的传闻令黑海\"战争升水\"回吐、上周五大跌，美冬麦收获收尾；'; }
-    if (key === 'soybean'){ ensoBonus = 0.10; ensoNote = '中国再购100万吨新作美豆(26/27累计226万吨)、8月合约创新高；EN对南美下季播种为潜在扰动；'; }
-    if (key === 'corn')   { ensoBonus = 0.10; ensoNote = '美玉米未来两周授粉高峰而预报缺雨、隔夜跳空领涨；北部平原干旱北扩，EN年天气升水弹性大；'; }
-    if (key === 'cotton') { ensoBonus = 0.10; ensoNote = '印度季风受EN压制风险+新疆花铃期高温；'; }
+    if (key === 'wheat')  { ensoBonus = 0.30; ensoNote = 'EN年澳麦干旱减产概率大，但USDA已上调澳麦26/27至3100万吨(前2900万)削弱该逻辑；美冬麦收获81%、春麦优良率53%持平(北达52%/南达27%旱区集中)；IKAR下调俄麦至9000万吨、出口4450万吨；周一因原油与外围普跌收低；'; }
+    if (key === 'soybean'){ ensoBonus = 0.10; ensoNote = '优良率降至63%(周降3个点)但结荚47%快于均值39%；中国再购13.2万吨、另12.6万吨售未知目的地；周一因原油暴跌与转湿预报重挫近40美分、回吐上周涨幅；EN对南美下季播种为潜在扰动；'; }
+    if (key === 'corn')   { ensoBonus = 0.10; ensoNote = '优良率降至63%(周降4个点、季内新低)，7月玉米带加权降水3.42英寸为12年最低；表层墒情短缺47%(前周41%)；但中部玉米带未来7天有1-2英寸雨、周一原油拖累下收低，8月天气为定产变量；'; }
+    if (key === 'cotton') { ensoBonus = 0.10; ensoNote = '美棉优良率46%(+1)、结铃45%，德州优良率仅34%、表层墒情短缺60%；印度季风受EN压制风险+新疆花铃期高温；'; }
     if (key === 'sugar')  { ensoBonus = 0.25; ensoNote = 'EN年印度/泰国季风偏弱历史上利多糖价，广西正值伸长期需水关键窗口；'; }
     const heatScore = avgHeat / LOOKBACK_DAYS, droughtScore = maxDrought / LOOKBACK_DAYS;
     const floodScore = Math.max(0, (avgPrecip - 250) / 200);
