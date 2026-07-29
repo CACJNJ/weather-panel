@@ -2,18 +2,19 @@
 // 静态数据层 — 由定时任务/人工定期刷新
 // 最后更新: 2026-07-14 (数据来源见各板块)
 // ============================================================
-const STATIC_UPDATED = '2026-07-28';
+const STATIC_UPDATED = '2026-07-29';
 
-// ---------- ENSO 总览【静态/人工维护 · 官方指数快照，来源核对: 2026-07-28】 ----------
+// ---------- ENSO 总览【静态/人工维护 · 官方指数快照，来源核对: 2026-07-29】 ----------
 // 数值均取自下方各项 sources 列出的固定权威来源；无法核实者标注"未核实"，不凭记忆/模型生成
-// 2026-07-28 核对结果：NOAA 讨论仍为 7/9 期(下次 8/13)、BOM 仍为 7/14 期(原预期 7/28 的两周更新在核对时尚未发布)、
-//   JMA PDO 末行仍为 2026-06 −0.9372、CPC NAO 末行仍为 2026-06 +0.1014 → 四项官方值均无变化，仅核对日推进。
-const SOURCE_CHECKED = '2026-07-28';
+// 2026-07-29 核对结果：★BOM 已发布 7/28 新一期(观测周至7/26)，三项指标显著变化——
+//   相对NINO3.4 +1.47→+1.94(两周升约0.5)、30天SOI −25.8→−28.0、IOD −0.06→+0.44(首次触及正IOD阈值+0.4)；
+//   NOAA 讨论仍为 7/9 期(下次 8/13)、JMA PDO 末行仍为 2026-06 −0.9372、CPC NAO 末行仍为 2026-06 +0.1014。
+const SOURCE_CHECKED = '2026-07-29';
 const ensoOverview = [
-  { value:'+1.2°C',  label:'NINO3.4 周值 (NOAA 7/9讨论)',  status:'El Niño Advisory · BOM 7/12已达+1.47' },
-  { value:'−25.8',   label:'SOI 30天 (BOM Troup 至7/12)',  status:'强负值，海气耦合确认' },
-  { value:'97%',     label:'持续至2027初春概率 (NOAA)',     status:'10-12月 81% 为强/极强' },
-  { value:'中-强',   label:'预测峰值强度 (NOAA/BOM)',       status:'或为1950年以来最强之一' },
+  { value:'+1.94°C', label:'相对NINO3.4 (BOM 至7/26)',      status:'两周升约0.5°C · NOAA 7/9期为+1.2' },
+  { value:'−28.0',   label:'SOI 30天 (BOM Troup 至7/26)',   status:'强负值加深(前值−25.8)' },
+  { value:'+0.44',   label:'IOD 周值 (BOM 至7/26)',          status:'★首次触及正IOD阈值(+0.4)' },
+  { value:'强-极强', label:'预测峰值强度 (BOM 7/28)',        status:'或达/超1950年以来最高' },
 ];
 
 // ---------- 气候概览分析【静态/人工维护 · 仅气候指数，每项须有来源+日期，需定期核对】 ----------
@@ -21,10 +22,10 @@ const ensoOverview = [
 const alerts = [
   {
     level:'danger', title:'🌊 ENSO 厄尔尼诺(El Niño)已确立并持续增强',
-    observed:'官方处于 El Niño Advisory 且持续增强。NOAA(7/9讨论)最新周值 NINO3.4 +1.2°C、NINO1+2 +2.7°C、NINO4 +0.5°C；BOM(7/14更新)相对 NINO3.4 已升至 +1.47°C(至7/12当周,两周升约0.2°C)、30天 SOI −25.8(至7/12)、海气耦合明显；赤道次表层增暖(下沉 Kelvin 波)。全球 6 月海温为有记录以来最暖6月(BOM)。',
-    outlook:'NOAA：El Niño 将增强至年底，97% 概率维持到 2027 年初春；10-12月有 81% 概率达强/极强级别。BOM：多数模式指向强-极强事件、或为1950年以来最强之一，料至少持续至(南半球)夏季。下次 NOAA 讨论 2026-08-13。',
-    implication:'若强 El Niño 兑现，历史上*倾向于*东南亚/澳洲偏干、南美偏湿，对棕榈油、澳麦、南美大豆/玉米有潜在供给扰动。此为条件性推断——ENSO 仅为众多影响因子之一，不能单独决定天气、单产或价格。',
-    cadence:'每周指数更新 · 每月官方讨论', obsPeriod:'周值至 2026-07-12 / NOAA讨论 2026-07-09', updated:'NOAA 2026-07-09；BOM 2026-07-14（7/28核对时两周更新尚未发布，故数值维持）', checked:'2026-07-28',
+    observed:'★BOM 7/28 新一期显著上修：相对 NINO3.4 升至 +1.94°C(观测周至7/26，两周升约0.5°C)、30天 SOI −28.0(至7/26，前值−25.8)；信风在西太反转或偏弱、国际日期变更线附近对流增强而海洋性大陆受抑，海气耦合特征完整。NOAA(7/9讨论，未更新)周值 NINO3.4 +1.2°C、NINO1+2 +2.7°C、NINO4 +0.5°C，赤道次表层因下沉 Kelvin 波增暖。',
+    outlook:'BOM(7/28)：预测指向强-极强事件，多数模式认为峰值将"达到或超过1950年以来的最高值"，料在(南半球)晚春至夏季见顶，并*可能*延续到2027年秋季。NOAA(7/9)：97% 概率维持到 2027 年初春，10-12月 81% 概率达强/极强。下次 NOAA 讨论 2026-08-13，下次 BOM 约两周后。',
+    implication:'若强 El Niño 兑现，历史上*倾向于*东南亚/澳洲偏干、南美偏湿，对棕榈油、澳麦、南美大豆/玉米有潜在供给扰动。BOM 同时提醒：NINO3.4 的强信号不必然等于对澳洲气候的强影响，ENSO 只是众多因子之一。此为条件性推断，不能单独决定天气、单产或价格。',
+    cadence:'每周指数更新 · 每月官方讨论', obsPeriod:'BOM周值至 2026-07-26 / NOAA讨论 2026-07-09', updated:'BOM 2026-07-28（新）；NOAA 2026-07-09', checked:'2026-07-29',
     sources:[{l:'NOAA CPC ENSO讨论',u:'https://www.cpc.ncep.noaa.gov/products/analysis_monitoring/enso_advisory/ensodisc.shtml'},{l:'NOAA CPC 指数',u:'https://www.cpc.ncep.noaa.gov/data/indices/'},{l:'BOM ENSO',u:'http://www.bom.gov.au/climate/enso/'}]
   },
   {
@@ -32,7 +33,7 @@ const alerts = [
     observed:'JMA 月度 PDO 指数 2026年6月 −0.94（最新可得），较5月 −0.79 更负；2025年7月曾探底 −3.23。自2020年以来负相位主导。',
     outlook:'PDO 为月度指数、无逐日实时值；当前趋势维持负相位。注：NOAA PSL 的 PDO 序列目前仅更新至 2025年8月，故此处采用 JMA 月度官方值。',
     implication:'负 PDO *可能*增强冬季经向环流与西伯利亚高压，与 El Niño 叠加时冬季环流形势复杂。属长期背景因子，条件性推断。',
-    cadence:'月度官方更新', obsPeriod:'月值 2026-06（最新可得）', updated:'JMA 2026-06 值', checked:'2026-07-28',
+    cadence:'月度官方更新', obsPeriod:'月值 2026-06（最新可得）', updated:'JMA 2026-06 值', checked:'2026-07-29',
     sources:[{l:'JMA 月度PDO',u:'https://ds.data.jma.go.jp/tcc/tcc/products/elnino/decadal/pdo_month.html'}]
   },
   {
@@ -40,29 +41,29 @@ const alerts = [
     observed:'NOAA CPC 月度 NAO：2026年3月 +2.69（春季高值）、4月 +1.39，随后回落——5月 −0.74、6月 +0.10（最新，近中性）。',
     outlook:'月度指数；春季强正相位已消退，当前处于中性，信号偏弱。',
     implication:'NAO 主要*间接*影响北大西洋-欧洲环流及黑海/欧洲麦区降水格局；当前中性，指示意义有限。条件性推断。',
-    cadence:'月度更新', obsPeriod:'月值 2026-06（最新可得）', updated:'NOAA CPC 2026-06 值', checked:'2026-07-28',
+    cadence:'月度更新', obsPeriod:'月值 2026-06（最新可得）', updated:'NOAA CPC 2026-06 值', checked:'2026-07-29',
     sources:[{l:'NOAA CPC NAO',u:'https://www.cpc.ncep.noaa.gov/products/precip/CWlink/pna/nao.shtml'}]
   },
   {
-    level:'info', title:'🌏 IOD 印度洋偶极子：中性',
-    observed:'BOM(7/14更新) 周度 IOD 指数 2026年7月12日 −0.06°C，处于中性区间（−0.4 至 +0.4°C 之间）。',
-    outlook:'BOM：模式预测南半球冬季*可能*发展为正 IOD 并持续到春季，但时间与强度分歧大、维持中性亦为可能结果。',
-    implication:'若正 IOD 兑现并与 El Niño 叠加，*可能*加剧东南亚/澳洲干旱，对棕榈油、澳麦为潜在风险；目前尚未发生。条件性推断。',
-    cadence:'每两周更新', obsPeriod:'至 2026-07-12', updated:'BOM 2026-07-14', checked:'2026-07-28',
+    level:'warn', title:'🌏 IOD 印度洋偶极子：★首次触及正IOD阈值(仍未成事件)',
+    observed:'BOM(7/28更新) 周度 IOD 指数 2026年7月26日 +0.44°C，两周升约0.5°C(前值 7/12 为 −0.06°C)。这是本轮首次达到正 IOD 阈值(+0.4°C)。',
+    outlook:'BOM 明确：需要指数"持续"高于阈值才算正 IOD 事件成立，单周触及不构成事件，官方现仍表述为"中性"。模式预测南半球冬季*可能*发展为正 IOD 并持续到春季，时间与强度仍有分歧。',
+    implication:'正 IOD 与 El Niño 叠加，历史上*倾向于*加剧东南亚/澳洲干旱，对棕榈油、澳麦为潜在上行风险；但当前仅为单周触线、事件未确立，不应据此认定减产。条件性推断，建议观察后续两周是否持续。',
+    cadence:'每两周更新', obsPeriod:'至 2026-07-26', updated:'BOM 2026-07-28（新）', checked:'2026-07-29',
     sources:[{l:'BOM IOD',u:'https://www.bom.gov.au/climate/iod/'}]
   },
 ];
 
-// ---------- 海洋指数【静态/人工维护 · ENSO/PDO/NAO/IOD, 每项标观测期与来源, 核对 2026-07-28】 ----------
+// ---------- 海洋指数【静态/人工维护 · ENSO/PDO/NAO/IOD, 每项标观测期与来源, 核对 2026-07-29】 ----------
 const oceanIndices = [
   {
     name:'🌊 ENSO 厄尔尼诺-南方涛动', borderColor:'#ef4444',
-    metrics:[{v:'+1.2°C',l:'NINO3.4(NOAA 7/9)',c:'hi-temp'},{v:'El Niño',l:'当前相位',c:'hi-temp'},{v:'−25.8',l:'SOI(BOM 至7/12)',c:'hi-temp'},{v:'97%',l:'持续至27初春'}],
-    risks:[{label:'高风险',cls:'risk-high'},{label:'持续增强',cls:'risk-severe'}],
-    dir:'BOM相对NINO3.4 两周升约+0.2°C(至7/12 +1.47)',
-    detail:'官方 El Niño Advisory。NOAA(7/9):NINO1+2 +2.7°C、NINO4 +0.5°C、次表层增暖(下沉Kelvin波);BOM(7/14):相对NINO3.4 +1.47(7/12)、SOI −25.8。将持续增强,10-12月81%概率为强/极强、或为1950年来最强之一。',
-    cadence:'每周指数 / 每月讨论', obsPeriod:'周值至7/12 · NOAA讨论7/9', checked:'2026-07-28',
-    sources:[{l:'NOAA CPC ENSO讨论',u:'https://www.cpc.ncep.noaa.gov/products/analysis_monitoring/enso_advisory/ensodisc.shtml'},{l:'NOAA CPC 指数',u:'https://www.cpc.ncep.noaa.gov/data/indices/'},{l:'BOM(7/14)',u:'http://www.bom.gov.au/climate/enso/'}]
+    metrics:[{v:'+1.94°C',l:'相对NINO3.4(BOM 至7/26)',c:'hi-temp'},{v:'El Niño',l:'当前相位',c:'hi-temp'},{v:'−28.0',l:'SOI(BOM 至7/26)',c:'hi-temp'},{v:'+1.2°C',l:'NINO3.4(NOAA 7/9期)'}],
+    risks:[{label:'高风险',cls:'risk-high'},{label:'加速增强',cls:'risk-severe'}],
+    dir:'★两周升约+0.5°C(+1.47→+1.94)；SOI −25.8→−28.0',
+    detail:'官方 El Niño Advisory。BOM(7/28新一期):相对NINO3.4 +1.94(观测周至7/26)、SOI −28.0,信风反转/偏弱、日界线对流增强,多数模式预计峰值"达到或超过1950年以来最高值",晚春-夏季见顶、或延续至2027年秋。NOAA(7/9,未更新):NINO1+2 +2.7°C、NINO4 +0.5°C、次表层增暖(下沉Kelvin波),97%持续至27初春、10-12月81%为强/极强。',
+    cadence:'每周指数 / 每月讨论', obsPeriod:'BOM周值至7/26 · NOAA讨论7/9', checked:'2026-07-29',
+    sources:[{l:'BOM(7/28新)',u:'http://www.bom.gov.au/climate/enso/'},{l:'NOAA CPC ENSO讨论',u:'https://www.cpc.ncep.noaa.gov/products/analysis_monitoring/enso_advisory/ensodisc.shtml'},{l:'NOAA CPC 指数',u:'https://www.cpc.ncep.noaa.gov/data/indices/'}]
   },
   {
     name:'🌊 PDO 太平洋年代际振荡', borderColor:'#f59e0b',
@@ -70,7 +71,7 @@ const oceanIndices = [
     risks:[{label:'中风险',cls:'risk-mid'},{label:'长期影响',cls:'risk-high'}],
     dir:'6月(−0.94)较5月(−0.79)更负',
     detail:'JMA 月度指数；负相位自2020年延续，负PDO通常增强西伯利亚高压、影响北太平洋风暴路径。(NOAA PSL 序列现止于2025-08，故采用 JMA 月度值)',
-    cadence:'月度官方更新', obsPeriod:'月值 2026-06（最新可得）', checked:'2026-07-28',
+    cadence:'月度官方更新', obsPeriod:'月值 2026-06（最新可得）', checked:'2026-07-29',
     sources:[{l:'JMA 月度PDO',u:'https://ds.data.jma.go.jp/tcc/tcc/products/elnino/decadal/pdo_month.html'}]
   },
   {
@@ -79,17 +80,17 @@ const oceanIndices = [
     risks:[{label:'当前低风险',cls:'risk-low'},{label:'季节性',cls:'risk-mid'}],
     dir:'春季强正(+2.69)已回落至中性',
     detail:'NOAA CPC 月度指数；3月强正相位(+2.69)后回落，当前中性。正NAO间接影响欧洲/黑海麦区降水格局。',
-    cadence:'月度更新', obsPeriod:'月值 2026-06（最新可得）', checked:'2026-07-28',
+    cadence:'月度更新', obsPeriod:'月值 2026-06（最新可得）', checked:'2026-07-29',
     sources:[{l:'NOAA CPC NAO',u:'https://www.cpc.ncep.noaa.gov/products/precip/CWlink/pna/nao.shtml'}]
   },
   {
     name:'🌏 IOD 印度洋偶极子', borderColor:'#10b981',
-    metrics:[{v:'中性',l:'当前相位'},{v:'−0.06',l:'DMI (7/12)'},{v:'冬-春',l:'或转正(不确定)'},{v:'需关注',l:'与EN叠加'}],
-    risks:[{label:'当前低风险',cls:'risk-low'},{label:'潜在风险',cls:'risk-mid'}],
-    dir:'基本持平于中性(−0.02→−0.06)',
-    detail:'BOM(7/14);当前中性(−0.4至+0.4°C内)。模式预测南半球冬季或发展正IOD并持续到春季,时间与强度分歧大。正IOD+El Niño→东南亚/澳洲干旱潜在加剧。',
-    cadence:'每两周更新', obsPeriod:'至 2026-07-12', checked:'2026-07-28',
-    sources:[{l:'BOM IOD',u:'https://www.bom.gov.au/climate/iod/'}]
+    metrics:[{v:'中性',l:'官方表述(事件未立)'},{v:'+0.44',l:'DMI (7/26)',c:'hi-temp'},{v:'+0.4',l:'正IOD阈值(首次触及)'},{v:'需持续',l:'成立条件'}],
+    risks:[{label:'转为关注',cls:'risk-mid'},{label:'与EN叠加风险',cls:'risk-high'}],
+    dir:'★两周升约+0.5(−0.06→+0.44)，首次触线',
+    detail:'BOM(7/28新一期);周值 +0.44(至7/26),为本轮首次达到正IOD阈值(+0.4)。但BOM强调需"持续"高于阈值方可判定事件成立,故官方现仍表述为中性。模式预测南半球冬季或发展正IOD并持续到春季,时间与强度仍有分歧。正IOD+El Niño→东南亚/澳洲干旱潜在加剧,建议观察后续两周能否维持。',
+    cadence:'每两周更新', obsPeriod:'至 2026-07-26', checked:'2026-07-29',
+    sources:[{l:'BOM ENSO/IOD(7/28新)',u:'http://www.bom.gov.au/climate/enso/'},{l:'BOM IOD',u:'https://www.bom.gov.au/climate/iod/'}]
   },
 ];
 
@@ -542,34 +543,34 @@ const cropRegions = [
 const NEWS_WINDOW_HOURS = 12;
 const AG_NEWS = [
   {
-    title: 'USDA周度作物生长报告(截至7/26)：玉米优良率降至63%(前周67%、去年73%)，为季内新低，周降4个百分点；大豆降至63%(前周66%、去年70%)。进度反而全面领先——玉米吐丝78%(前周59%、均值74%)、乳熟25%(均值22%)，大豆开花80%(均值74%)、结荚47%(均值39%)。春麦优良率53%持平，冬麦收获81%(均值79%)，棉花优良率46%(+1)。评级与进度背离，指向"抢生育期但缺水"',
-    link: 'https://esmis.nal.usda.gov/sites/default/release-files/795995/prog3026.pdf',
-    ts: '2026-07-28T04:00:00+08:00', date: '7/28 04:00', source: 'USDA NASS 原始报告', sourceClass: 'usda',
+    title: '★BOM(7/28新一期)厄尔尼诺显著上修：相对NINO3.4 升至+1.94°C(观测周至7/26)，两周升约0.5°C；30天SOI降至−28.0(前值−25.8)。多数模式预计本轮峰值将"达到或超过1950年以来的最高值"，晚春-夏季见顶、或延续至2027年秋季。同时IOD周值升至+0.44°C，为本轮首次触及正IOD阈值(+0.4)——但BOM强调需持续高于阈值方算事件成立，官方现仍表述为"中性"',
+    link: 'http://www.bom.gov.au/climate/enso/',
+    ts: '2026-07-29T06:30:00+08:00', date: '7/29 06:30', source: 'BOM 澳洲气象局', sourceClass: 'usda',
   },
   {
-    title: '同报告墒情项：48州表层土壤"短缺+严重短缺"合计47%(前周41%、去年26%)，深层45%(前周40%)。内布拉斯加72%、南达科他75%、科罗拉多89%、怀俄明86%均为重旱区；全美草场优良率仅29%(去年45%)。北部平原与西部干旱在报告口径上明确加深',
-    link: 'https://esmis.nal.usda.gov/sites/default/release-files/795995/prog3026.pdf',
-    ts: '2026-07-28T04:05:00+08:00', date: '7/28 04:05', source: 'USDA NASS 原始报告', sourceClass: 'usda',
+    title: '周二(7/28)收盘玉米领涨反弹：作物报告优良率大跌提供支撑，9月玉米收458½(+6¾)、12月480½(+6½)。TFM指出63%的优良率是"有记录以来7月单周最大跌幅之一"，主因西玉米带前期高温干旱。当日USDA另公布对未知目的地闪电销售19.7万吨(780万蒲)美玉米，26/27年度',
+    link: 'https://www.totalfarmmarketing.com/tfm-daily-market-summary-07-28-2026/',
+    ts: '2026-07-29T04:38:00+08:00', date: '7/29 04:38', source: 'Total Farm Marketing', sourceClass: 'usda',
   },
   {
-    title: '周一(7/27)收盘谷物全线重挫，原油暴跌为主因：美国突然暂停对伊朗空袭、和谈预期升温，8月原油跌7美元(约−7%)至82.28。9月玉米收451¾(−12½)、12月474(−13½)；8月大豆1208½(−39½)、11月1213¾(−39¾)，几乎回吐上周全部涨幅；9月芝加哥小麦660(−18)、堪萨斯729(−16¼)、MIAX 762½(−8)。注意：收盘早于作物报告发布，故周一价格未反映优良率下调',
-    link: 'https://www.totalfarmmarketing.com/tfm-daily-market-summary-07-27-2026/',
-    ts: '2026-07-28T05:21:00+08:00', date: '7/28 05:21', source: 'Total Farm Marketing', sourceClass: 'usda',
+    title: '大豆小幅收复：8月大豆1212(+3½)、11月1220(+6¼)，但原油续跌拖累豆油——9月原油再跌3.37美元至79.23，本周累计跌逾10美元(美伊和谈推进、霍尔木兹海峡预期重开)；8月豆油70.76(−0.70)、豆粕320.30(−0.50)。当日另有12.6万吨大豆售往未知目的地(26/27)。周度出口检验大豆34.9万吨(前周31.9万、去年同期42.8万)，前三大目的地为墨西哥、埃及、日本',
+    link: 'https://www.totalfarmmarketing.com/tfm-daily-market-summary-07-28-2026/',
+    ts: '2026-07-29T04:40:00+08:00', date: '7/29 04:40', source: 'Total Farm Marketing', sourceClass: 'usda',
   },
   {
-    title: '天气与持仓：NOAA 7天QPF给中部玉米带(内布拉斯加/爱荷华/密苏里/伊利诺伊/印第安纳)1-2英寸降水，但达科他与明尼苏达普遍不足0.5英寸；CPC 8-14天(7/28-8/3)转为中西部与平原偏干偏暖。CFTC(截至7/21)基金玉米净多增49,518手至92,909手、大豆增52,212手至124,900手。中国再购13.2万吨美豆、另12.6万吨售往未知目的地(均26/27年度)。IKAR下调俄麦产量110万吨至9000万吨、出口降至4450万吨；USDA上调澳麦26/27产量2900→3100万吨',
+    title: '小麦除近月芝加哥外普跌，但国际供给端连续下修：9月芝加哥662½(+2½)、堪萨斯726¼(−2¾)。SovEcon下调俄罗斯26/27小麦出口200万吨至4460万吨，已明显低于USDA的4750万吨预估；欧盟MARS将软麦单产由6.0下调至5.88吨/公顷(同比−7%)，法国单产再降4%、较去年低8%；巴基斯坦宣布计划进口100万吨小麦。反向因素：美国驻澳农业参赞上调澳麦产量200万吨至3100万吨(较十年均值高10%)',
+    link: 'https://www.totalfarmmarketing.com/tfm-daily-market-summary-07-28-2026/',
+    ts: '2026-07-29T04:45:00+08:00', date: '7/29 04:45', source: 'Total Farm Marketing / SovEcon / MARS', sourceClass: 'usda',
+  },
+  {
+    title: '天气转向：未来7天玉米带维持偏湿趋势，若兑现将是8月作物的关键喘息窗口——这与上周"7月降水12年最低"的背景形成对冲，市场焦点从授粉期缺水转为灌浆期能否补水。另USDA宣布分阶段重开墨西哥育肥牛进口，中长期或将部分玉米出口需求转化为美国国内饲用需求',
     link: 'https://www.cpc.ncep.noaa.gov/products/predictions/814day/',
-    ts: '2026-07-28T05:25:00+08:00', date: '7/28 05:25', source: 'NOAA CPC / CFTC / TFM', sourceClass: 'usda',
-  },
-  {
-    title: 'DTN：7月美玉米产区加权降水量仅3.42英寸，为2014年(2.48英寸)以来最少、2012年以来第三低，去年同期为5.17英寸；加权均温78.15°F高于去年(77.79°F)。夏季高压脊整月盘踞玉米带、"推来推去却始终没让路"，压制降水。DTN分析师：能否达到趋势单产"疑问多于答案"，8月天气成为决定性变量(2014年即靠8月降水翻盘创纪录单产，但当年7月气温远低于今年)',
-    link: 'https://www.dtnpf.com/agriculture/web/ag/blogs/ag-weather-forum/blog-post/2026/07/27/july-brought-12-year-low-us-corn',
-    ts: '2026-07-27T22:49:00+08:00', date: '7/27 22:49', source: 'DTN Progressive Farmer', sourceClass: 'usda',
+    ts: '2026-07-29T04:50:00+08:00', date: '7/29 04:50', source: 'NOAA CPC / TFM', sourceClass: 'usda',
   },
 ];
 
 // ============================================================
-// 特殊天气事件 — 台风/高温/强降水/霜冻等重大天气（静态参考, 更新于 2026-07-28）
+// 特殊天气事件 — 台风/高温/强降水/霜冻等重大天气（静态参考, 更新于 2026-07-29）
 // severity 用 tag 分级: severe(白字红底)/high(红)/mid(琥珀)/low(墨绿)
 // ============================================================
 const SPECIAL_EVENTS = [
@@ -577,7 +578,7 @@ const SPECIAL_EVENTS = [
     icon:'🌡️', title:'美玉米带7月降水12年最低，8月成决定性变量', severity:'干旱累积·评级转差', cls:'high', status:'优良率季内新低',
     region:'全玉米带(整月高压脊) · 北部平原与西部(重旱)',
     time:'7月整月 · 8月为定产窗口',
-    detail:'DTN(7/27)：7月美玉米产区加权降水仅3.42英寸，为2014年(2.48英寸)以来最少、2012年以来第三低，去年同期5.17英寸；加权均温78.15°F高于去年。夏季高压脊整月盘踞玉米带压制降水。USDA(截至7/26)玉米优良率随之降至63%(周降4个百分点、季内新低)、大豆63%(−3)，而吐丝78%/乳熟25%/大豆结荚47%均快于均值——"抢生育期但缺水"。短期分化：NOAA 7天QPF给中部玉米带1-2英寸降水缓解，但达科他/明尼苏达不足0.5英寸；CPC 8-14天(7/28-8/3)转偏干偏暖。2014年曾靠8月降水翻盘创纪录单产，但当年7月气温远低于今年，可比性有限。',
+    detail:'DTN(7/27)：7月美玉米产区加权降水仅3.42英寸，为2014年(2.48英寸)以来最少、2012年以来第三低，去年同期5.17英寸；加权均温78.15°F高于去年。夏季高压脊整月盘踞玉米带压制降水。USDA(截至7/26)玉米优良率随之降至63%(周降4个百分点、季内新低，属7月单周最大跌幅之一，西玉米带主导)、大豆63%(−3)，而吐丝78%/乳熟25%/大豆结荚47%均快于均值——"抢生育期但缺水"。<b>7/29更新：未来7天玉米带转为偏湿趋势</b>，若兑现将是灌浆期的关键补水窗口，市场焦点已从授粉缺水转向8月能否补回。2014年曾靠8月降水翻盘创纪录单产，但当年7月气温远低于今年，可比性有限。',
     sources:[ { l:'DTN 7月降水12年最低', u:'https://www.dtnpf.com/agriculture/web/ag/blogs/ag-weather-forum/blog-post/2026/07/27/july-brought-12-year-low-us-corn' }, { l:'USDA Crop Progress 7/27', u:'https://esmis.nal.usda.gov/sites/default/release-files/795995/prog3026.pdf' }, { l:'NOAA CPC 8-14天', u:'https://www.cpc.ncep.noaa.gov/products/predictions/814day/' } ],
   },
   {
